@@ -1,6 +1,7 @@
 class CombatUnit {
 	constructor() {
 		this.baseStats = {};
+		this.actions = [];
 	}
 }
 
@@ -11,6 +12,7 @@ class CombatPlayer extends CombatUnit {
 		this.baseStats[STAT_HP_MAX] = 1000;
 		this.baseStats[STAT_MP_MAX] = 100;
 		LEVEL_STAT_LIST.forEach(s => this.baseStats[s] = AVG_STAT_PER_LEVEL * this.level);
+		SKILL_ID_LIST.forEach(id => this.actions.push(
 	}
 }
 
