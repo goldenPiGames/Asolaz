@@ -40,17 +40,8 @@ function newGameData() {
 	data = {
 		player : {
 			id : "player",
-			name : "Player",
-			gender : GENDER_MALE,
-			skills : {
-				read_name : 1,
-			},
-			inventory : [
-				
-			],
-			money : 500,
-			exp : 100,
 			waketime : 7,
+			booksRead : {},
 		},
 		characters : {
 			
@@ -58,6 +49,7 @@ function newGameData() {
 		time : 5,
 	}
 	CHARACTER_LIST.forEach(resetCharacterData);
+	refreshCharStatus();
 }
 
 function resetCharacterData(id) {

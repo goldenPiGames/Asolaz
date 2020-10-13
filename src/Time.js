@@ -7,61 +7,73 @@ const TIME_DATA = [
 		name : "Midnight",
 		hour : 0,
 		hourname : "12 AM",
+		imagetimes : ["night"],
 	},
 	{
 		name : "You should go to sleep",
 		hour : 2,
 		hourname : "2 AM",
+		imagetimes : ["night"],
 	},
 	{
 		name : "Why are you awake now",
 		hour : 4,
 		hourname : "4 AM",
+		imagetimes : ["night"],
 	},
 	{
 		name : "Early Morning",
 		hour : 6,
 		hourname : "6 AM",
+		imagetimes : ["night"],
 	},
 	{
 		name : "Mid Morning",
 		hour : 8,
 		hourname : "8 AM",
+		imagetimes : ["morning", "day"],
 	},
 	{
 		name : "Late Morning",
 		hour : 10,
 		hourname : "10 AM",
+		imagetimes : ["morning", "day"],
 	},
 	{
 		name : "Noon",
 		hour : 12,
 		hourname : "12 PM",
+		imagetimes : ["noon", "day"],
 	},
 	{
 		name : "Early Afternoon",
 		hour : 14,
 		hourname : "2 PM",
+		imagetimes : ["noon", "day"],
 	},
 	{
 		name : "Mid Afternoon",
 		hour : 16,
 		hourname : "4 PM",
+		imagetimes : ["afternoon", "day"],
 	},
 	{
 		name : "Late Afternoon",
 		hour : 18,
 		hourname : "6 PM",
+		imagetimes : ["afternoon", "day"],
 	},
 	{
 		name : "Evening",
 		hour : 20,
 		hourname : "8 PM",
+		imagetimes : ["evening", "night"],
 	},
 	{
 		name : "Late Evening",
 		hour : 22,
 		hourname : "10 PM",
+		imagetimes : ["night"],
 	},
 ]
 
@@ -92,6 +104,7 @@ const DAYS_DATA = [
 function advanceTime() {
 	data.time++;
 	data.player.waketime--;
+	refreshCharStatus();
 }
 
 function getWakeTimeLeft() {

@@ -62,3 +62,14 @@ class TabsTab extends UIObject {
 		
 	}
 }
+
+class TabsVertical extends Tabs {
+	resize(x, y, width, height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.tabHeight = this.height/this.numTabs;
+		this.tabs.forEach((t, i) => t.resize(this.x, this.y+this.tabHeight*i, this.width, this.tabHeight));
+	}
+}

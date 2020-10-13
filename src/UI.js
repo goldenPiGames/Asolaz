@@ -8,6 +8,7 @@ function getUI() {
 	backDiv = document.getElementById("BackgroundBox");
 	canvas = document.getElementById("MainCanvas");
 	ctx = canvas.getContext("2d");
+	initInputs();
 	
 	/*UI.log = document.getElementById("Log");
 	UI.choices = [];

@@ -1,7 +1,16 @@
 var data = {};
-const DATA = {
-	characters : {},
-};
+
+function begin() {
+	getUI();
+	applySettings();
+	addEvents();
+	if (VERSION_ADULT) {
+		switchScreen(new AdultWarningScreen());
+	} else {
+		switchScreen(new MainMenu());
+	}
+	coreEngine.run();
+}
 
 function processText(text, ...rest) {
 	if (!text)

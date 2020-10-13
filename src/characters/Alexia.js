@@ -137,11 +137,11 @@ CHARACTER_DATA.alexia = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//6am
 		{location:"dorms", status:SCHEDULE_WAKING},//8am
-		{location:"beach", status:SCHEDULE_RELAXING},//10am
-		{location:"beach", status:SCHEDULE_RELAXING},//noon
-		{location:"beach", status:SCHEDULE_RELAXING},//2pm
-		{location:"beach", status:SCHEDULE_RELAXING},//4pm
-		{location:"beach", status:SCHEDULE_RELAXING},//6pm
+		{location:"beach", status:SCHEDULE_RELAXING, outfit:"swim"},//10am
+		{location:"beach", status:SCHEDULE_RELAXING, outfit:"swim"},//noon
+		{location:"beach", status:SCHEDULE_RELAXING, outfit:"swim"},//2pm
+		{location:"beach", status:SCHEDULE_RELAXING, outfit:"swim"},//4pm
+		{location:"beach", status:SCHEDULE_RELAXING, outfit:"swim"},//6pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//10pm
 	],

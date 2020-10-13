@@ -8,56 +8,110 @@ const LOCATION_DATA = {
 				what:"sleep",
 			},
 		],
+		images : {
+			"all" : "dorms-room.jpg",
+		}
 	},
 	"dorms" : {
 		name : "Dormitories",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "dorms.jpg",
+		}
 	},
 	"quad" : {
 		name : "Quad",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "quad.jpg",
+		}
 	},
 	"library" : {
 		name : "Library",
 		area : "campusmain",
-		pois : [],
+		pois : [
+			{
+				name:"Spend time reading",
+				what:"readbooks",
+			}
+		],
+		images : {
+			"all" : "library.jpg", //TODO
+		}
 	},
 	"cafeteria" : {
 		name : "Cafeteria",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "cafeteria.jpg",
+		}
 	},
-	"infirmary" : {
-		name : "Infirmary",
+	"bureau" : {
+		name : "Bureau",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "bureau.jpg",
+		}
+	},
+	"clinic" : {
+		name : "Clinic",
+		area : "campusmain",
+		pois : [],
+		images : {
+			"all" : "clinic.jpg",
+		}
 	},
 	"gym" : {
 		name : "Gym",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "gym.jpg",//TODO
+		}
 	},
 	"arena" : {
 		name : "Arena",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "arena.jpg",//TODO
+		}
 	},
 	"stadium" : {
 		name : "Stadium",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "stadium.jpg",//TODO
+		}
+	},
+	"tailory" : {
+		name : "Tailory",
+		area : "campusmain",
+		pois : [],
+		images : {
+			"all" : "tailory.jpg",
+		}
 	},
 	"pool" : {
 		name : "Pool",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "pool.jpg",
+		}
 	},
 	"beach" : {
 		name : "Beach",
 		area : "campusmain",
 		pois : [],
+		images : {
+			"all" : "beach.jpg",
+		}
 	},
 }
 
@@ -81,26 +135,16 @@ function getLocationPOIScroll(bap) {
 }
 
 function whoIsAtLocation(location) {
-	return getAllCharacterStatus().filter(p => p.location == location && !p.status.inRoom);
-}
-
-function getAllCharacterStatus() {
-	return CHARACTER_LIST.map(getCharacterStatus);
+	return CHARACTER_LIST.filter(car=>data.characters[car].location == location);
 }
 
 function getCharacterStatus(car) {
-	var dat = CHARACTER_DATA[car].weeklySchedule[data.time%BLOCKS_PER_WEEK];
-	return {
-		id : car,
-		name : CHARACTER_DATA[car].name,
-		location : dat.location,
-		status : dat.status,
-	}
+	return CHARACTER_DATA[car].weeklySchedule[data.time%BLOCKS_PER_WEEK];
 }
 
 function changeLocation(to) {
 	data.location = to;
-	//TODO update background graphic
+	refreshBG();
 }
 
 function getLocationName() {

@@ -14,7 +14,7 @@ class PeopleMenu extends GameMenu {
 	}
 	resize() {
 		this.mainWidth = super.resize();
-		this.swidth = Math.max(300, canvas.width/4);
+		this.swidth = 200;
 		this.charMenu.resize(0, 0, this.swidth, canvas.height);
 		//this.menuButton.resize(canvas.width - 200, canvas.height - 60, 190, 50);
 	}
@@ -37,7 +37,7 @@ class PeopleMenu extends GameMenu {
 			this.paragraph = processText("[cname] <br> Gender: [cgender|Male|Female|Non-binary]", this.charID);
 			//TODO block reading
 			if (playerSkillKnown("track")) {
-				this.paragraph += " <br> Location: " + LOCATION_DATA[getCharacterStatus(this.charID).location].name;
+				this.paragraph += " <br> Location: " + LOCATION_DATA[data.characters[this.charID].location].name;
 			}
 			CHARACTER_PARAMS.forEach(parm => {
 				if (playerSkillKnown(PARAM_DATA[parm].read))

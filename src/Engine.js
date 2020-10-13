@@ -12,6 +12,7 @@ var coreEngine = {
 		var desiredTime = now + this.frameDelay;
 		lastFrameDelay = now - this.lastRunTime;
 		this.lastRunTime = now;
+		updateTextInputsBefore();
 		globalTimer++;
 		//musicLoopCheck();
 		hovered = false;

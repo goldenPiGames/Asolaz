@@ -18,11 +18,13 @@ class SceneScreen extends Screen {
 		if (this.scene)
 			this.startLog(this.scene.log);
 		//console.log(this.scene);
+		this.rightMenu = new RightMenu(this, RIGHTMENU_VN);
 	}
 	startLog(log) {
 		this.index = -1;
 		this.log = log.slice();
 		this.advanceLine();
+		this.refreshCountdown();
 	}
 	spliceInLog(...things) {
 		if (!things)
@@ -30,9 +32,27 @@ class SceneScreen extends Screen {
 		if (Array.isArray(things[0]))
 			things = things[0];
 		this.log.splice(this.index+1, 0, ...things);
+		this.refreshCountdown();
+	}
+	refreshCountdown() {
+		var count = this.log.findIndexFrom(l=>l.countdown, this.index);
+		if (count >= 0) {
+			this.countdownName = this.log[count].countdown;
+			this.countdownIndex = count;
+		} else {
+			this.countdownName = null;
+		}
+	}
+	resize() {
+		this.rightMenu.resize();
+		if (this.choiceButtons) {
+			this.choiceButtons.forEach((butt, dex, ray) => butt.resize(canvas.width/4, canvas.height*(dex+1)/(ray.length+1)-40, canvas.width/2, 40));
+		}
 	}
 	update() {
-		if (this.choiceButtons) {
+		if (this.rightMenu.update(this)) {
+			return;
+		} if (this.choiceButtons) {
 			this.choiceButtons.forEach(b=>b.update());
 		} else if (mouse.clicked) {
 			this.advanceLine();
@@ -40,13 +60,10 @@ class SceneScreen extends Screen {
 			this.logEnded();
 		}
 	}
-	resize() {
-		if (this.choiceButtons) {
-			this.choiceButtons.forEach((butt, dex, ray) => butt.resize(canvas.width/4, canvas.height*(dex+1)/(ray.length+1)-40, canvas.width/2, 40));
-		}
-	}
 	draw() {
-		this.charImg.draw()
+		drawBG();
+		this.rightMenu.draw(this);
+		this.charImg.draw();
 		if (this.text) {
 			ctx.fillStyle = palette.normal;
 			
@@ -54,6 +71,9 @@ class SceneScreen extends Screen {
 		}
 		if (this.choiceButtons) {
 			this.choiceButtons.forEach(b=>b.draw());
+		}
+		if (this.countdownName && this.index < this.countdownIndex) {
+			drawTextInRect(this.countdownName + " in: " + (this.countdownIndex-this.index), this.rightMenu.x-250, 0, 250, 40, {align:"right", stroke:palette.normal, fill:palette.background});
 		}
 	}
 	advanceLine() {
@@ -71,6 +91,9 @@ class SceneScreen extends Screen {
 		}
 		if (this.line.charimg) {
 			this.charImg.change(this.line.charimg);
+		}
+		if (this.line.background) {
+			setTempBG(this.line.background);
 		}
 		if (this.line.text) {
 			this.text = this.processText(this.line.text);
@@ -103,7 +126,12 @@ class SceneScreen extends Screen {
 	handleChoice(choice) {
 		//is this dumb?
 		var oldline = this.line;
-		this.doAction(choice);
+		if (choice.action) {
+			this.doAction(choice);
+		}
+		if (choice.log) {
+			this.spliceInLog(choice.log);
+		}
 		if (this.line == oldline)
 			this.advanceLine();
 	}

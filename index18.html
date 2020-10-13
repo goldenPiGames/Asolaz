@@ -25,8 +25,20 @@
 				margin : 0;
 				padding : 0;
 			}
+			#Test100 {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				width: 100px;
+				height: 100px;
+				visibility : hidden;
+			}
+			#BackgroundBox input {
+				position: absolute;
+			}
 		</style>
 		<script type="text/javascript" src="src/Main.js"></script>
+		<script type="text/javascript" src="src/VersionBefore.js"></script>
 		<script type="text/javascript" src="src/UI.js"></script>
 		<script type="text/javascript" src="src/Save.js"></script>
 		<script type="text/javascript" src="src/Settings.js"></script>
@@ -39,9 +51,10 @@
 		<script type="text/javascript" src="src/uiobjects/ScrollMenu.js"></script>
 		<script type="text/javascript" src="src/uiobjects/Tabs.js"></script>
 		<script type="text/javascript" src="src/uiobjects/ScrollForm.js"></script>
+		<script type="text/javascript" src="src/uiobjects/TextInput.js"></script>
 		<script type="text/javascript" src="src/screens/super.js"></script>
 		<script type="text/javascript" src="src/screens/MainMenu.js"></script>
-		<script type="text/javascript" src="src/screens/NewGame.js"></script>
+		<script type="text/javascript" src="src/NewGame.js"></script>
 		<script type="text/javascript" src="src/screens/GameMenu.js"></script>
 		<script type="text/javascript" src="src/screens/Scene.js"></script>
 		<script type="text/javascript" src="src/screens/Conversation.js"></script>
@@ -50,26 +63,52 @@
 		<script type="text/javascript" src="src/screens/SkillTree.js"></script>
 		<script type="text/javascript" src="src/screens/People.js"></script>
 		<script type="text/javascript" src="src/uiobjects/RightMenu.js"></script>
+		<script type="text/javascript" src="src/experience.js"></script>
 		
-		<script type="text/javascript" src="src/skills/data.js"></script>
+		<script type="text/javascript" src="src/combat/Stats.js"></script>
+		<script type="text/javascript" src="src/combat/Action.js"></script>
+		
+		<script type="text/javascript" src="src/skills/Data.js"></script>
+		<script type="text/javascript" src="src/skills/martial.js"></script>
+		<script type="text/javascript" src="src/skills/tech.js"></script>
+		<script type="text/javascript" src="src/skills/munmisc.js"></script>
 		<script type="text/javascript" src="src/skills/reading.js"></script>
+		<script type="text/javascript" src="src/skills/sensory.js"></script>
+		<script type="text/javascript" src="src/skills/autopsi.js"></script>
+		<script type="text/javascript" src="src/skills/control.js"></script>
 		<script type="text/javascript" src="src/skills/energy.js"></script>
-		<script type="text/javascript" src="src/skills/after.js"></script>
+		<script type="text/javascript" src="src/skills/matter.js"></script>
+		<script type="text/javascript" src="src/skills/body.js"></script>
+		<script type="text/javascript" src="src/skills/arcmeta.js"></script>
+		<script type="text/javascript" src="src/skills/After.js"></script>
 		
 		<script type="text/javascript" src="src/time.js"></script>
-		<script type="text/javascript" src="src/Notifications.js"></script>
-		<script type="text/javascript" src="src/Locations/data.js"></script>
-		<script type="text/javascript" src="src/character/constants.js"></script>
+		<script type="text/javascript" src="src/notifications.js"></script>
+		<script type="text/javascript" src="src/locations/data.js"></script>
+		<script type="text/javascript" src="src/character/Constants.js"></script>
+		<script type="text/javascript" src="src/character/Reqs.js"></script>
 		<script type="text/javascript" src="src/characters/Cora.js"></script>
 		<script type="text/javascript" src="src/characters/Praeto.js"></script>
-		<script type="text/javascript" src="src/characters/Amvei.js"></script>
-		<script type="text/javascript" src="src/characters/Bobal.js"></script>
-		<script type="text/javascript" src="src/characters/Alexia.js"></script>
+		<!--<script type="text/javascript" src="src/characters/Amvei.js"></script>-->
+		<!--<script type="text/javascript" src="src/characters/Bobal.js"></script>-->
+		<script type="text/javascript" src="src/characters/Ammette.js"></script>
+		<script type="text/javascript" src="src/characters/Tylia.js"></script>
+		<script type="text/javascript" src="src/characters/Alexia.js"></script><!-- porn only -->
 		<script type="text/javascript" src="src/character/After.js"></script>
 		<script type="text/javascript" src="src/character/Memory.js"></script>
 		<script type="text/javascript" src="src/locations/Rooms.js"></script>
 		
+		<script type="text/javascript" src="src/books/Before.js"></script>
+		<script type="text/javascript" src="src/books/history.js"></script>
+		<script type="text/javascript" src="src/books/arcana.js"></script>
+		<script type="text/javascript" src="src/books/psionics.js"></script>
+		<script type="text/javascript" src="src/books/After.js"></script>
+		
+		<script type="text/javascript" src="src/combat/Unit.js"></script>
+		<script type="text/javascript" src="src/combat/Screen.js"></script>
+		
 		<script type="text/javascript" src="src/screens/OpeningLetter.js"></script>
+		<script type="text/javascript" src="src/scenes/Opening.js"></script>
 		<script type="text/javascript" src="src/scenes/Sleep.js"></script>
 		<script type="text/javascript" src="src/scenes/RoomDoor.js"></script>
 		
@@ -77,26 +116,26 @@
 		
 		<script type="text/javascript" src="src/scenes/About.js"></script>
 		
+		<script type="text/javascript" src="src/screens/AdultWarning.js"></script>
 		<script type="text/javascript" src="src/scenes18/Before.js"></script>
-		<script type="text/javascript" src="src/scenes18/getbj.js"></script>
+		<script type="text/javascript" src="src/scenes18/Cora.js"></script>
+		<script type="text/javascript" src="src/scenes18/Tylia.js"></script>
+		<script type="text/javascript" src="src/scenes18/Alexia.js"></script>
+		<!--<script type="text/javascript" src="src/scenes18/getbj.js"></script>-->
 		<script type="text/javascript" src="src/scenes18/After.js"></script>
 		<script type="text/javascript" src="src/scenes18/Consent.js"></script>
 	</head>
 	<body>
 		<div id="BackgroundBox">
 			<canvas id="MainCanvas" class="partscreen" width="800" height="600">Your browser requires Canvas support to play this game. Seriously, what browser are you using? Netscape Navigator?</canvas>
+			<div id="Test100"> </div>
 			<input id="TextInput0" class="TextInput" type="text" hidden />
 			<input id="TextInput1" class="TextInput" type="text" hidden />
 			<input id="FileInput" type="file" accept="application/json" hidden />
 		</div>
 		<script>
 			const VERSION_ADULT = true;
-			const ERROR_THROW = window.location.href.includes("C:");
-			getUI();
-			applySettings();
-			addEvents();
-			switchScreen(new MainMenu());
-			coreEngine.run();
+			begin();
 		</script>
 	</body>
 </html>

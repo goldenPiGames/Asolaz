@@ -3,6 +3,9 @@ CHARACTER_DATA.cora = {
 	gender : GENDER_FEMALE,
 	wegender : GENDER_MALE,
 	age : 22,
+	colors : {
+		light : "#FF4080",
+	},
 	paramsBase : {
 		morality : 70,
 		legality : 60,
@@ -32,7 +35,7 @@ CHARACTER_DATA.cora = {
 		],
 		introduction : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's nice to meet you. I'm Cora, I specialize in healing arcana and I work in the infirmary."},
+				{speaker:"Cora", text:"Oh, it's nice to meet you. I'm Cora, I specialize in healing arcana and I work in the clinic."},
 			]},
 		],
 		/*knock_drowsing_goway : [
@@ -49,7 +52,7 @@ CHARACTER_DATA.cora = {
 		],*/
 		smalltalk : [
 			{log : [
-				{speaker:"Cora", text:"I work in the infirmary on Sunday, Monday, Wednesday, Thursday, and Friday."},
+				{speaker:"Cora", text:"I work in the clinic on Sunday, Monday, Wednesday, Thursday, and Friday."},
 				{speaker:"Cora", text:"It's not too hard, and the patients are always happy to see me. Oh, and I can practice my healing arcana, too."},
 			]},
 			{log : [
@@ -93,11 +96,11 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//2am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_WAKING},//6am
-		{location:"infirmary", status:SCHEDULE_WORKING},//8am
-		{location:"infirmary", status:SCHEDULE_WORKING},//10am
+		{location:"clinic", status:SCHEDULE_WORKING},//8am
+		{location:"clinic", status:SCHEDULE_WORKING},//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
-		{location:"infirmary", status:SCHEDULE_WORKING},//2pm
-		{location:"infirmary", status:SCHEDULE_WORKING},//4pm
+		{location:"clinic", status:SCHEDULE_WORKING},//2pm
+		{location:"clinic", status:SCHEDULE_WORKING},//4pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//6pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm
@@ -106,11 +109,11 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//2am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_WAKING},//6am
-		{location:"infirmary", status:SCHEDULE_WORKING},//8am
-		{location:"infirmary", status:SCHEDULE_WORKING},//10am
+		{location:"clinic", status:SCHEDULE_WORKING},//8am
+		{location:"clinic", status:SCHEDULE_WORKING},//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
-		{location:"infirmary", status:SCHEDULE_WORKING},//2pm
-		{location:"infirmary", status:SCHEDULE_WORKING},//4pm
+		{location:"clinic", status:SCHEDULE_WORKING},//2pm
+		{location:"clinic", status:SCHEDULE_WORKING},//4pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//6pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm
@@ -120,7 +123,7 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_WAKING},//6am
 		{location:"library", status:SCHEDULE_STUDYING},//8am
-		{location:"class_arc", status:SCHEDULE_LEARNING},//10am
+		{location:"library", status:SCHEDULE_STUDYING},//class//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
 		{location:"library", status:SCHEDULE_STUDYING},//2pm
 		{location:"class_med", status:SCHEDULE_LEARNING},//4pm
@@ -132,11 +135,11 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//2am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_WAKING},//6am
-		{location:"infirmary", status:SCHEDULE_WORKING},//8am
-		{location:"infirmary", status:SCHEDULE_WORKING},//10am
+		{location:"clinic", status:SCHEDULE_WORKING},//8am
+		{location:"clinic", status:SCHEDULE_WORKING},//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
-		{location:"infirmary", status:SCHEDULE_WORKING},//2pm
-		{location:"infirmary", status:SCHEDULE_WORKING},//4pm
+		{location:"clinic", status:SCHEDULE_WORKING},//2pm
+		{location:"clinic", status:SCHEDULE_WORKING},//4pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//6pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm
@@ -146,7 +149,7 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_WAKING},//6am
 		{location:"library", status:SCHEDULE_STUDYING},//8am
-		{location:"class_arc", status:SCHEDULE_LEARNING},//10am
+		{location:"library", status:SCHEDULE_STUDYING},//class//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
 		{location:"library", status:SCHEDULE_STUDYING},//2pm
 		{location:"class_med", status:SCHEDULE_LEARNING},//4pm
@@ -158,11 +161,11 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//2am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_WAKING},//6am
-		{location:"infirmary", status:SCHEDULE_WORKING},//8am
-		{location:"infirmary", status:SCHEDULE_WORKING},//10am
+		{location:"clinic", status:SCHEDULE_WORKING},//8am
+		{location:"clinic", status:SCHEDULE_WORKING},//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
-		{location:"infirmary", status:SCHEDULE_WORKING},//2pm
-		{location:"infirmary", status:SCHEDULE_WORKING},//4pm
+		{location:"clinic", status:SCHEDULE_WORKING},//2pm
+		{location:"clinic", status:SCHEDULE_WORKING},//4pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//6pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm
@@ -172,10 +175,10 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_SLEEPING},//4am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//6am
 		{location:"dorms", status:SCHEDULE_SLEEPING},//8am
-		{location:"infirmary", status:SCHEDULE_WAKING},//10am
+		{location:"clinic", status:SCHEDULE_WAKING},//10am
 		{location:"cafeteria", status:SCHEDULE_EATING},//noon
 		{location:"gym", status:SCHEDULE_EXERCISING},//2pm
-		{location:"infirmary", status:SCHEDULE_WORKING},//4pm
+		{location:"clinic", status:SCHEDULE_WORKING},//4pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//6pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm

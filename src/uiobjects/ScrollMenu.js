@@ -12,7 +12,7 @@ class ScrollMenu extends UIObject {
 		this.secondProperty = secondProperty;
 		this.highlightProperty = ()=>false;
 		this.enableProperty = ()=>true;
-		this.items = items;
+		this.setItems(items);
 		//this.setItems(items);
 		this.upButton = new Button("↑", ()=>this.scrollUp());
 		this.downButton = new Button("↓", ()=>this.scrollDown());
@@ -48,21 +48,12 @@ class ScrollMenu extends UIObject {
 		this.touchDrag = 0;
 		this.justDragScrolled = 0;
 	}
-	/*setItems(items) {
+	setItems(items) {
 		this.items = items;
-		this.scrollBar.max = items.length;
-		if (this.currentScroll > this.maxScroll) {
-			this.currentScroll = this.maxScroll;
-		}
-		this.itemElements = [];
-		var newElement = null;
-		for (var i = 0; i < this.maxEntries; i++) {
-			newElement = new ScrollMenuElement(this.x, this.y + (i * SCROLL_ELEMENT_HEIGHT), this.width - SCROLL_BAR_WIDTH, SCROLL_ELEMENT_HEIGHT, this, items[i]);
-			this.itemElements.push(newElement);
-		}
-		this.putItems();
-	}*/
-	putItems() { //TODO use putItems as part of setItems
+		if (this.scrollBar)
+			this.putItems();
+	}
+	putItems() {
 		this.maxScroll = Math.max(this.items.length-this.maxEntries, 0);
 		this.scrollBar.max = this.items.length;
 		if (this.currentScroll > this.maxScroll) {
@@ -146,7 +137,7 @@ class ScrollMenu extends UIObject {
 		}
 	}
 	draw() {
-		ctx.fillStyle = palette.background;
+		ctx.fillStyle = palette.background+"80";
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 		ctx.strokeStyle = palette.normal;
 		ctx.lineWidth = 2;

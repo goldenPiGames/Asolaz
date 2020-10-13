@@ -1,4 +1,4 @@
-class MapScreen extends GameMenu {
+class MapMenu extends GameMenu {
 	constructor(rightMenu) {
 		super(rightMenu);
 		this.menu = new ScrollMenu(thing=>this.thingClicked(thing), getLocationMenuList());
@@ -11,7 +11,7 @@ class MapScreen extends GameMenu {
 	draw() {
 		super.draw();
 		this.menu.draw();
-		drawTextUpperRight(getCornerTime(), getLocationName());
+		//drawTextUpperRight(getCornerTime(), getLocationName());
 	}
 	resize() {
 		super.resize();

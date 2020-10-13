@@ -99,55 +99,6 @@ function getCharParam(character, param) {
 	return data.characters[character].paramsCore[param];
 }
 
-function evalCharReqs(thing, character = characterFocus) {
-	//console.log(character, thing)
-	if (!thing) {
-		return false;
-	} else if (thing.reqs || thing.req) {
-		return evalCharReqs(thing.reqs || thing.req, character);
-	} else if (Array.isArray(thing)) {
-		return !thing.find(r=>!evalCharReqs(r, character));
-	} else if (thing.type) {
-		switch (thing.type) {
-			case "cparam":
-				var val = getCharParam(character, thing.param);
-				var aga = thing.amount;
-				//console.log(val, thing.compare, aga);
-				var result;
-				switch (thing.compare) {
-					case "min": return result = val >= aga;
-					case "max": return result = val <= aga;
-					case "over": return result = val > aga;
-					case "under": return result = val < aga;
-				}
-			case "pskill":
-				return playerSkillKnown(thing.skill) >= (thing.level || 1);
-			default:
-				console.log(thing);
-				throwMaybe(thing.type + " is not a valid req type.");
-				return true;
-		}
-	} else
-		return true;
-}
-
-function filterCharDialog(stuff, character = characterFocus) {
-	var all = typeof stuff == "string" ? CHARACTER_DATA[character].dialog[stuff] : stuff;
-	var available = all.filter(g=>evalCharReqs(g, character));
-	return available;
-}
-
-function randomCharDialog(stuff, character = characterFocus) {
-	//console.log(stuff, character)
-	if (!CHARACTER_DATA[character].dialog[stuff])
-		return {log:[{text:"Could not find random line "+stuff+" for character "+character}]};
-	var all = typeof stuff == "string" ? CHARACTER_DATA[character].dialog[stuff] : stuff;
-	var available = all.filter(g=>evalCharReqs(g, character));
-	if (available.length <= 0)
-		return all[0];
-	return randomTerm(available);
-}
-
 function charParamUp(character, args) {
 	if (!character)
 		character = characterFocus;
@@ -175,8 +126,12 @@ function charParamUp(character, args) {
 		return false;
 }
 
-
-function earnExperience(amount) {
-	data.player.exp += amount;
-	return amount;
+function refreshCharStatus() {
+	for (car in CHARACTER_DATA) {
+		var card = data.characters[car];
+		var stadat = getCharacterStatus(car);
+		//console.log(stadat);
+		card.outfit = stadat.outfit || stadat.status.outfit || "default";
+		card.location = stadat.location;
+	}
 }

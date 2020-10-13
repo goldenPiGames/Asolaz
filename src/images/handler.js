@@ -1,3 +1,35 @@
+function drawImageInRect(img, x, y, width, height) {
+	try {
+		if (img.height/img.width > height/width) { //taller image
+			var wid = height*img.width/img.height;
+			ctx.drawImage(img, x+width/2-wid/2, y, wid, height);
+		} else { //wider image
+			var hit = width*img.height/img.width;
+			ctx.drawImage(img, x, y+height/2-hit/2, width, hit);
+		}
+	} catch {
+		ctx.fillStyle = "#FF0000";
+		drawParagraphInRect(img.src + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, );
+		//console.log(img.src);
+	}
+}
+
+function drawImageOutRect(img, x, y, width, height) {
+	//TODO only accounts for tall images
+	try {
+		if (img.height/img.width > height/width) { //taller image
+			var hit = width*img.height/img.width;
+			ctx.drawImage(img, x, y+height/2-hit/2, width, hit);
+		} else { //wider image
+			var wid = height*img.width/img.height;
+			ctx.drawImage(img, x+width/2-wid/2, y, wid, height);
+		}
+	} catch {
+		ctx.fillStyle = "#FF0000";
+		drawParagraphInRect(img.scr + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, );
+	}
+}
+
 class CharImgHandler {
 	constructor() {
 		this.image = new Image();
@@ -27,13 +59,49 @@ class CharImgHandler {
 				runnee = null;
 				return false;
 			}
-			try {
-				var wid = canvas.height*this.image.width/this.image.height;
-				ctx.drawImage(this.image, canvas.width/2-wid/2, 0, wid, canvas.height);
-			} catch (e) {
-				ctx.fillStyle = "#FF0000";
-				drawParagraphInRect(this.character+" / "+this.outfit+" / "+this.pose + " isn't a valid image, apparently. I should probably fix this.", canvas.width/3, canvas.height/3, canvas.width/3, canvas.height/3, 30);
-			}
+			//	var wid = canvas.height*this.image.width/this.image.height;
+			//	ctx.drawImage(this.image, canvas.width/2-wid/2, 0, wid, canvas.height);
+			drawImageInRect(this.image, canvas.width/4, 0, canvas.width/2, canvas.height);
 		}
 	}
 }
+
+var bgImg;
+
+function drawBG() {
+	bgImg.draw();
+}
+
+function refreshBG() {
+	bgImg.refresh();
+}
+
+function setTempBG(img) {
+	bgImg.setTemp(img);
+}
+
+class BGImgHandler {
+	constructor() {
+		this.image = new Image();
+	}
+	refresh() {
+		this.location = data.location;
+		var dats = LOCATION_DATA[this.location].images;
+		var imgname = [...TIME_DATA[data.time%TIME_DATA.length].imagetimes, "all"].find(n=>dats[n]);
+		this.image.src = "src/images/backgrounds/"+dats[imgname];
+		//console.log("src/images/backgrounds/"+dats[imgname])
+	}
+	draw() {
+		//drawImageInRect(this.image, 0, 0, canvas.width, canvas.height);
+		drawImageOutRect(this.image, 0, 0, canvas.width, canvas.height);
+	}
+	setTemp(sauce) {
+		this.image.src = "src/images/backgrounds/"+sauce;
+	}
+}
+
+function getImageTimeName() {
+	
+}
+
+bgImg = new BGImgHandler();

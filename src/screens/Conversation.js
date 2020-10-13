@@ -46,6 +46,7 @@ class ConversationScreen extends SceneScreen {
 			{text:"Hello, I'm [playername].", action:()=>this.doIntroduction(), reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:0}]},
 			{text:"(Make small talk)", action:()=>this.doSmalltalk(), reqs:[{type:"cparam", param:"acquaint", compare:"over", amount:0}]},
 			{text:"(Ask [cgender|him|her|them] about...)", action:()=>this.doAskChoices(), reqs:[{type:"cparam", param:"acquaint", compare:"over", amount:0}]},
+			{text:"(Sexual...)", action:()=>this.doSexChoices(), reqs:[{type:"adult"}, {type:"cparam", param:"acquaint", compare:"over", amount:0}]},
 			{text:"Goodbye.", action:()=>this.bye()},
 		], this.character)
 	}
@@ -70,10 +71,36 @@ class ConversationScreen extends SceneScreen {
 	}
 	doAsk(bap, seen) {
 		this.useTurn();
-		setCharacterMemory("ask-"+bap.id, this.character);
+		if (!seen)
+			setCharacterMemory("ask-"+bap.id, this.character);
 		this.startLog([
 			...bap.log,
 			...(seen ? [] : bap.firstUps),
+		]);
+	}
+	doSexChoices() {
+		this.startLog([
+			{choices:[
+				...this.getChoicesSex(),
+				{text:"Nevermind.", action:"mainchoices"},
+			]}
+		]);
+	}
+	getChoicesSex() {
+		return filterCharDialog("sex", this.character).map(b=>this.processSexChoice(b))
+	}
+	processSexChoice(bap) {
+		var blab = {
+			text : bap.text || bap.name,
+			action : ()=>this.doSex(bap),
+		}
+		return blab;
+	}
+	doSex(bap) {
+		this.useTurn();
+		//setCharacterMemory("ask-"+bap.id, this.character);
+		this.startLog([
+			...bap.log,
 		]);
 	}
 	doAction(line) {

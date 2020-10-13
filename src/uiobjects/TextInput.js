@@ -1,23 +1,44 @@
-var textInput0;
+const NUM_TEXT_INPUTS = 2;
+
+var textInputs = [];
+var textInputIndex = 0;
 var test100;
 var fileInput;
 var inputs;
 
 function initInputs() {
 	test100 = document.getElementById("Test100");
-	textInput0 = document.getElementById("TextInput0");
-	textInput1 = document.getElementById("TextInput1");
+	for (var i = 0; i < 100; i++) {
+		textInputs[i] = document.getElementById("TextInput"+i);
+	}
 	fileInput = document.getElementById("FileInput");
 	inputs = [
-		textInput0,
-		textInput1,
+		...textInputs,
 		fileInput,
 	];
-	inputs.forEach(i=>i.style.fontFamily=settings.font);
+	//inputs.forEach(i=>i.style.fontFamily=settings.font);
+}
+
+function updateTextInputsBefore() {
+	for (var i = 0; i < NUM_TEXT_INPUTS; i++) {
+		textInputs[i].hidden = !(i < textInputIndex);
+	}
+	textInputIndex = 0;
+}
+
+function updateTextInput(x, y, width, height, skipped, text, placeholder) {
+	moveInput(textInputs[textInputIndex], x, y, width, height);
+	if (skipped) {
+		textInputs[textInputIndex].value = text;
+		textInputs[textInputIndex].placeholder = placeholder;
+	} else {
+		text = textInputs[textInputIndex].value;
+	}
+	textInputIndex++;
+	return text;
 }
 
 function setTextInput(which, x, y, width, height, text) {
-	//console.log(x, y, width, height, text)
 	var p = typeof which == "number" ? inputs[which] : which;
 	p.lastMoveArgs = [x, y, width, height];
 	p.hidden = false;
@@ -48,14 +69,18 @@ function hideInputs() {
 }
 
 function moveInput(input, x, y, width, height) {
-	var rect = canvasToCSSRect(x, y, width, height);
+	/*var rect = canvasToCSSRect(x, y, width, height);
 	input.style.left = rect.x + "px";
 	input.style.top = rect.y + "px";
 	input.style.width = rect.width-6 + "px";
 	let h = rect.height-6;
 	input.style.height = h + "px";
-	input.style.fontSize = (h-2)+"px";
-	
+	input.style.fontSize = (h-2)+"px";*/
+	input.style.left = x + "px";
+	input.style.top = y + "px";
+	input.style.width = width-6 + "px";
+	input.style.height = (height-6) + "px";
+	input.style.fontSize = (height-8)+"px";
 }
 
 function setFileInput(x, y, width, height, type) {

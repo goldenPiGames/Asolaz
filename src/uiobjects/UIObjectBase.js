@@ -9,6 +9,11 @@ class UIObject {
 	}
 	update() {
 		this.updateMouse();
+		var beforeUpdated = this.lastUpdated;
+		this.lastUpdated = globalTimer;
+		this.skipped = this.lastUpdated - this.beforeUpdated - 1;
+		if (!beforeUpdated)
+			this.skipped = -1;
 		if (this.clicked && this.onclick)
 			this.onclick();
 	}

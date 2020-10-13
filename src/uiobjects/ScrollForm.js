@@ -1,24 +1,28 @@
+const FORM_SCROLL_SPEED = 60;
+
 class ScrollForm extends UIObject {
-	constructor(objects) {
+	constructor(objects, onSubmit) {
 		super();
 		this.objects = objects;
 		this.objects.forEach(o=>o.parent=this);
 		this.scroll = 0;
 		this.choices = {};
+		this.onSubmit = onSubmit;
 	}
 	resize(x, width) {
 		this.x = x;
 		this.y = 0;
-		this.width = width;
+		this.fullWidth = width;
 		this.height = canvas.height;
 		this.scrollWidth = 40;
-		this.mainWidth = this.width-this.scrollWidth;
+		this.width = this.fullWidth-this.scrollWidth;
 		var y = 0;
 		this.objects.forEach(o=> {
-			y = o.resize(this.x, y, this.mainWidth);
+			y = o.resize(this.x, y, this.width);
 		});
 		this.fullHeight = y;
-		this.scrollBar = new ScrollBar(x + this.mainWidth, y + this.scrollWidth, this.scrollWidth, this.height - 2*this.scrollWidth, this.height, this.fullHeight, (s)=>this.setScroll(s), ()=>this.scroll);
+		this.maxScroll = this.fullHeight - this.height;
+		this.scrollBar = new ScrollBar(x + this.width, this.y + this.scrollWidth, this.scrollWidth, this.height - 2*this.scrollWidth, this.height, this.fullHeight, (s)=>this.setScroll(s), ()=>this.scroll);
 		//this.upButton.resize(x + width - this.scrollWidth, y, this.scrollWidth, this.scrollWidth);
 		//this.downButton.resize(x + width - this.scrollWidth, y + height - this.scrollWidth, this.scrollWidth, this.scrollWidth);
 	}
@@ -27,6 +31,17 @@ class ScrollForm extends UIObject {
 		this.scrollBar.update();
 		//this.upButton.update();
 		//this.downButton.update();
+		if (this.hovered && mouse.scrolled) {
+			//this.moving = false;
+			if (mouse.scrolled < 0)
+				this.scroll = Math.max(0, this.scroll-FORM_SCROLL_SPEED);
+			else
+				this.scroll = Math.min(this.maxScroll, this.scroll+FORM_SCROLL_SPEED);
+		}
+		if (this.draggedY) {
+			this.scroll = Math.max(0, Math.min(this.maxScroll, this.scroll-this.draggedY));
+			this.moving = false;
+		}
 		this.objects.forEach(oj=>{
 			oj.y = oj.ry - this.scroll;
 			if (oj.children) {
@@ -39,11 +54,14 @@ class ScrollForm extends UIObject {
 		this.scrollBar.draw();
 		this.objects.forEach(oj=>oj.draw());
 	}
-	setScroll() {
-		this.scroll = scroll;
+	setScroll(to) {
+		this.scroll = to;
 	}
 	setChoice(id, dat) {
 		this.choices[id]=dat;
+	}
+	submit() {
+		this.onSubmit(this.choices);
 	}
 }
 
@@ -54,10 +72,10 @@ class ScrollingHeading extends UIObject {
 	}
 	resize(x, y, width) {
 		this.x = x;
-		this.ry = y;
+		this.ry = y + 6;
 		this.width = width;
 		this.height = 40;
-		return y + this.height;
+		return this.ry + this.height + 3;
 	}
 	update() {
 		super.update();
@@ -75,10 +93,10 @@ class ScrollingParagraph extends UIObject {
 	}
 	resize(x, y, width) {
 		this.x = x;
-		this.ry = y;
+		this.ry = y + 2;
 		this.width = width;
 		this.height = drawParagraphInRect(this.text, this.x, 0, this.width, 500, 24);
-		return y + this.height;
+		return this.ry + this.height + 2;
 	}
 	update() {
 		super.update();
@@ -153,23 +171,37 @@ class ScrollingRadioButton extends UIObject {
 	}
 }
 
-class ScrollingButton extends Button {
-	constructor(scroller, ...rest) {
-		super(...rest);
-		this.scroller = scroller;
-		this.baseY = this.y;
+class ScrollingSubmitButton extends Button {
+	constructor(text) {
+		super(text || "SUBMIT", ()=>this.parent.submit());
 	}
-	update() {
-		this.y = this.baseY - this.scroller.scroll;
-		//console.log(this.y);
-		super.update();
+	resize(x, y, width) {
+		super.resize(x+width/2-100, y, 200, 40);
+		this.ry = this.y;
+		return this.ry + this.height;
 	}
 }
 
-function bubbleDrawICredits() {
-	ctx.lineWidth = .08*this.radius;
-	ctx.textBaseline = "middle";
-	ctx.textAlign = "center";
-	ctx.font = (this.radius*5/4)+"px sans-serif";
-	ctx.fillText("c", this.x, this.y);
+class ScrollingTextInput extends UIObject {
+	constructor(id, placeholder) {
+		super();
+		this.id = id;
+		this.text = "";
+		this.placeholder = placeholder;
+	}
+	resize(x, y, width) {
+		this.x = x;
+		this.ry = y;
+		this.width = width;
+		this.height = 28;
+		return y+30;
+	}
+	update() {
+		super.update();
+		this.text = updateTextInput(this.x, this.y, this.width, this.height, this.skipped, this.text, this.placeholder);
+		this.parent.setChoice(this.id, this.text);
+	}
+	draw() {
+		
+	}
 }

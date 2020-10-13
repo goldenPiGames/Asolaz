@@ -3,7 +3,8 @@ function returnToLocation() {
 	//if (tolog.length > 0)
 	//	switchScreen(new NotificationsScene(tolog));
 	//else
-		switchScreen(new LocationScreen());
+	refreshBG();
+	switchScreen(new LocationScreen());
 }
 
 class LocationScreen extends Screen {
@@ -28,11 +29,12 @@ class LocationScreen extends Screen {
 		//this.menuButton.resize(canvas.width - 200, canvas.height - 60, 190, 50);
 	}
 	update() {
-		this.rightMenu.update();
+		this.rightMenu.update(this);
 		this.menu.update();
 	}
 	draw() {
-		this.rightMenu.draw();
+		drawBG();
+		this.rightMenu.draw(this);
 		this.menu.draw();
 		drawTextUpperRight(getCornerTime(), getLocationName());
 	}
@@ -41,12 +43,13 @@ class LocationScreen extends Screen {
 			//case "leave": switchScreen(new MapScreen()); break;
 			case "person": startConversation(thing.id); break;
 			case "roomdoor": checkRoomDoor(thing.id); break;
-			case "sleep": goToSleep(); break;
+			case "sleep": sleepFromLocation(); break;
+			case "readbooks": readAtLibrary(); break;
 		}
 	}
 }
 
-function personTalkScroll(dat) {
+function personTalkScroll(id) {
 	//console.log(dat);
 	/*if (dat.status.inRoom) {
 		return {
@@ -56,8 +59,8 @@ function personTalkScroll(dat) {
 		}
 	} else {*/
 	return {
-		id : dat.id,
+		id : id,
 		what : "person",
-		name : "Talk to " + dat.name,
+		name : "Talk to " + CHARACTER_DATA[id].name,
 	}
 }

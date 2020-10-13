@@ -1,17 +1,15 @@
 class SkillTreeMenu extends GameMenu {
 	constructor(rightMenu) {
 		super(rightMenu);
-		this.tabsCategory = new Tabs(SKILL_CATEGORIES, dat=>this.setCategory(dat), dat=>dat.id==this.categoryID);
-		this.tabsSubcategory = new BlankUIObject();
+		this.tabsSubcategory = new SkillTreeTabs(this);
 		this.skillPanels = [];
 		this.learnButton = new Button("Learn Skill", ()=>this.tryLearn());
 		this.resize();
 	}
 	resize() {
 		this.mainWidth = super.resize();
-		this.tabHeight = 64;
-		this.tabsCategory.resize(0, 0, this.mainWidth, this.tabHeight);
-		this.tabsSubcategory.resize(0, this.tabHeight, this.mainWidth, this.tabHeight);
+		this.tabHeight = Math.max(Math.min(128, this.mainWidth/SKILL_SUBCATEGORIES.length), 64);
+		this.tabsSubcategory.resize(0, 0, this.mainWidth, this.tabHeight);
 		var maxX = Math.max(...this.skillPanels.map(s=>s.data.treex));
 		var maxY = Math.max(...this.skillPanels.map(s=>s.data.treey));
 		this.skillPanels.forEach(s=>s.resize(this, maxX, maxY));
@@ -29,14 +27,12 @@ class SkillTreeMenu extends GameMenu {
 				this.selected = null;
 			}
 		} else {
-			this.tabsCategory.update();
 			this.tabsSubcategory.update();
 			this.skillPanels.forEach(s=>s.update());
 		}
 	}
 	draw() {
 		super.draw();
-		this.tabsCategory.draw();
 		this.tabsSubcategory.draw();
 		this.skillPanels.forEach(s=>s.draw());
 		if (this.selected) {
@@ -46,40 +42,37 @@ class SkillTreeMenu extends GameMenu {
 			ctx.fillRect(this.popupX, this.popupY, this.popupWidth, this.popupHeight);
 			ctx.fillStyle = palette.normal;
 			drawTextInRect(this.selected.name, this.popupX, this.popupY, this.popupWidth, 50);
-			drawParagraphInRect(this.selected.flavor, this.popupX+5, this.popupY+55, this.popupWidth-10, this.popupHeight/3 - 55, 30);
+			drawParagraphInRect(this.selected.flavor, this.popupX+5, this.popupY+55, this.popupWidth-10, this.popupHeight/3 - 55, 28);
 			if (this.known) {
 				drawTextInRect("Level "+this.known, this.popupX, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect(this.selected.vnDescs[this.known-1], this.popupX+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 30);
-				drawParagraphInRect(this.selected.rpgDescs[this.known-1], this.popupX+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 30);
+				drawParagraphInRect(this.selected.vnDescs[this.known-1], this.popupX+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 24);
+				drawParagraphInRect(this.selected.rpgDescs[this.known-1], this.popupX+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 24);
 			} else {
 				drawTextInRect("Not Learned", this.popupX, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect("Prerequisites: <br> "+(this.selected.prereqs?this.selected.prereqs.map(pr=>SKILL_DATA[pr.skill].name+" "+pr.level).join(" <br> "):"None"), this.popupX, this.popupY + this.popupHeight/3, this.popupWidth/2-5, this.popupHeight/3, 30);
+				drawParagraphInRect("Prerequisites: <br> "+(this.selected.prereqs?this.selected.prereqs.map(pr=>SKILL_DATA[pr.skill].name+" "+pr.level).join(" <br> "):"None"), this.popupX, this.popupY + this.popupHeight/3, this.popupWidth/2-5, this.popupHeight/3, 24);
 			}
 			if (this.known < this.selected.maxLevel) {
 				drawTextInRect("Level "+(this.known+1), this.popupX+this.popupWidth/2, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect(this.selected.vnDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 30);
-				drawParagraphInRect(this.selected.rpgDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 30);
-				drawTextInRect("Cost: "+this.selected.costs[this.known]+" EXP", this.popupX, this.popupY + this.popupHeight - 50, 200, 50)
+				drawParagraphInRect(this.selected.vnDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 24);
+				drawParagraphInRect(this.selected.rpgDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 24);
+				drawTextInRect("Cost: "+this.selected.costs[this.known]+" EXP", this.popupX, this.popupY + this.popupHeight - 50, 200, 40)
 			} else {
 				drawTextInRect("Max Level", this.popupX+this.popupWidth/2, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect("You have reached the maximum level in this skill.", this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/3, 30);
+				drawParagraphInRect("You have reached the maximum level in this skill.", this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/3, 24);
 			}
 			this.learnButton.draw();
 		}
-		drawTextInRect("EXP: " + data.player.exp, 0, this.tabHeight*2, 200, 50, {align:"left", fill:palette.background, stroke:palette.normal});
-	}
-	setCategory(dat) {
-		this.categoryID = dat.id;
-		this.tabsSubcategory = new Tabs(dat.subcategories, dat=>this.setSubcategory(dat), dat=>dat.id==this.subcategoryID);
-		this.skillPanels = [];
-		this.resize();
+		drawTextInRect("EXP: " + data.player.exp, 0, this.tabHeight, this.mainWidth/4, 50, {align:"left", fill:palette.background, stroke:palette.normal});
+		if (this.subcat) {
+			drawTextInRect(this.subcat.name, this.mainWidth/4, this.tabHeight, this.mainWidth/2, 50, {fill:palette.background, stroke:palette.normal});
+		}
 	}
 	setSubcategory(dat) {
-		this.subcategoryID = dat.id;
+		this.subcat = dat;
 		this.refreshSkillPanels();
 	}
 	refreshSkillPanels() {
-		this.skillPanels = SKILLS_BY_SUBCATEGORY[this.subcategoryID].map(dap=>new SkillTreePanel(dap,this));
+		this.skillPanels = SKILLS_BY_SUBCATEGORY[this.subcat.id].map(dap=>new SkillTreePanel(dap,this));
 		this.skillPanels.forEach(s=>s.findOthers(this.skillPanels));
 		this.resize();
 	}
@@ -97,6 +90,8 @@ class SkillTreeMenu extends GameMenu {
 		this.refreshSkillPanels();
 	}
 }
+
+
 
 class SkillTreePanel extends UIObject {
 	constructor(data, parent) {
@@ -127,5 +122,56 @@ class SkillTreePanel extends UIObject {
 		this.fill(this.known ? "#FFFFFF" : "#404040");
 		ctx.strokeStyle = this.clicked ? palette.click : this.hovered ? palette.hover : palette.normal;
 		this.stroke();
+	}
+}
+
+class SkillTreeTabs extends UIObject {
+	constructor(parent) {
+		super();
+		this.tabs = SKILL_SUBCATEGORIES.map(subcat=>new SkillTreeTab(subcat, this));
+		this.parent = parent;
+	}
+	resize(x, y, width, height) {
+		var widthEach = width / this.tabs.length;
+		this.tabs.forEach((t, i) => t.resize(x+i*widthEach, y, widthEach, height));
+	}
+	tabClicked(tab) {
+		this.parent.setSubcategory(tab.subcat);
+	}
+	update() {
+		this.tabs.forEach(t=>t.update());
+	}
+	draw() {
+		this.tabs.forEach(t=>t.draw());
+	}
+}
+
+class SkillTreeTab extends UIObject {
+	constructor(subcat, parent) {
+		super();
+		this.subcat = subcat;
+		this.image = makeImage("src/images/learn/"+subcat.id+".png");
+		this.parent = parent;
+	}
+	resize(x, y, width, height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+	update() {
+		super.update();
+		if (this.hovered)
+			hovered = true;
+		if (this.clicked) {
+			this.parent.tabClicked(this);
+		}
+	}
+	draw() {
+		drawImageInRect(this.image, this.x, this.y, this.width, this.height);
+		if (this.parent.parent.subcat && this.parent.parent.subcat.id == this.subcat.id) {
+			ctx.strokeStyle = palette.click;
+			this.stroke();
+		}
 	}
 }
