@@ -38,7 +38,7 @@ function playMusic(sin) {
 		music.play();
 }
 
-function switchMusic() {
+/*function switchMusic() {
 	if (song.alt) {
 		var tim = music.currentTime;
 		musicIsAlt = !musicIsAlt;
@@ -48,7 +48,7 @@ function switchMusic() {
 		music.currentTime = tim;
 		music.play();
 	}
-}
+}*/
 
 function setMusicShuffle(val) {
 	if (val) {
