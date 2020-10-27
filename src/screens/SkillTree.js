@@ -55,16 +55,16 @@ class SkillTreeMenu extends GameMenu {
 				drawTextInRect("Level "+(this.known+1), this.popupX+this.popupWidth/2, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
 				drawParagraphInRect(this.selected.vnDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 24);
 				drawParagraphInRect(this.selected.rpgDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 24);
-				drawTextInRect("Cost: "+this.selected.costs[this.known]+" EXP", this.popupX, this.popupY + this.popupHeight - 50, 200, 40)
+				drawTextInRect("Cost: "+this.selected.costs[this.known]+" Inspiration", this.popupX, this.popupY + this.popupHeight - 50, this.popupWidth/2, 40, {align:"left"});
 			} else {
 				drawTextInRect("Max Level", this.popupX+this.popupWidth/2, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
 				drawParagraphInRect("You have reached the maximum level in this skill.", this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/3, 24);
 			}
 			this.learnButton.draw();
 		}
-		drawTextInRect("EXP: " + data.player.exp, 0, this.tabHeight, this.mainWidth/4, 50, {align:"left", fill:palette.background, stroke:palette.normal});
+		drawTextInRect("Inspiration: " + data.player.inspiration, 0, this.tabHeight, this.mainWidth*3/8, 50, {align:"left", fill:palette.background, stroke:palette.normal});
 		if (this.subcat) {
-			drawTextInRect(this.subcat.name, this.mainWidth/4, this.tabHeight, this.mainWidth/2, 50, {fill:palette.background, stroke:palette.normal});
+			drawTextInRect(this.subcat.name, this.mainWidth*3/8, this.tabHeight, this.mainWidth/4, 50, {fill:palette.background, stroke:palette.normal});
 		}
 	}
 	setSubcategory(dat) {
@@ -81,17 +81,27 @@ class SkillTreeMenu extends GameMenu {
 		this.known = playerSkillKnown(this.selected.id);
 		this.learnButton.text = this.known ? "Upgrade Skill" : "Learn Skill";
 		this.prereqsMet = this.known || playerSkillPrereqsMet(this.selected.id);
-		this.learnButton.active = this.prereqsMet && data.player.exp >= this.selected.costs[this.known];
+		this.learnButton.active = this.prereqsMet && data.player.inspiration >= this.selected.costs[this.known];
 	}
 	tryLearn() {
-		data.player.exp -= this.selected.costs[this.known];
+		data.player.inspiration -= this.selected.costs[this.known];
 		data.player.skills[this.selected.id] = this.known + 1;
 		this.selected = null;
 		this.refreshSkillPanels();
 	}
 }
 
-
+class SkillLearnSubmenu {
+	constructor() {
+		
+	}
+	update() {
+		
+	}
+	draw() {
+		
+	}
+}
 
 class SkillTreePanel extends UIObject {
 	constructor(data, parent) {
@@ -100,6 +110,7 @@ class SkillTreePanel extends UIObject {
 		this.data = data;
 		this.parent = parent;
 		this.known = playerSkillKnown(this.id);
+		this.image = makeImage("src/images/skills/"+this.id+".png");
 	}
 	findOthers(list) {
 		this.others = list;
@@ -120,6 +131,7 @@ class SkillTreePanel extends UIObject {
 	}
 	draw() {
 		this.fill(this.known ? "#FFFFFF" : "#404040");
+		drawImageInRect(this.image, this.x, this.y, this.width, this.height);
 		ctx.strokeStyle = this.clicked ? palette.click : this.hovered ? palette.hover : palette.normal;
 		this.stroke();
 	}

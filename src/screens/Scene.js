@@ -1,7 +1,11 @@
 const SCENES = {};
 
 function startScene(s) {
-	switchScreen(new SceneScreen(s));
+	switchScreen(new SceneScreenFull(s));
+}
+
+function startPopupScene(s) {
+	switchScreen(new SceneScreenPopup(s, runnee));
 }
 
 class SceneScreen extends Screen {
@@ -9,10 +13,14 @@ class SceneScreen extends Screen {
 		super();
 		if (typeof s == "string") {
 			this.scene = SCENES[s];
+		} else if (Array.isArray(s)) {
+			this.scene = {
+				log : s,
+			}
 		} else if (typeof s == "object") {
 			this.scene = s;
 		} else {
-			
+			throwMaybe("No such scene as "+s);
 		}
 		this.charImg = new CharImgHandler();
 		if (this.scene)
@@ -61,8 +69,6 @@ class SceneScreen extends Screen {
 		}
 	}
 	draw() {
-		drawBG();
-		this.rightMenu.draw(this);
 		this.charImg.draw();
 		if (this.text) {
 			ctx.fillStyle = palette.normal;
@@ -103,6 +109,9 @@ class SceneScreen extends Screen {
 			this.buildChoices();
 		} else {
 			this.choiceButtons = null;
+		}
+		if (this.line.music) {
+			playMusic(this.line.music);
 		}
 		if (this.line.location) {
 			changeLocation(this.line.location);
@@ -145,11 +154,33 @@ class SceneScreen extends Screen {
 			}
 		}
 	}
-	logEnded() {
-		this.returnToLocation();
-	}
 	returnToLocation() {
 		autosave();
 		switchScreen(new LocationScreen());
+	}
+}
+
+class SceneScreenFull extends SceneScreen {
+	draw() {
+		drawBG();
+		this.rightMenu.draw(this);
+		super.draw();
+	}
+	logEnded() {
+		this.returnToLocation();
+	}
+}
+
+class SceneScreenPopup extends SceneScreen {
+	constructor(s, returnTo) {
+		super(s);
+		this.returnTo = returnTo;
+	}
+	draw() {
+		this.returnTo.draw();
+		super.draw();
+	}
+	logEnded() {
+		switchScreen(this.returnTo);
 	}
 }

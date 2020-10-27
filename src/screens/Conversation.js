@@ -9,7 +9,7 @@ function startConversation(character) {
 	switchScreen(new ConversationScreen(character))
 }
 
-class ConversationScreen extends SceneScreen {
+class ConversationScreen extends SceneScreenFull {
 	constructor(character) {
 		super();
 		setCharacterFocus(character);

@@ -145,4 +145,7 @@ CHARACTER_DATA.alexia = {
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//10pm
 	],
+	credits3d : [
+		{what:"All Renders", name:"Lab Rats", by:"Vren", patreon:"vrengames"},
+	]
 }

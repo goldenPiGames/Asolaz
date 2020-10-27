@@ -1,5 +1,14 @@
 var rightMenuLastOpened = "load";
 
+const RIGHTMENU_MAINMENU = {
+	last : LoadMenu,
+	list : [
+		{id:"load", name:"Load", cons:LoadMenu},
+		{id:"jukebox", name:"Jukebox", cons:JukeboxSubscreen},
+		{id:"settings", name:"Settings", cons:SettingsMenu},
+	],
+}
+
 const RIGHTMENU_LOCATION = {
 	last : MapMenu,
 	list : [
@@ -8,9 +17,9 @@ const RIGHTMENU_LOCATION = {
 		{id:"map", name:"Map", cons:MapMenu},
 		{id:"people", name:"People", cons:PeopleMenu},
 		{id:"learn", name:"Learn", cons:SkillTreeMenu},
-		{id:"save", name:"Save", cons:SaveMenu},
-		{id:"load", name:"Load", cons:LoadMenu},
-		//{id:"settings", name:"Settings", cons:SettingsMenu},
+		//{id:"jukebox", name:"Jukebox", cons:JukeboxSubscreen},
+		{id:"settings", name:"Settings", cons:SettingsMenu},
+		{id:"saveload", name:"Save", cons:SaveLoadMenu},
 	],
 }
 

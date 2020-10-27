@@ -1,6 +1,6 @@
 BOOK_DATA.arcbasics_arcana = {
 	title : "Basics of Arcana",
-	exp : 5,
+	inspiration : 5,
 	section : "psionics",
 	text : `Arcana is a form of supernatural power that affects the physical world in various ways. <br>
 	Arcana is typically divided into four subcategories: Energy, Matter, Body, and Meta. <br>

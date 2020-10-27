@@ -33,6 +33,11 @@ function evalCharReqs(thing, character = characterFocus) {
 				return data.characters[character].location == thing.location;
 			case "pbody":
 				return data.player.body[thing.part];
+			case "license":
+				if (thing.has == false)
+					return !data.player.licenses[thing.license]
+				else
+					return data.player.licenses[thing.license];
 			default:
 				console.log(thing);
 				throwMaybe(thing.type + " is not a valid req type.");

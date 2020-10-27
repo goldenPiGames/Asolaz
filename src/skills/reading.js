@@ -9,6 +9,18 @@ SKILL_DATA.read_basic = {
 	treex : 1,
 	treey : 1,
 }
+SKILL_DATA.read_attack = {
+	name : "Read Defense",
+	flavor : "Something something read .",
+	costs : [10],
+	vnDescs : ["Something, haven't decided yet."],
+	rpgDescs : ["Know the offenses of enemies in combat."],
+	prereqs : [{skill:"read_basic", level:1}],
+	category : "psionic",
+	subcategory : "reading",
+	treex : 1,
+	treey : 2,
+}
 SKILL_DATA.read_defense = {
 	name : "Read Defense",
 	flavor : "By searching for the target's confidences and fears, you can get an idea of what they can or can't defend themselves against.",
@@ -43,4 +55,19 @@ SKILL_DATA.track = {
 	subcategory : "reading",
 	treex : 3,
 	treey : 1,
+}
+
+function canPlayerReadStat(stat) {
+	var skill = ""
+	switch (stat) {
+		case STAT_HP_MAX: skill = "read_basic"; break;
+		case STAT_MP_MAX: skill = "read_basic"; break;
+		case STAT_MARTIAL_OFFENSE: skill = "read_attack"; break;
+		case STAT_PSIONIC_OFFENSE: skill = "read_attack"; break;
+		case STAT_ARCANE_OFFENSE: skill = "read_attack"; break;
+		case STAT_MARTIAL_DEFENSE: skill = "read_defense"; break;
+		case STAT_PSIONIC_DEFENSE: skill = "read_defense"; break;
+		case STAT_ARCANE_DEFENSE: skill = "read_defense"; break;
+	}
+	return playerSkillKnown(skill);
 }

@@ -8,24 +8,22 @@ People: https://game-icons.net/1x1/delapouite/id-card.html
 
 Map : https://game-icons.net/1x1/lorc/treasure-map.html
 
+Jukebox : https://game-icons.net/1x1/lorc/double-quaver.html
+
+Settings : https://game-icons.net/1x1/darkzaitzev/big-gear.html
+
 Martial: https://game-icons.net/1x1/skoll/fist.html
-
 Social: https://game-icons.net/1x1/skoll/talk.html
-
 Technology: https://game-icons.net/1x1/delapouite/laptop.html
-
 Reading: https://game-icons.net/1x1/lorc/book-aura.html
-
 Sensory: https://game-icons.net/1x1/delapouite/eye-target.html
-
 Autopsi: https://game-icons.net/1x1/lorc/brain-stem.html
-
 Control: https://game-icons.net/1x1/lorc/spiral-tentacle.html
-
 Energy: https://game-icons.net/1x1/lorc/materials-science.html
-
 Matter: https://game-icons.net/1x1/lorc/materials-science.html
-
 Body: https://game-icons.net/1x1/lorc/internal-injury.html
-
 Arcmeta: https://game-icons.net/1x1/lorc/wizard-staff.html
+
+Basic Attack: https://game-icons.net/1x1/lorc/stiletto.html
+Power Attack: https://game-icons.net/1x1/lorc/pointy-sword.html
+Sonic Raid: https://game-icons.net/1x1/lorc/diving-dagger.html

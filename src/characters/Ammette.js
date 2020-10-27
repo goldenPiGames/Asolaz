@@ -174,4 +174,15 @@ CHARACTER_DATA.ammette = {
 		{location:"cafeteria", status:SCHEDULE_EATING},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm
 	],
+	credits3d : [
+		{what:"Base Model", name:"Genesis 8 Female", by:"DAZ 3D", daz:"genesis-8-starter-essentials"},
+		{what:"Morphs", name:"Adriana", by:"Zia", sharecg:94159, renderosity:82827},
+		{what:"Hair", name:"Samantha Traynor", by:"TaliDesade", deviantart:"talidesade/art/Samantha-Traynor-Genesis-8-DOWNLOAD-UPDATED-801537378"},
+		{what:"Suit", name:"Suit", by:"Adam Thwaites", mostdigitalcreations:"g8f_suit"},
+		{what:"Suit Texture", name:"Original", by:"goldenPiGames"},
+		{what:"Shoes", name:"Stiletto High Heel Sandals", by:"Vorlath", sharecg:90094},
+		{what:"Standing Pose", name:"Original", by:"goldenPiGames"},
+		{what:"Genitalia", name:"Golden Palace", by:"meipe", sites:[{name:"Renderotica", href:"https://www.renderotica.com/store/sku/57311_Golden-Palace-For-Genesis-8-Female"}], adult:true, paid:true},
+		{what:"Standing Pose (nude)", name:"WkD3D Casual Standing Poses", by:"tomcatoliver", renderosity:86168},
+	],
 }

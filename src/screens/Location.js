@@ -41,6 +41,7 @@ class LocationScreen extends Screen {
 	thingClicked(thing) {
 		switch (thing.what) {
 			//case "leave": switchScreen(new MapScreen()); break;
+			case "scene": startScene(thing.id); break;
 			case "person": startConversation(thing.id); break;
 			case "roomdoor": checkRoomDoor(thing.id); break;
 			case "sleep": sleepFromLocation(); break;

@@ -1,8 +1,13 @@
 function checkRoomDoor(car) {
-	switchScreen(new RoomDoorScreen(car));
+	startScene({
+		log : [
+			"Nothing to do here.",
+		]
+	});
+	//switchScreen(new RoomDoorScreen(car));
 }
 
-class RoomDoorScreen extends SceneScreen {
+class RoomDoorScreen extends SceneScreenFull {
 	constructor(character) {
 		super();
 		setCharacterFocus(character);

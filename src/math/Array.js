@@ -34,6 +34,21 @@ function slice2d(ray) {
 	return ray.map(row=>row.slice());
 }
 
+function spreadEverything(...ray) {
+	var blut = [];
+	spreadEverythingSub(blut, ...ray);
+	return blut;
+}
+
+function spreadEverythingSub(blut, ...ray) {
+	ray.forEach(o=>{
+		if (Array.isArray(o))
+			spreadEverythingSub(blut, ...o);
+		else
+			blut.push(o);
+	});
+}
+
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
 // https://tc39.github.io/ecma262/#sec-array.prototype.findindex
 Object.defineProperty(Array.prototype, 'findIndexFrom', {

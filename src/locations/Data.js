@@ -76,9 +76,16 @@ const LOCATION_DATA = {
 	"arena" : {
 		name : "Arena",
 		area : "campusmain",
-		pois : [],
+		pois : [
+			{
+				name:"Combat license",
+				what:"scene",
+				id:"combatlicense_intro",
+				reqs:[{type:"license", license:"combat", has:false}],
+			}
+		],
 		images : {
-			"all" : "arena.jpg",//TODO
+			"all" : "arena.png",
 		}
 	},
 	"stadium" : {
@@ -127,7 +134,7 @@ function getLocationMenuList() {
 }
 
 function getLocationPOIsScroll() {
-	return LOCATION_DATA[data.location].pois.map(getLocationPOIScroll);
+	return LOCATION_DATA[data.location].pois.filter(p=>evalCharReqs(p)).map(getLocationPOIScroll);
 }
 
 function getLocationPOIScroll(bap) {

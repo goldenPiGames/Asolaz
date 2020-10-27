@@ -8,7 +8,7 @@ var inputs;
 
 function initInputs() {
 	test100 = document.getElementById("Test100");
-	for (var i = 0; i < 100; i++) {
+	for (var i = 0; i < NUM_TEXT_INPUTS; i++) {
 		textInputs[i] = document.getElementById("TextInput"+i);
 	}
 	fileInput = document.getElementById("FileInput");

@@ -2,9 +2,9 @@ var data = {};
 
 function begin() {
 	getUI();
-	applySettings();
+	loadSettings();
 	addEvents();
-	if (VERSION_ADULT) {
+	if (VERSION_ADULT && !settings.adultDontAsk) {
 		switchScreen(new AdultWarningScreen());
 	} else {
 		switchScreen(new MainMenu());
@@ -67,14 +67,14 @@ function drawTextInRect(text, x, y, width, height, opts = {}) {
 	var wid = ctx.measureText(text).width;
 	if (wid > width)
 		ctx.font = (height*width/wid)+"px "+settings.font;
-	if (opts.fillStyle || opts.fill)
-		ctx.fillStyle = opts.fillStyle || opts.fill;
-	ctx.fillText(text, x+width/2, y+height/2);
 	if (opts.strokeStyle || opts.stroke) {
 		ctx.lineWidth = 2;
 		ctx.strokeStyle = opts.strokeStyle || opts.stroke;
 		ctx.strokeText(text, x+width/2, y+height/2);
 	}
+	if (opts.fillStyle || opts.fill)
+		ctx.fillStyle = opts.fillStyle || opts.fill;
+	ctx.fillText(text, x+width/2, y+height/2);
 }
 
 function drawParagraphInRect(text, x, y, width, height, size) {
@@ -178,4 +178,9 @@ function throwMaybe(...args) {
 	} else {
 		console.log(...args);
 	}
+}
+
+function openNewTab(href) {
+	window.open(href);
+	mouse.down = false;
 }

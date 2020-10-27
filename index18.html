@@ -4,6 +4,7 @@
 		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 		<meta content="utf-8" http-equiv="encoding">
 		<title>Asolaz</title>
+		<link rel="shortcut icon" type="image/png" href="favicon.png">
 		<style>
 			body {
 				font-family : monospace;
@@ -37,6 +38,9 @@
 				position: absolute;
 			}
 		</style>
+		<script>
+			const VERSION_ADULT = true;
+		</script>
 		<script type="text/javascript" src="src/Main.js"></script>
 		<script type="text/javascript" src="src/VersionBefore.js"></script>
 		<script type="text/javascript" src="src/UI.js"></script>
@@ -44,12 +48,15 @@
 		<script type="text/javascript" src="src/Settings.js"></script>
 		<script type="text/javascript" src="src/Controller.js"></script>
 		
+		<!-- UI -->
 		<script type="text/javascript" src="src/Engine.js"></script>
 		<script type="text/javascript" src="src/math/Array.js"></script>
+		<script type="text/javascript" src="src/math/RNG.js"></script>
 		<script type="text/javascript" src="src/uiobjects/UIObjectBase.js"></script>
 		<script type="text/javascript" src="src/uiobjects/Button.js"></script>
 		<script type="text/javascript" src="src/uiobjects/ScrollMenu.js"></script>
 		<script type="text/javascript" src="src/uiobjects/Tabs.js"></script>
+		<script type="text/javascript" src="src/uiobjects/Logo.js"></script>
 		<script type="text/javascript" src="src/uiobjects/ScrollForm.js"></script>
 		<script type="text/javascript" src="src/uiobjects/TextInput.js"></script>
 		<script type="text/javascript" src="src/screens/super.js"></script>
@@ -62,12 +69,26 @@
 		<script type="text/javascript" src="src/screens/Map.js"></script>
 		<script type="text/javascript" src="src/screens/SkillTree.js"></script>
 		<script type="text/javascript" src="src/screens/People.js"></script>
-		<script type="text/javascript" src="src/uiobjects/RightMenu.js"></script>
+		<script type="text/javascript" src="src/screens/Settings.js"></script>
 		<script type="text/javascript" src="src/experience.js"></script>
+		<script type="text/javascript" src="src/screens/Credits.js"></script>
 		
+		<!-- Audio -->
+		<script type="text/javascript" src="src/audio/Music.js"></script>
+		<script type="text/javascript" src="src/audio/SongData.js"></script>
+		<script type="text/javascript" src="src/audio/Jukebox.js"></script>
+		<script type="text/javascript" src="src/audio/Recommend.js"></script>
+		<script type="text/javascript" src="src/audio/SFX.js"></script>
+		
+		<script type="text/javascript" src="src/uiobjects/RightMenu.js"></script>
+		
+		<!-- Combat part 1 -->
 		<script type="text/javascript" src="src/combat/Stats.js"></script>
 		<script type="text/javascript" src="src/combat/Action.js"></script>
+		<script type="text/javascript" src="src/combat/Animation.js"></script>
+		<script type="text/javascript" src="src/combat/AI.js"></script>
 		
+		<!-- Skills -->
 		<script type="text/javascript" src="src/skills/Data.js"></script>
 		<script type="text/javascript" src="src/skills/martial.js"></script>
 		<script type="text/javascript" src="src/skills/tech.js"></script>
@@ -82,6 +103,7 @@
 		<script type="text/javascript" src="src/skills/arcmeta.js"></script>
 		<script type="text/javascript" src="src/skills/After.js"></script>
 		
+		<!-- Characters and stuff -->
 		<script type="text/javascript" src="src/Time.js"></script>
 		<script type="text/javascript" src="src/Notifications.js"></script>
 		<script type="text/javascript" src="src/locations/Data.js"></script>
@@ -98,24 +120,33 @@
 		<script type="text/javascript" src="src/character/Memory.js"></script>
 		<script type="text/javascript" src="src/locations/Rooms.js"></script>
 		
+		<!-- Books -->
 		<script type="text/javascript" src="src/books/Before.js"></script>
 		<script type="text/javascript" src="src/books/history.js"></script>
 		<script type="text/javascript" src="src/books/arcana.js"></script>
 		<script type="text/javascript" src="src/books/psionics.js"></script>
 		<script type="text/javascript" src="src/books/After.js"></script>
 		
+		<!-- Combat part 2 -->
 		<script type="text/javascript" src="src/combat/Unit.js"></script>
 		<script type="text/javascript" src="src/combat/Screen.js"></script>
+		<script type="text/javascript" src="src/combat/UnitDrawer.js"></script>
+		<script type="text/javascript" src="src/combat/Spoils.js"></script>
 		
+		<!-- Enemies -->
+		<script type="text/javascript" src="src/enemies/PunchingBag.js"></script>
+		
+		<!-- Scenes -->
 		<script type="text/javascript" src="src/screens/OpeningLetter.js"></script>
 		<script type="text/javascript" src="src/scenes/Opening.js"></script>
 		<script type="text/javascript" src="src/scenes/Sleep.js"></script>
+		<script type="text/javascript" src="src/scenes/CombatLicense.js"></script>
 		<script type="text/javascript" src="src/scenes/RoomDoor.js"></script>
 		
+		<!-- Other-->
 		<script type="text/javascript" src="src/images/handler.js"></script>
 		
-		<script type="text/javascript" src="src/scenes/About.js"></script>
-		
+		<!-- The Secks -->
 		<script type="text/javascript" src="src/screens/AdultWarning.js"></script>
 		<script type="text/javascript" src="src/scenes18/Before.js"></script>
 		<script type="text/javascript" src="src/scenes18/Cora.js"></script>
@@ -132,9 +163,9 @@
 			<input id="TextInput0" class="TextInput" type="text" hidden />
 			<input id="TextInput1" class="TextInput" type="text" hidden />
 			<input id="FileInput" type="file" accept="application/json" hidden />
+			<audio id="Music" preload="auto" controls="none" style="display:none"></audio>
 		</div>
 		<script>
-			const VERSION_ADULT = true;
 			begin();
 		</script>
 	</body>

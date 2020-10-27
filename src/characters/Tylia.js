@@ -179,4 +179,14 @@ CHARACTER_DATA.tylia = {
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//10pm
 	],
+	credits3d : [
+		{what:"Base Model", name:"Genesis 8 Male", by:"DAZ 3D", daz:"genesis-8-starter-essentials"},
+		{what:"Morphs, Textures, Sweater, Skirt", name:"Diana", by:"RenderGuyNY", sharecg:92884},
+		{what:"Additional Morphs", name:"Transgender", by:"AgentUnawarese", deviantart:"agentunawares/art/Transgender-Genesis-8-723851486"},
+		{what:"Hair", name:"Charm Hair", by:"DAZ 3D", daz:"charm-hair"},
+		{what:"Thighhighs", name:"Pretty Look", by:"zoro_d", renderosity:83823},
+		{what:"Standing Pose", name:"WkD3D Casual Standing Poses", by:"tomcatoliver", renderosity:86168},
+		{what:"Genitalia", name:"Dicktator", by:"meipe", sites:[{name:"Renderotica", href:"https://www.renderotica.com/store/sku/57748_Dicktator-For-Genesis-8-Male"}], adult:true, paid:true},
+		{what:"Anal against Wall pose", name:"Original", by:"goldenPiGames", adult:true},
+	]
 }

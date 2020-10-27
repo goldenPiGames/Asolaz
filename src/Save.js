@@ -1,9 +1,10 @@
-var slotLastUsed = null;
+var slotLastUsed = localStorage.getItem("AsolazSlotLastUsed") || "A";
 
 function saveGame(slot) {
 	localStorage.setItem("AsolazSlot"+slot, JSON.stringify(data));
 	if (slot != "A") {
 		slotLastUsed = slot;
+		localStorage.setItem("AsolazSlotLastUsed", slot);
 		saveGame("A");
 	}
 }
@@ -21,6 +22,7 @@ function loadGame(slot) {
 	});
 	if (slot != "A") {
 		slotLastUsed = slot;
+		localStorage.setItem("AsolazSlotLastUsed", slot);
 		saveGame("A");
 	}
 	//resumeGame();
@@ -41,7 +43,10 @@ function newGameData() {
 		player : {
 			id : "player",
 			waketime : 7,
+			inspiration : 0,
+			combatExperience : 0,
 			booksRead : {},
+			licenses : {},
 		},
 		characters : {
 			

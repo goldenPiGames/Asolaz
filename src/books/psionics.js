@@ -1,6 +1,6 @@
 BOOK_DATA.psibasics_psionics = {
 	title : "Basics of Psionics",
-	exp : 5,
+	inspiration : 5,
 	section : "psionics",
 	text : `	Psionics are a form of supernatural power that affect the mind. <br>
 	Psionics and arcana are crucially distinct. To put it simply, psionics affect the mind while arcana affects physical objects. To put it less simply, while arcana is a manipulation of the discrepancy between real-space and imaginary-space, psionics is a manipulation of imaginary-space itself using 6real-space as a partial conduit. <br>
@@ -14,7 +14,7 @@ BOOK_DATA.psibasics_psionics = {
 
 BOOK_DATA.psibasics_reading = {
 	title : "Basics of Reading",
-	exp : 5,
+	inspiration : 5,
 	section : "psionics",
 	text : `	One of the easiest and simplest uses of psionics is mind reading. From knowing a person's name before they tell you, to finding out how they feel about you, to unlocking their deepest, darkest secrets, reading is an essential and useful skill for any psion. <br>
 	Basic reading is completely safe for the prying psion. It is impossible for the target to recognize reading being used against them, however aware they may be. Reading simply does not have even the slightest impact on the target's mind that they could use to recognize the attempt. However, it is not difficult for an individual versed in psionics to passively block any attempts at reading. <br> 

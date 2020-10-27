@@ -20,24 +20,30 @@ class GameMenu extends Screen {
 }
 
 class FilesMenu extends GameMenu {
-	constructor(rightMenu, buttonName) {
+	constructor(rightMenu) {
 		super(rightMenu);
-		var tabsData = [];
-		for (var i = 1; i <= 10; i++) {
+		var tabsData = [{
+			id : "A",
+			name : "A",
+		}];
+		for (var i = 1; i <= 9; i++) {
 			tabsData.push({
 				id : i,
 				name : i.toString(),
 			});
 		}
 		this.tabsPage = new Tabs(tabsData, dat=>this.changeSlot(dat.id), dat=>dat.id==this.slot);
-		this.activateButton = new Button(buttonName, ()=>this.activate());
+		this.saveButton = new Button("Save", ()=>this.save(), this.canSave);
+		this.loadButton = new Button("Load", ()=>this.load(), this.canLoad);
+		this.changeSlot(slotLastUsed);
 		this.resize();
 	}
 	resize() {
 		var mainWidth = super.resize();
-		var tabHeight = 64;
+		var tabHeight = 100;
 		this.tabsPage.resize(0, 0, mainWidth, tabHeight);
-		this.activateButton.resize(mainWidth/2-100, canvas.height-tabHeight, 200, tabHeight);
+		this.saveButton.resize(mainWidth/2-200, canvas.height-tabHeight, 200, tabHeight);
+		this.loadButton.resize(mainWidth/2, canvas.height-tabHeight, 200, tabHeight);
 		this.popupX = 50;
 		this.popupY = tabHeight*3;
 		this.popupWidth = mainWidth-100;
@@ -46,12 +52,14 @@ class FilesMenu extends GameMenu {
 	update() {
 		super.update();
 		this.tabsPage.update();
-		this.activateButton.update();
+		this.saveButton.update();
+		this.loadButton.update();
 	}
 	draw() {
 		super.draw();
 		this.tabsPage.draw();
-		this.activateButton.draw();
+		this.saveButton.draw();
+		this.loadButton.draw();
 		if (this.slot) {
 			ctx.fillStyle = palette.background;
 			ctx.fillRect(this.popupX, this.popupY, this.popupWidth, this.popupHeight);
@@ -67,24 +75,12 @@ class FilesMenu extends GameMenu {
 		}
 		this.peekPara = this.peekData.player.name + " <br> " + getCornerTime(this.peekData.time);
 	}
-}
-
-class SaveMenu extends FilesMenu {
-	constructor(rightMenu) {
-		super(rightMenu, "Save");
-	}
-	activate() {
+	save() {
 		saveGame(this.slot);
-		saveGame("A");
+		//saveGame("A");
 		this.changeSlot(this.slot);
 	}
-}
-
-class LoadMenu extends FilesMenu {
-	constructor(rightMenu) {
-		super(rightMenu, "Load");
-	}
-	activate() {
+	load() {
 		try {
 			loadGame(this.slot);
 			returnToLocation();
@@ -93,3 +89,15 @@ class LoadMenu extends FilesMenu {
 		}
 	}
 }
+
+class SaveLoadMenu extends FilesMenu {
+	
+}
+SaveLoadMenu.prototype.canSave = true;
+SaveLoadMenu.prototype.canLoad = true;
+
+class LoadMenu extends FilesMenu {
+	
+}
+LoadMenu.prototype.canSave = false;
+LoadMenu.prototype.canLoad = true;

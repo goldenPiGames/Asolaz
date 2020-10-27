@@ -34,7 +34,7 @@ class OpeningLetter extends Screen {
 			] : []),
 			new ScrollingHeading("Background"),
 			new ScrollingParagraph("What were your plans before being accepted to Asolaz?"),
-			new ScrollingParagraph("You can make a new start for yourself at Asolaz. Your background will not limit your opportunites, but it will determine your starting experience points, skills, combat level, stats, items, and money."),
+			new ScrollingParagraph("You can make a new start for yourself at Asolaz. Your background will not limit your opportunites, but it will determine your starting inspiration, skills, combat level, stats, items, and money."),
 			new ScrollingRadioButtons("background", OPENING_BACKGROUNDS),
 			new ScrollingSubmitButton(),
 		], dat=>this.submitForm(dat));
@@ -56,8 +56,8 @@ class OpeningLetter extends Screen {
 		}
 		data.player.name = dat.name;
 		data.player.gender = dat.gender.gender;
-		data.player.cl = dat.background.cl;
-		data.player.exp = dat.background.exp;
+		data.player.combatLevel = dat.background.combatLevel;
+		data.player.inspiration = dat.background.inspiration;
 		data.player.money = dat.background.money;
 		data.player.skills = dat.background.skills;
 		if (VERSION_ADULT) {
@@ -96,26 +96,30 @@ const OPENING_MONEY_HIGH = 800;
 const OPENING_BACKGROUNDS = [
 	{
 		name : "Undecided",
-		cl : 11,
-		exp : 100,
+		flavor : "You haven't decided what to do with your life. You were just searching when you got this letter.",
+		combatLevel : 11,
+		inspiration : 100,
 		money : OPENING_MONEY_HIGH,
 		skills : {
 			
 		},
 	},
 	{
-		name : "Worker",
-		cl : 12,
-		exp : 60,
+		name : "Laborer",
+		flavor : "You work in a trade of hard manual labor.",
+		combatLevel : 11,
+		inspiration : 60,
 		money : OPENING_MONEY_MEDIUM,
 		skills : {
+			power_attack : 1,
 			//worker : 1,
 		},
 	},
 	{
 		name : "Entrepeneur",
-		cl : 10,
-		exp : 40,
+		flavor : "You're an investor or businessperson.",
+		combatLevel : 10,
+		inspiration : 40,
 		money : OPENING_MONEY_HIGH,
 		skills : {
 			//online investor
@@ -124,55 +128,76 @@ const OPENING_BACKGROUNDS = [
 	},
 	{
 		name : "Police",
-		cl : 12,
-		exp : 20,
+		flavor : "You're in training or active service as a member of law enforcement.",
+		combatLevel : 12,
+		inspiration : 20,
 		money : OPENING_MONEY_LOW,
 		skills : {
+			sonic_raid : 1,
 			//combat skills
 		},
 	},
-	{
+	/*{
 		name : "Investigator",
-		cl : 12,
-		exp : 20,
+		combatLevel : 10,
+		inspiration : 20,
 		money : OPENING_MONEY_LOW,
-		skills : {
-			//combat skills
-		},
-	},
-	{
-		name : "Soldier",
-		cl : 14,
-		exp : 30,
-		money : OPENING_MONEY_MEDIUM,
 		skills : {
 			
+		},
+	},*/
+	{
+		name : "Soldier",
+		flavor : "You're in training or active service as an enlisted member of an army.",
+		combatLevel : 14,
+		inspiration : 30,
+		money : OPENING_MONEY_LOW,
+		skills : {
+			power_attack : 1,
+			sonic_raid : 1,
 		},
 	},
 	{
 		name : "Military officer",
-		cl : 13,
-		exp : 20,
+		flavor : "You're in an academy or active service as a comissioned officer in an army.",
+		combatLevel : 13,
+		inspiration : 20,
 		money : OPENING_MONEY_MEDIUM,
 		skills : {
-			
+			sonic_raid : 1,
 		},
 	},
 	{
 		name : "Battlemage",
-		cl : 13,
-		exp : 20,
+		flavor : "You're in an academy or active service as a magic-wielding specialist in an army.",
+		combatLevel : 13,
+		inspiration : 20,
 		money : OPENING_MONEY_MEDIUM,
 		skills : {
 			force_dart : 1,
 		},
 	},
+	/*{
+		name : "Thief",
+		flavor : "You've made a living out of stealth-related crime, such as burglary or pickpocketing.",
+		combatLevel : 11,
+		inspiration : 20,
+		money : OPENING_MONEY_MEDIUM,
+		skills : {
+			//force_dart : 1,
+		},
+	},*/
 ]
 
 OPENING_BACKGROUNDS.forEach(b => {
-	b.paragraph = "Combat level: " + b.cl +
-		" <br> Unspent experience: " + b.exp +
+	var snames = [];
+	for (var sid in b.skills) {
+		snames.push(SKILL_DATA[sid].name);
+	}
+	b.paragraph = "Combat level: " + b.combatLevel +
+		" <br> Money: " + b.money +
+		" <br> Inspiration: " + b.inspiration +
 		//" <br> Items: " + b.items.map(,
-		" <br> Skills: ";
-	
+		" <br> Skills: " + snames.join(", ") +
+		" <br> " + b.flavor;
 });

@@ -2,7 +2,7 @@
 class AdultWarningScreen extends Screen {
 	constructor() {
 		super();
-		this.continueButton = new Button("Continue (I am 18 or older)", ()=>switchScreen(new MainMenu()));
+		this.continueButton = new Button("Continue (I am 18 or older)", ()=>this.contin());
 		this.leaveButton = new Button("Go to non-adult version", ()=>this.doChildrens());
 		this.resize();
 	}
@@ -22,7 +22,12 @@ class AdultWarningScreen extends Screen {
 		this.leaveButton.draw();
 	}
 	doChildrens() {
-		window.open(VERSION_URL_SAFE);
+		openNewTab(VERSION_URL_SAFE);
 		coreEngine.stop();
+	}
+	contin() {
+		settings.adultDontAsk = true;
+		saveSettings();
+		switchScreen(new MainMenu());
 	}
 }

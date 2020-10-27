@@ -1,19 +1,16 @@
-SKILL_DATA.psi_acquaint = {
+/*SKILL_DATA.psi_acquaint = {
 	name : "Fast Friends",
 	flavor : "Makes a target think that you're friends with it.",
 	costs : [50],
 	vnDescs : ["Increases Acquaintance with a person."],
-	statBoosts : {
-		
-	},
 	category : "psionic",
 	subcategory : "control",
-	treex : 2,
+	treex : 1,
 	treey : 1,
-}
+}*/
 
 
-SKILL_DATA.blackout = {
+/*SKILL_DATA.blackout = {
 	name : "Blackout",
 	flavor : "Put the target into an altered state of consciousness in which it cannot form new memories and is more susceptible to hypnotic suggestion.",
 	costs : [80],
@@ -22,8 +19,8 @@ SKILL_DATA.blackout = {
 	category : "psionic",
 	subcategory : "control",
 	treex : 2,
-	treey : 1,
-}
+	treey : 2,
+}*/
 
 /*SKILL_DATA.blackout_suppress = {
 	name : "Suppress",

@@ -9,7 +9,7 @@ function getUI() {
 	canvas = document.getElementById("MainCanvas");
 	ctx = canvas.getContext("2d");
 	initInputs();
-	
+	initMusic();
 	/*UI.log = document.getElementById("Log");
 	UI.choices = [];
 	for (var i = 0; i < NUM_CHOICES; i++) {

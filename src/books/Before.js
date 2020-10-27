@@ -97,7 +97,7 @@ class LibraryMenu extends Screen {
 	returnFromReading(book) {
 		this.turnsLeft--;
 		if (!data.player.booksRead[book.id]) {
-			earnExperience(book.exp);
+			earnExperience(book.inspiration);
 			data.player.booksRead[book.id] = true;
 			this.setSection(LIBRARY_SECTION_DATA[book.section]);
 		}

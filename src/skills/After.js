@@ -10,5 +10,12 @@ for (id in SKILL_DATA) {
 		dat.vnDescs = new Array(dat.maxLevel).fill("No effect outside of dungeons or battles.");
 	if (!dat.rpgDescs)
 		dat.rpgDescs = new Array(dat.maxLevel).fill("No effect in dungeons or battles.");
+	if (dat.rpgActions) {
+		dat.rpgActions.forEach(l=>l.forEach(a=>{
+			//console.log(a);
+			a.prototype.skillID = id;
+			//console.log(a.prototype);
+		}));
+	}
 	SKILLS_BY_SUBCATEGORY[SKILL_DATA[id].subcategory].push(SKILL_DATA[id]);
 }

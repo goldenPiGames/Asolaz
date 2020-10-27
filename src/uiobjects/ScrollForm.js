@@ -21,7 +21,7 @@ class ScrollForm extends UIObject {
 			y = o.resize(this.x, y, this.width);
 		});
 		this.fullHeight = y;
-		this.maxScroll = this.fullHeight - this.height;
+		this.maxScroll = Math.max(this.fullHeight - this.height, 0);
 		this.scrollBar = new ScrollBar(x + this.width, this.y + this.scrollWidth, this.scrollWidth, this.height - 2*this.scrollWidth, this.height, this.fullHeight, (s)=>this.setScroll(s), ()=>this.scroll);
 		//this.upButton.resize(x + width - this.scrollWidth, y, this.scrollWidth, this.scrollWidth);
 		//this.downButton.resize(x + width - this.scrollWidth, y + height - this.scrollWidth, this.scrollWidth, this.scrollWidth);
@@ -65,17 +65,17 @@ class ScrollForm extends UIObject {
 	}
 }
 
-class ScrollingHeading extends UIObject {
+class ScrollingText extends UIObject {
 	constructor(text) {
 		super();
 		this.text = processText(text);
 	}
 	resize(x, y, width) {
 		this.x = x;
-		this.ry = y + 6;
+		this.ry = y + this.marginBefore;
 		this.width = width;
-		this.height = 40;
-		return this.ry + this.height + 3;
+		this.height = this.textSize;
+		return this.ry + this.height + this.marginAfter;
 	}
 	update() {
 		super.update();
@@ -85,6 +85,23 @@ class ScrollingHeading extends UIObject {
 		drawTextInRect(this.text, this.x, this.y, this.width, this.height);
 	}
 }
+ScrollingText.prototype.textSize = 24;
+ScrollingText.prototype.marginBefore = 2;
+ScrollingText.prototype.marginAfter = 2;
+
+class ScrollingHeading extends ScrollingText {
+	
+}
+ScrollingHeading.prototype.textSize = 40;
+ScrollingHeading.prototype.marginBefore = 6;
+ScrollingHeading.prototype.marginAfter = 3;
+
+class ScrollingHeading2 extends ScrollingText {
+	
+}
+ScrollingHeading2.prototype.textSize = 32;
+ScrollingHeading2.prototype.marginBefore = 5;
+ScrollingHeading2.prototype.marginAfter = 2;
 
 class ScrollingParagraph extends UIObject {
 	constructor(text) {
@@ -112,11 +129,16 @@ class ScrollingRadioButtons extends UIObject {
 		super();
 		this.id = id;
 		this.children = options.map(o=>new ScrollingRadioButton(o, this));
+		this.hasParagraph = (!!options.find(o=>o.paragraph));
 	}
 	resize(x, y, width) {
+		this.x = x;
+		this.width = width;
+		this.ry = y;
 		this.children.forEach(o => {
-			y = o.resize(x, y, width);
+			y = o.resize(x, y, this.hasParagraph ? width/2 : width);
 		});
+		this.height = y - this.ry;
 		return y;
 	}
 	update() {
@@ -125,6 +147,11 @@ class ScrollingRadioButtons extends UIObject {
 	}
 	draw() {
 		this.children.forEach(c=>c.draw());
+		//console.log(this.hasParagraph, this.selected, this.selected && this.selected.dat)
+		if (this.hasParagraph && this.selected && this.selected.dat.paragraph) {
+			//console.log(this.selected.dat.paragraph, this.x+this.width/2, this.y, this.width/2, this.height);
+			drawParagraphInRect(this.selected.dat.paragraph, this.x+this.width/2, this.y, this.width/2, this.height, 24);
+		}
 	}
 	childClicked(chili) {
 		this.selected = chili;
@@ -203,5 +230,38 @@ class ScrollingTextInput extends UIObject {
 	}
 	draw() {
 		
+	}
+}
+
+class ScrollingLogoLinkButtons extends UIObject {
+	constructor(list) {
+		super();
+		this.children = list.map(l=>new ScrollingLogoLinkButton(l));
+	}
+	resize(x, y, width) {
+		this.x = x;
+		this.ry = y;
+		this.width = width;
+		this.height = 30;
+		this.widthEach = Math.min(200, this.width/this.children.length);
+		this.children.forEach((b,i)=>b.resize(this.x+width/2-this.widthEach/2*this.children.length+this.widthEach*i, this.ry, this.widthEach));
+		return y+34;
+	}
+	update() {
+		super.update();
+		this.children.forEach(c=>c.update());
+	}
+	draw() {
+		this.children.forEach(c=>c.draw());
+	}
+}
+
+class ScrollingLogoLinkButton extends LogoLinkButton {
+	resize(x, y, width) {
+		this.x = x;
+		this.ry = y;
+		this.width = width;
+		this.height = 30;
+		return y+30;
 	}
 }

@@ -149,4 +149,13 @@ CHARACTER_DATA.praeto = {
 		{location:"dorms", status:SCHEDULE_EATING},//8pm
 		{location:"dorms", status:SCHEDULE_RELAXING},//10pm
 	],
+	credits3d : [
+		{what:"Base Model", name:"Genesis 8 Male", by:"DAZ 3D", daz:"genesis-8-starter-essentials"},
+		{what:"Morphs", name:"SY 200 Morphs", by:"SickleYield", sharecg:91888},
+		{what:"Hair", name:"Testing Hair", by:"emosludge", renderosity:85638},
+		{what:"Armor", name:"Sci-Fi Armor", by:"falcontruth", sharecg:92455, renderosity:80267},
+		{what:"Underwear", name:"Basic Wear", by:"Daz 3D", daz:"genesis-3-starter-essentials"},
+		{what:"Standing Pose", name:"Base Poses", by:"Daz 3D", daz:"genesis-8-starter-essentials"},
+		{what:"Genitalia", name:"Dicktator", by:"meipe", sites:[{name:"Renderotica", href:"https://www.renderotica.com/store/sku/57748_Dicktator-For-Genesis-8-Male"}], adult:true, paid:true},
+	]
 }

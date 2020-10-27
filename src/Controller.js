@@ -64,12 +64,7 @@ function addEvents() {
 		mouse.lastUsed = "touch";
 	});
 	
-	backDiv.addEventListener("contextmenu", function(e) {
-		mouse.rightClicked = true;
-		mouse.lastUsed = "mouse";
-		e.preventDefault();
-		return false;
-	});
+	backDiv.addEventListener("contextmenu", controlMenuClick);
 	
 	canvas.addEventListener("touchend", function(e) {
 		if (runnee.overrideTouch)
@@ -107,6 +102,17 @@ function addEvents() {
 	window.addEventListener("resize", resize);
 	
 	resize();
+}
+
+function controlMenuClick(e) {
+	mouse.rightClicked = true;
+	mouse.lastUsed = "mouse";
+	e.preventDefault();
+	return false;
+}
+
+function disableRightClick() {
+	backDiv.removeEventListener("contextmenu", controlMenuClick);
 }
 
 function attemptFullscreen() {

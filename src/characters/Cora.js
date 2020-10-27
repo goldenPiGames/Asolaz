@@ -183,4 +183,16 @@ CHARACTER_DATA.cora = {
 		{location:"dorms", status:SCHEDULE_RELAXING_IN_ROOM},//8pm
 		{location:"dorms", status:SCHEDULE_DROWSING},//10pm
 	],
+	credits3d : [
+		{what:"Base Model", name:"Genesis 8 Female", by:"DAZ 3D", daz:"genesis-8-starter-essentials"},
+		{what:"Morphs", name:"SY 200 Morphs", by:"SickleYield", sharecg:91888, deviantart:"sickleyield/art/SY-200-Free-Morphs-Genesis-8-756465264"},
+		{what:"Dress", name:"Dress C", by:"amyaimei", deviantart:"amyaimei/art/Dress-C-for-Genesis-8-Female-749167075"},
+		{what:"Dress Texture", name:"Original", by:"goldenPiGames"},
+		{what:"Dress Normal", name:"Fabric Normal", by:"nomeradona", sites:[{name:"WordPress", href:"https://nomeradona.wordpress.com/resources/resources-and-download/nomeradona_fabric_normal/"}]},
+		{what:"Hair", name:"French Twist Hair", by:"zoro_d", renderosity:81937},
+		{what:"Shoes", name:"Loafers", by:"amyaimei", deviantart:"amyaimei/art/Loafers-for-Genesis-8-Female-713978510"},
+		{what:"Standing Pose", name:"WkD3D Casual Standing Poses", by:"tomcatoliver", renderosity:86168},
+		{what:"Kneeling BJ Pose", name:"Original", by:"goldenPiGames", adult:true},
+		{what:"Genitalia", name:"Golden Palace", by:"meipe", sites:[{name:"Renderotica", href:"https://www.renderotica.com/store/sku/57311_Golden-Palace-For-Genesis-8-Female"}], adult:true, paid:true},
+	]
 }

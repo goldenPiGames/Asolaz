@@ -7,10 +7,11 @@ function drawImageInRect(img, x, y, width, height) {
 			var hit = width*img.height/img.width;
 			ctx.drawImage(img, x, y+height/2-hit/2, width, hit);
 		}
+		return true;
 	} catch {
-		ctx.fillStyle = "#FF0000";
-		drawParagraphInRect(img.src + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, );
-		//console.log(img.src);
+		//ctx.fillStyle = "#FF0000";
+		//drawParagraphInRect(img.src + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, 25);
+		console.log(img.src + " isn't a valid image, apparently. I should probably fix this.");
 	}
 }
 
@@ -24,9 +25,11 @@ function drawImageOutRect(img, x, y, width, height) {
 			var wid = height*img.width/img.height;
 			ctx.drawImage(img, x+width/2-wid/2, y, wid, height);
 		}
+		return true;
 	} catch {
-		ctx.fillStyle = "#FF0000";
-		drawParagraphInRect(img.scr + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, );
+		//ctx.fillStyle = "#FF0000";
+		//drawParagraphInRect(img.src + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, 25);
+		console.log(img.src + " isn't a valid image, apparently. I should probably fix this.");
 	}
 }
 
