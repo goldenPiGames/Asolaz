@@ -58,6 +58,9 @@ class CombatScreen extends Screen {
 	draw() {
 		drawBG();
 		this.allUnitPanels.forEach(d=>d.draw());
+		for (var i = 0; i < 10 && i < this.rngSequence.length; i++) {
+			drawTextInRect(asPercent(this.rngSequence[i]), canvas.width-50, 50+20*i, 50, 50, 20, {stroke:palette.normal, fill:palette.background});
+		}
 		if (this.selecting) {
 			this.selecting.draw();
 		} else {
@@ -77,11 +80,13 @@ class CombatScreen extends Screen {
 		this.nextAction();
 	}
 	nextAction() {
+		this.notActedYet = this.notActedYet.filter(e=>!e.unit.shouldDie());
 		if (this.notActedYet.length < 1) {
 			this.endActing();
 			return;
 		}
-		this.currentTaker = this.notActedYet.sort((a,b)=>b.getInitiative()-a.getInitiative()).shift();
+		this.notActedYet.sort((a,b)=>b.getInitiative()-a.getInitiative());
+		this.currentTaker = this.notActedYet.shift();
 		this.currentAction = this.currentTaker.selectedAction;
 		this.currentHits = this.currentAction.getHits(this, this.currentTaker, this.currentTaker.selectedTarget);
 		this.currentHits.forEach(h=>{
@@ -100,8 +105,8 @@ class CombatScreen extends Screen {
 		}
 	}
 	nextRNG() {//TODO sequence
-		return this.rngSequence.shift();
 		this.rngSequence.push(Math.random());
+		return this.rngSequence.shift();
 	}
 	endActing() {
 		this.getAllUnits().forEach(u=>u.turnEnd());
@@ -198,7 +203,7 @@ class CombatScreenSelecting {
 	}
 	setTargets() {
 		//console.log(this.taker.selectedAction.target);
-		this.unitTargeters = this.parent.getAllTargetable(this.taker.selectedAction, this.taker).map(u=>new CombatUnitTargeter(u, this));
+		this.unitTargeters = this.parent.getAllTargetable(this.taker.selectedAction, this.taker).map(u=>new CombatUnitTargeter(u, this, this.taker));
 	}
 	targetClicked(panel) {
 		this.taker.selectedTarget = panel;
@@ -206,11 +211,12 @@ class CombatScreenSelecting {
 	}
 }
 
-class CombatActionPalette extends UIObject {
-	constructor(parent) {
+class ActionPalette extends UIObject {
+	constructor(whatdo) {
 		super();
 		this.buttons = [];
-		this.parent = parent;
+		if (whatdo)
+			this.whatdo = whatdo;
 	}
 	resize(x, y, width, height) {
 		this.x = x;
@@ -222,7 +228,7 @@ class CombatActionPalette extends UIObject {
 	}
 	setActions(actions) {
 		//console.log(actions)
-		this.buttons = actions.map(a=>new CombatActionPaletteButton(a, this));
+		this.buttons = actions.map((a, i)=> new CombatActionPaletteButton(a, i, this));
 		this.resizeButtons();
 	}
 	resizeButtons() {
@@ -234,16 +240,33 @@ class CombatActionPalette extends UIObject {
 		this.buttons.forEach(b=>b.update());
 	}
 	draw() {
+		this.buttons.forEach(b=>b.draw());
+	}
+	actionHovered(butt) {
+		this.hovered = butt;
+	}
+	actionClicked(butt) {
+		if (this.whatdo(butt)) {
+			this.selected = butt;
+			this.buttons.forEach(b=>b.selected=b==butt);
+		}
+	}
+}
+ActionPalette.prototype.textHeight = 0;
+
+class CombatActionPalette extends ActionPalette {
+	constructor(parent) {
+		super();
+		this.parent = parent;
+	}
+	draw() {
 		var toTip = this.hovered || this.selected;
 		if (toTip) {
 			drawTextInRect(toTip.action.name, this.x, this.y, .2*this.width, this.textHeight, {stroke:palette.normal, fill:palette.background});
 			drawTextInRect(toTip.action.desc, this.x+.2*this.width, this.y, .6*this.width, this.textHeight, {stroke:palette.normal, fill:palette.background});
 			drawTextInRect(toTip.action.cdMax+"CD", this.x+.8*this.width, this.y, .2*this.width, this.textHeight, {stroke:palette.normal, fill:palette.background});
 		}
-		this.buttons.forEach(b=>b.draw())
-	}
-	actionHovered(butt) {
-		this.hovered = butt;
+		super.draw();
 	}
 	actionClicked(butt) {
 		if (this.parent.actionClicked(butt.action)) {
@@ -251,14 +274,18 @@ class CombatActionPalette extends UIObject {
 			this.buttons.forEach(b=>b.selected=b==butt);
 		}
 	}
+	whatdo(butt) {
+		this.parent.actionClicked(butt.action)
+	}
 }
 
 class CombatActionPaletteButton extends UIObject {
-	constructor(action, parent) {
+	constructor(action, index, parent) {
 		super();
 		this.action = action;
+		this.index = index;
 		this.parent = parent;
-		this.image = makeImage("src/images/skills/"+this.action.skillID+".png");
+		this.image = getSkillImage(this.action.skillID);
 	}
 	resize(x, y, width, height) {
 		this.x = x;
@@ -385,7 +412,8 @@ class CombatHPBar {
 		ctx.fillStyle = "#000000";
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 		ctx.fillStyle = "#FF0000";
-		ctx.fillRect(this.x, this.y, this.width*this.unit.hpPortion(), this.height);
+		if (this.unit.hp > 0)
+			ctx.fillRect(this.x, this.y, this.width*this.unit.hpPortion(), this.height);
 		if (numbers)
 			drawTextInRect(this.unit.hp+"/"+this.unit.hpMax, this.x, this.y, this.width, this.height, {fill:"#FFFFFF"});
 	}
@@ -393,10 +421,15 @@ class CombatHPBar {
 
 
 class CombatUnitTargeter extends UIObject {
-	constructor(panel, parent) {
+	constructor(panel, parent, user) {
 		super();
 		this.panel = panel;
 		this.parent = parent;
+		if (user.selectedAction) {
+			this.predictedDamage = user.selectedAction.calculateDamage(this.parent, user.unit, this.panel.unit);
+			this.predictedHitrate = user.selectedAction.calculateHitrate(this.parent, user.unit, this.panel.unit);
+		}
+		this.hitrate = 
 		this.resize();
 	}
 	resize() {
@@ -415,5 +448,7 @@ class CombatUnitTargeter extends UIObject {
 	draw() {
 		this.fill("#FF000040");
 		this.stroke("#FF0000");
+		drawTextInRect(asPercent(this.predictedHitrate), this.x, this.y+this.height/2-40, this.width, 40, {fill:palette.background});
+		drawTextInRect(this.predictedDamage, this.x, this.y+this.height/2, this.width, 40, {fill:palette.background});
 	}
 }

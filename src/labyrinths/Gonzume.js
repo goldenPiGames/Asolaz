@@ -1,0 +1,3 @@
+class Gonzume extends Labyrinth {
+	
+}

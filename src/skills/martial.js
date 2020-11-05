@@ -2,12 +2,13 @@ class CABasicAttack extends CombatAction {
 	
 }
 CABasicAttack.prototype.name = "Basic Attack";
+CABasicAttack.prototype.category = CATEGORY_MARTIAL;
 CABasicAttack.prototype.skillID = "basic_attack";
 CABasicAttack.prototype.desc = "Physical attack. No special effects.";
 CABasicAttack.prototype.attack = true;
 CABasicAttack.prototype.range = 1;
 CABasicAttack.prototype.target = TARGET_ENEMY_ONLY;
-CABasicAttack.prototype.power = 50;
+CABasicAttack.prototype.power = 100;
 CABasicAttack.prototype.attribute = ATTR_WEAPON;
 CABasicAttack.prototype.attackStat = STAT_MARTIAL_OFFENSE;
 CABasicAttack.prototype.defenseStat = STAT_MARTIAL_DEFENSE;
@@ -17,6 +18,7 @@ class CAPowerAttack extends CombatAction {
 	
 }
 CAPowerAttack.prototype.name = "Power Attack";
+CAPowerAttack.prototype.category = CATEGORY_MARTIAL;
 CAPowerAttack.prototype.desc = "Physical attack. Higher damage, slower speed.";
 CAPowerAttack.prototype.attack = true;
 CAPowerAttack.prototype.range = 1;
@@ -37,8 +39,8 @@ SKILL_DATA.power_attack = {
 	subcategory : "martial",
 	treex : 1,
 	treey : 1,
-	rpgActions : [
-		[CAPowerAttack],
+	combatActions : [
+		CAPowerAttack,
 	]
 }
 
@@ -46,12 +48,13 @@ class CASonicRaid extends CombatAction {
 	
 }
 CASonicRaid.prototype.name = "Sonic Raid";
+CASonicRaid.prototype.category = CATEGORY_MARTIAL;
 CASonicRaid.prototype.desc = "Physical attack. Extremely fast.";
 CASonicRaid.prototype.attack = true;
 CASonicRaid.prototype.range = 1;
 CASonicRaid.prototype.target = TARGET_ENEMY_ONLY;
 CASonicRaid.prototype.initiative = 10;
-CASonicRaid.prototype.power = 50;
+CASonicRaid.prototype.power = 90;
 CASonicRaid.prototype.attribute = ATTR_WEAPON;
 CASonicRaid.prototype.attackStat = STAT_MARTIAL_OFFENSE;
 CASonicRaid.prototype.defenseStat = STAT_MARTIAL_DEFENSE;
@@ -66,8 +69,8 @@ SKILL_DATA.sonic_raid = {
 	subcategory : "martial",
 	treex : 1,
 	treey : 2,
-	rpgActions : [
-		[CASonicRaid],
+	combatActions : [
+		CASonicRaid,
 	]
 }
 

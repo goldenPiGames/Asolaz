@@ -181,7 +181,7 @@ CHARACTER_DATA.tylia = {
 	],
 	credits3d : [
 		{what:"Base Model", name:"Genesis 8 Male", by:"DAZ 3D", daz:"genesis-8-starter-essentials"},
-		{what:"Morphs, Textures, Sweater, Skirt", name:"Diana", by:"RenderGuyNY", sharecg:92884},
+		{what:"Morphs, Textures, Sweater, Skirt", name:"Diana", by:"RenderGuyNY", sharecg:92884, deviantart:"renderguyny/art/Diana-for-G8M-Main-Promo-778168332"},
 		{what:"Additional Morphs", name:"Transgender", by:"AgentUnawarese", deviantart:"agentunawares/art/Transgender-Genesis-8-723851486"},
 		{what:"Hair", name:"Charm Hair", by:"DAZ 3D", daz:"charm-hair"},
 		{what:"Thighhighs", name:"Pretty Look", by:"zoro_d", renderosity:83823},

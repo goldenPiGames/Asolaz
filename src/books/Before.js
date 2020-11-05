@@ -7,6 +7,10 @@ const LIBRARY_SECTION_DATA = {
 		id : "all",
 		name : "All",
 	},
+	gameplay : {
+		id : "gameplay",
+		name : "Gameplay",
+	},
 	history : {
 		id : "help",
 		name : "Help",

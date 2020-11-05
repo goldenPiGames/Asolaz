@@ -16,7 +16,7 @@ const RIGHTMENU_LOCATION = {
 		//{id:"move", name:"Move", cons:MapMenu}
 		{id:"map", name:"Map", cons:MapMenu},
 		{id:"people", name:"People", cons:PeopleMenu},
-		{id:"learn", name:"Learn", cons:SkillTreeMenu},
+		{id:"learn", name:"Learn", cons:SkillMenu},
 		//{id:"jukebox", name:"Jukebox", cons:JukeboxSubscreen},
 		{id:"settings", name:"Settings", cons:SettingsMenu},
 		{id:"saveload", name:"Save", cons:SaveLoadMenu},

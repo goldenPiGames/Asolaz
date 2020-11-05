@@ -19,8 +19,18 @@ const SKILL_CATEGORIES = [
 	]},
 ]
 
+const CATEGORY_MARTIAL = "martial";
+
+const CATEGORY_PSIONIC = "psionic";
+
+const CATEGORY_ARCANE = "arcane";
 
 const SKILL_SUBCATEGORIES = [
+	
+]
+
+
+const SKILL_SUBCATEGORY_DATA = [
 	
 ]
 
@@ -30,9 +40,9 @@ const SKILLS_BY_SUBCATEGORY = {
 
 SKILL_CATEGORIES.forEach(cat => {
 	cat.subcategories.forEach(subcat => {
+		SKILL_SUBCATEGORY_DATA[subcat.id] = subcat;
 		SKILL_SUBCATEGORIES.push(subcat);
 		subcat.skills = [];
-		SKILLS_BY_SUBCATEGORY[subcat.id] = subcat.skills;
 	})
 });
 
@@ -42,9 +52,38 @@ function playerSkillKnown(id) {
 	return data.player.skills[id] || 0;
 }
 
+function getPlayerSkillAction(id) {
+	if (!SKILL_DATA[id].combatActions)
+		return false;
+	return new (SKILL_DATA[id].combatActions[playerSkillKnown(id)-1])();
+}
+
+function playerLearnSkill(id) {
+	data.player.skills[id] = playerSkillKnown(id) + 1;
+	if (SKILL_DATA[id].combatActions && !data.player.actionsEquipped.length < playerMaxActionsEquipped() && !data.player.actionsEquipped.find(a=>a==id)) {
+		data.player.actionsEquipped.push(id);
+	}
+}
+
+function playerMaxActionsEquipped() {
+	return 6;
+}
+
 function playerSkillPrereqsMet(id) {
-	var prereqs = SKILL_DATA[id].prereqs || [];
-	return !prereqs.find(pr=>playerSkillKnown(pr.skill)<pr.level);
+	if (playerSkillKnown(id) >= SKILL_DATA[id].maxLevel)
+		return true;
+	var prereqs = SKILL_DATA[id].prereqs[playerSkillKnown(id)];
+	return !prereqs.find(pr=>!playerSkillPrereqMet(pr, id));
+}
+
+function playerSkillPrereqMet(pr, id) {
+	switch (pr.type) {
+		case "skill":
+			return playerSkillKnown(pr.skill) >= (pr.level || 1);
+		default:
+			throwMaybe(pr.type + " is not a prereq in " + id);
+			this.met = true;
+	}
 }
 
 const SKILL_DATA = {

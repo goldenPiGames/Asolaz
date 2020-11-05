@@ -1,0 +1,3 @@
+class PsinnitLabyrinth extends Labyrinth {
+	
+}

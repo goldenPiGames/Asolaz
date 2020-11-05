@@ -8,7 +8,7 @@ CAForceDart.prototype.cost = 4;
 CAForceDart.prototype.range = 5;
 CAForceDart.prototype.target = TARGET_ENEMY_ONLY;
 CAForceDart.prototype.baseHitrate = .90;
-CAForceDart.prototype.power = 50;
+CAForceDart.prototype.power = 80;
 CAForceDart.prototype.attribute = ATTR_FORCE;
 CAForceDart.prototype.attackStat = STAT_ARCANE_OFFENSE;
 CAForceDart.prototype.defenseStat = STAT_ARCANE_DEFENSE;
@@ -24,8 +24,8 @@ SKILL_DATA.force_dart = {
 	subcategory : "energy",
 	treex : 1,
 	treey : 1,
-	rpgActions : [
-		[CAForceDart],
+	combatActions : [
+		CAForceDart,
 	]
 }
 
@@ -37,7 +37,7 @@ CAFireball.prototype.desc = "Powerful magical attack.";
 CAFireball.prototype.attack = true;
 CAFireball.prototype.cost = 20;
 CAFireball.prototype.range = 5;
-CAForceDart.prototype.target = TARGET_ENEMY_ONLY;
+CAFireball.prototype.target = TARGET_ENEMY_ONLY;
 CAFireball.prototype.power = 150;
 CAFireball.prototype.attribute = ATTR_FIRE;
 CAFireball.prototype.attackStat = STAT_ARCANE_OFFENSE;
@@ -54,7 +54,7 @@ SKILL_DATA.fireball = {
 	subcategory : "energy",
 	treex : 2,
 	treey : 2,
-	rpgActions : [
-		[CAFireball],
+	combatActions : [
+		CAFireball,
 	]
 }

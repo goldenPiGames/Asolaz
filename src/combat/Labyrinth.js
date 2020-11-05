@@ -1,0 +1,7 @@
+class LabyrinthScreen {
+	
+}
+
+class Labyrinth {
+	
+}

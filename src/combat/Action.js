@@ -1,4 +1,7 @@
 const ATTR_WEAPON = "weapon";
+const ATTR_CUT = "cut";
+const ATTR_PIERCE = "pierce";
+const ATTR_BLUDGEON = "bludgeon";
 const ATTR_FIRE = "fire";
 const ATTR_FORCE = "force";
 
@@ -56,11 +59,13 @@ class CombatAction {
 	getHits(battle, user, target) {
 		var hits = [];
 		if (this.power) {
-			hits.push({
-				target:target,
-				hitrate:this.calculateHitrate(battle, user.unit, target.unit),
-				damage:this.calculateDamage(battle, user.unit, target.unit)
-			});
+			for (var i = 0; i < this.numHits; i++) {
+				hits.push({
+					target:target,
+					hitrate:this.calculateHitrate(battle, user.unit, target.unit),
+					damage:this.calculateDamage(battle, user.unit, target.unit),
+				});
+			}
 		}
 		return hits;
 		//this.expend();
@@ -74,17 +79,20 @@ class CombatAction {
 	}
 	calculateHitrate(battle, user, target) {
 		var base = this.baseHitrate;
-		var atk = user.getStat(this.attackStat);
-		var def = target.getStat(this.defenseStat);
+		var atk = user.getAccuracyFor(this);
+		var def = target.getEvasionFor(this);
 		var hit = base*atk / (base*atk + (1-base)*def);
 		return hit;
 	}
 	calculateDamage(battle, user, target) {
 		var pow = this.power;
-		var atk = user.getStat(this.attackStat);
-		var def = target.getStat(this.defenseStat);
+		var atk = user.getAttackFor(this);
+		var def = target.getDefenseFor(this);
 		var dmg = Math.ceil(pow * atk / (atk + def));
 		return dmg;
+	}
+	getCat() {
+		return this.category.substring(0, 3);
 	}
 	expend() {
 		this.cd = this.cdMax;
@@ -98,6 +106,7 @@ class CombatAction {
 CombatAction.prototype.cd = 0;
 CombatAction.prototype.cdMax = 0;
 CombatAction.prototype.mpCost = 0;
+CombatAction.prototype.numHits = 1;
 CombatAction.prototype.baseHitrate = .70;
 CombatAction.prototype.initiative = 1.0;
 

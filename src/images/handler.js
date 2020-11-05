@@ -108,3 +108,7 @@ function getImageTimeName() {
 }
 
 bgImg = new BGImgHandler();
+
+function getSkillImage(id) {
+	return makeImage("src/images/skills/"+id+".png");
+}

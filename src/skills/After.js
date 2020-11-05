@@ -7,15 +7,18 @@ for (id in SKILL_DATA) {
 	dat.maxLevel = dat.costs.length;
 	dat.id = id;
 	if (!dat.vnDescs)
-		dat.vnDescs = new Array(dat.maxLevel).fill("No effect outside of dungeons or battles.");
-	if (!dat.rpgDescs)
-		dat.rpgDescs = new Array(dat.maxLevel).fill("No effect in dungeons or battles.");
-	if (dat.rpgActions) {
-		dat.rpgActions.forEach(l=>l.forEach(a=>{
-			//console.log(a);
-			a.prototype.skillID = id;
-			//console.log(a.prototype);
-		}));
+		dat.vnDescs = new Array(dat.maxLevel).fill("No effect outside of battles.");
+	if (!dat.prereqs) {
+		dat.prereqs = [[]];
+	} else if (!Array.isArray(dat.prereqs[0])) {
+		dat.prereqs = [dat.prereqs];
 	}
-	SKILLS_BY_SUBCATEGORY[SKILL_DATA[id].subcategory].push(SKILL_DATA[id]);
+	if (dat.combatActions) {
+		dat.combatActions.forEach(a=>{
+			a.prototype.skillID = id;
+			if (!a.prototype.category)
+				a.prototype.category = dat.category;
+		});
+	}
+	SKILL_SUBCATEGORY_DATA[SKILL_DATA[id].subcategory].skills.push(SKILL_DATA[id]);
 }

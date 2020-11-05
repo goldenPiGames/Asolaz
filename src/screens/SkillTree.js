@@ -1,93 +1,59 @@
-class SkillTreeMenu extends GameMenu {
-	constructor(rightMenu) {
-		super(rightMenu);
+class SkillTreeMenu {
+	constructor(parent, subcat) {
+		//super();
+		this.parent = parent;
 		this.tabsSubcategory = new SkillTreeTabs(this);
 		this.skillPanels = [];
 		this.learnButton = new Button("Learn Skill", ()=>this.tryLearn());
-		this.resize();
+		if (subcat)
+			this.setSubcategory(subcat);
+		//this.resize();
 	}
-	resize() {
-		this.mainWidth = super.resize();
-		this.tabHeight = Math.max(Math.min(128, this.mainWidth/SKILL_SUBCATEGORIES.length), 64);
-		this.tabsSubcategory.resize(0, 0, this.mainWidth, this.tabHeight);
+	resize(mainWidth, y) {
+		this.width = mainWidth;
+		this.y = y;
+		this.height = canvas.height-y;
+		this.tabHeight = Math.max(Math.min(128, this.width/SKILL_SUBCATEGORIES.length), 64);
+		this.fieldY = y + this.tabHeight;
+		this.fieldHeight = canvas.height-this.fieldY;
+		this.x = 0;
+		this.tabsSubcategory.resize(0, this.y, this.width, this.tabHeight);
+		this.resizeSkillPanels();
+	}
+	resizeSkillPanels() {
 		var maxX = Math.max(...this.skillPanels.map(s=>s.data.treex));
 		var maxY = Math.max(...this.skillPanels.map(s=>s.data.treey));
-		this.skillPanels.forEach(s=>s.resize(this, maxX, maxY));
-		this.popupX = 50;
-		this.popupY = this.tabHeight*2+50;
-		this.popupWidth = this.mainWidth-100;
-		this.popupHeight = canvas.height - this.popupY - 50;
-		this.learnButton.resize(this.popupX + this.popupWidth - 180, this.popupY + this.popupHeight - 60, 170, 50);
+		this.skillPanels.forEach(s=>s.resize(this.x + this.width * s.data.treex / (maxX+1), this.fieldY + this.fieldHeight * s.data.treey / (maxY+1)));
+		
 	}
 	update() {
-		super.update();
-		if (this.selected) {
-			this.learnButton.update();
-			if (!this.learnButton.clicked && mouse.clicked) {
-				this.selected = null;
-			}
-		} else {
-			this.tabsSubcategory.update();
-			this.skillPanels.forEach(s=>s.update());
-		}
+		//super.update();
+		this.tabsSubcategory.update();
+		this.skillPanels.forEach(s=>s.update());
 	}
 	draw() {
-		super.draw();
+		//super.draw();
 		this.tabsSubcategory.draw();
 		this.skillPanels.forEach(s=>s.draw());
-		if (this.selected) {
-			ctx.fillStyle = "#20202080";
-			ctx.fillRect(0, this.tabHeight, this.mainWidth, canvas.height-this.tabHeight);
-			ctx.fillStyle = palette.background;
-			ctx.fillRect(this.popupX, this.popupY, this.popupWidth, this.popupHeight);
-			ctx.fillStyle = palette.normal;
-			drawTextInRect(this.selected.name, this.popupX, this.popupY, this.popupWidth, 50);
-			drawParagraphInRect(this.selected.flavor, this.popupX+5, this.popupY+55, this.popupWidth-10, this.popupHeight/3 - 55, 28);
-			if (this.known) {
-				drawTextInRect("Level "+this.known, this.popupX, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect(this.selected.vnDescs[this.known-1], this.popupX+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 24);
-				drawParagraphInRect(this.selected.rpgDescs[this.known-1], this.popupX+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 24);
-			} else {
-				drawTextInRect("Not Learned", this.popupX, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect("Prerequisites: <br> "+(this.selected.prereqs?this.selected.prereqs.map(pr=>SKILL_DATA[pr.skill].name+" "+pr.level).join(" <br> "):"None"), this.popupX, this.popupY + this.popupHeight/3, this.popupWidth/2-5, this.popupHeight/3, 24);
-			}
-			if (this.known < this.selected.maxLevel) {
-				drawTextInRect("Level "+(this.known+1), this.popupX+this.popupWidth/2, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect(this.selected.vnDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/6, 24);
-				drawParagraphInRect(this.selected.rpgDescs[this.known], this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/2, this.popupWidth/2-10, this.popupHeight/6, 24);
-				drawTextInRect("Cost: "+this.selected.costs[this.known]+" Inspiration", this.popupX, this.popupY + this.popupHeight - 50, this.popupWidth/2, 40, {align:"left"});
-			} else {
-				drawTextInRect("Max Level", this.popupX+this.popupWidth/2, this.popupY + this.popupHeight/3 - 50, this.popupWidth/2, 45);
-				drawParagraphInRect("You have reached the maximum level in this skill.", this.popupX+this.popupWidth/2+5, this.popupY + this.popupHeight/3, this.popupWidth/2-10, this.popupHeight/3, 24);
-			}
-			this.learnButton.draw();
-		}
 		drawTextInRect("Inspiration: " + data.player.inspiration, 0, this.tabHeight, this.mainWidth*3/8, 50, {align:"left", fill:palette.background, stroke:palette.normal});
 		if (this.subcat) {
 			drawTextInRect(this.subcat.name, this.mainWidth*3/8, this.tabHeight, this.mainWidth/4, 50, {fill:palette.background, stroke:palette.normal});
 		}
 	}
 	setSubcategory(dat) {
-		this.subcat = dat;
+		if (typeof dat == "string")
+			this.subcat = SKILL_SUBCATEGORY_DATA[dat];
+		else
+			this.subcat = dat;
 		this.refreshSkillPanels();
 	}
 	refreshSkillPanels() {
-		this.skillPanels = SKILLS_BY_SUBCATEGORY[this.subcat.id].map(dap=>new SkillTreePanel(dap,this));
+		this.skillPanels = this.subcat.skills.map(dap=>new SkillTreePanel(dap,this));
 		this.skillPanels.forEach(s=>s.findOthers(this.skillPanels));
-		this.resize();
+		this.resizeSkillPanels();
 	}
 	skillClicked(dat) {
-		this.selected = dat;
-		this.known = playerSkillKnown(this.selected.id);
-		this.learnButton.text = this.known ? "Upgrade Skill" : "Learn Skill";
-		this.prereqsMet = this.known || playerSkillPrereqsMet(this.selected.id);
-		this.learnButton.active = this.prereqsMet && data.player.inspiration >= this.selected.costs[this.known];
-	}
-	tryLearn() {
-		data.player.inspiration -= this.selected.costs[this.known];
-		data.player.skills[this.selected.id] = this.known + 1;
-		this.selected = null;
-		this.refreshSkillPanels();
+		this.parent.goToLearn(dat.id);
 	}
 }
 
@@ -110,16 +76,18 @@ class SkillTreePanel extends UIObject {
 		this.data = data;
 		this.parent = parent;
 		this.known = playerSkillKnown(this.id);
-		this.image = makeImage("src/images/skills/"+this.id+".png");
+		this.maxed = this.known >= this.data.maxLevel;
+		this.prereqsMet = playerSkillPrereqsMet(this.id);
+		this.image = getSkillImage(this.id);
 	}
 	findOthers(list) {
 		this.others = list;
 	}
-	resize(parent, maxX, maxY) {
-		this.x = parent.mainWidth * this.data.treex / (maxX+1) - 50;
-		this.y = parent.tabHeight*2 + 50 + (canvas.height - parent.tabHeight * 2 - 100) * this.data.treey / (maxY+1) - 50;
+	resize(midX, midY) {
 		this.width = 100;
 		this.height = 100;
+		this.x = midX - this.width/2;
+		this.y = midY - this.height/2;
 	}
 	update() {
 		this.updateMouse();

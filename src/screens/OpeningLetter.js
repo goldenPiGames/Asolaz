@@ -66,6 +66,11 @@ class OpeningLetter extends Screen {
 				data.player.body[nom] = dat.genitalia.body[nom];
 			}
 		}
+		data.player.actionsEquipped = [];
+		for (var sid in data.player.skills) {
+			if (SKILL_DATA[sid].combatActions)
+				data.player.actionsEquipped.push(sid);
+		}
 		startScene("opening_arrive");
 	}
 }
