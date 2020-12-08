@@ -7,6 +7,7 @@ class JukeboxSubscreen extends GameMenu {
 		//if (song)
 		//	this.songMenu.scrollToSelected();
 		this.pauseButton = new Button("Play/Pause", ()=>this.togglePause());
+		this.volumeSlider = new Slider(setMusicVolume, getMusicVolume);
 		//this.linkButton = new BubbleButton(midx+50, 150, 45, ()=>{if (song) runnee=new JukeboxLinkPopup(this)}, bubbleDrawIHyperlink);
 		/*this.favButton = new BubbleButton(midx+150, 150, 45, ()=>toggleFavSong(song), function() {
 				if (song && song.fav) {
@@ -27,7 +28,7 @@ class JukeboxSubscreen extends GameMenu {
 			this.pauseButton,
 			//this.favButton,
 			//this.positionSlider,
-			//this.volumeSlider,
+			this.volumeSlider,
 			//this.focusOutPauseCheckbox,
 			//this.sortButtons,
 			//this.favCheckbox,
@@ -46,6 +47,7 @@ class JukeboxSubscreen extends GameMenu {
 		this.songMenu.resize(0, 0, midx-10, canvas.height);
 		var swid = Math.floor(mainWidth - midx) - 10;
 		this.pauseButton.resize(midx, 5, swid/2, 40);
+		this.volumeSlider.resize(midx+10, 100, 200, 30);
 		//this.positionSlider.resize(midx, 205, swid, 50);
 		//this.volumeSlider.resize(midx, 265, swid, 30);
 		//this.focusOutPauseCheckbox.resize(midx, 300, swid, 24, lg("Settings-FocusOutPause"), val=>{settings.focusOutPause=val;saveSettings();}, settings.focusOutPause);
@@ -75,7 +77,7 @@ class JukeboxSubscreen extends GameMenu {
 		this.linkButtons.forEach(l=>l.draw());
 	}
 	playSong(nom) {
-		playMusic(nom)
+		playMusic(nom);
 		this.refreshSong();
 	}
 	refreshSong() {

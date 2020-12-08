@@ -4,24 +4,15 @@ CHARACTER_DATA.ammette = {
 	wegender : GENDER_MALE,
 	age : 30,
 	colors : {
-		light : "#C04020",
-	},
-	paramsBase : {
-		morality : 30,
-		legality : 80,
-		friendliness : 30,
-		selfesteem : 60,
-		willpower : 70,
-		psiaware : 60,
-		arcaware : 50,
-		sluttiness : 60,
+		light : "FF3060",
 	},
 	body : {
 		penis : false,
 		vagina : true,
 	},
 	likes : {
-		smalltalk : 0,
+		smalltalk : LIKES_SOME,
+		labyrinth : LIKES_NOT,
 	},
 	skills : {
 		//healing : 1,
@@ -29,55 +20,58 @@ CHARACTER_DATA.ammette = {
 	},
 	roomLocation : "dorms",
 	dialog : {
-		greeting : [
-			{text : "What do you want?", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Good to see you, [playername].", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-		],
 		introduction : [
 			{log : [
-				{speaker:"Ammette", text:"Yeah, I know you're name. I signed off your papers to let you in here."},
-				{speaker:"Ammette", text:"...Wait, was that an attempt at conversation?"},
+				{charimg:{character:"ammette", outfit:"default", pose:"standing"}},
+				"You introduce yourself to Ammette.",
+				{speakerID:"ammette", text:"Yeah, I know who you are. I spent three days filling out your paperwork."},
+				{speakerID:"ammette", text:"...Wait, was that an attempt at conversation?"},
+			]},
+		],
+		greeting : [
+			{log : [
+				{speakerID:"ammette", text:"Good to see you, [playername]."},
 			]},
 		],
 		/*knock_drowsing_goway : [
 			{log : [
 				{text:"Ammette opens the door ajar. She has a toothbrush in her mouth and a grumpy expression."},
-				{speaker:"Ammette", text:"What?"},
+				{speakerID:"ammette", text:"What?"},
 				{text:"She hardly waits for an answer before closing the door in your face."},
 			]},
 		],
 		knock_drowsing_in : [
 			{log : [
-				{speaker:"Ammette", text:"Oh, hey, [playername]. I was just getting ready for bed."},
+				{speakerID:"ammette", text:"Oh, hey, [playername]. I was just getting ready for bed."},
 			]},
 		],*/
 		smalltalk : [
 			{log : [
-				{speaker:"Ammette", text:"There's a lot to do as a secretary."},
+				{speakerID:"ammette", text:"There's a lot to do as a secretary."},
 			]},
 		],
 		ask : [
-			/*{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
-				{speaker:"Ammette", text:"I'm here to practice healing arcana."},
+			/*{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
+				{speakerID:"ammette", text:"I'm here to practice healing arcana."},
 			], firstUps:[
 				{action:"charParamUp", param:"acquaint", by:5, upto:50},
 			]},*/
 		],
 		knock_offersleep : [
 			{log : [
-				{speaker:"Ammette", text:"I'm just getting ready for my much-needed sleep."},
-				{speaker:"Ammette", text:"I wouldn't mind sharing it with you, though."},
+				{speakerID:"ammette", text:"I'm just getting ready for my much-needed sleep."},
+				{speakerID:"ammette", text:"I wouldn't mind sharing it with you, though."},
 			]},
 		],
 		room_late_leave : [
 			{log : [
-				{speaker:"Ammette", text:"It's late. I'm tired. Not to be rude, but go away."},
+				{speakerID:"ammette", text:"It's late. I'm tired. Not to be rude, but go away."},
 			]},
 			
 		],
 		room_late_offersleep : [
 			{log : [
-				{speaker:"Ammette", text:"It's late. I'm tired. Please, go away. Unless you want to sleep with me, in which case by all means stay. No pressure."},
+				{speakerID:"ammette", text:"It's late. I'm tired. Please, go away. Unless you want to sleep with me, in which case by all means stay. No pressure."},
 			]},
 		],
 	},

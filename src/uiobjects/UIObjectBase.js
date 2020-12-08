@@ -1,3 +1,5 @@
+const BUTTON_BORDER_WIDTH = 3;
+
 class UIObject {
 	constructor(x, y, width, height) {
 		if (x != undefined) {
@@ -43,7 +45,7 @@ class UIObject {
 		if (style)
 			ctx.strokeStyle = style;
 		ctx.lineWidth = BUTTON_BORDER_WIDTH;
-		ctx.strokeRect((this.displayX || this.x) + BUTTON_BORDER_WIDTH/2, (this.displayY || this.y) + BUTTON_BORDER_WIDTH/2, (this.displayWidth || this.width) - BUTTON_BORDER_WIDTH, (this.displayHeight || this.height) - BUTTON_BORDER_WIDTH);
+		ctx.strokeRect(Math.floor((this.displayX || this.x) + BUTTON_BORDER_WIDTH/2), Math.floor((this.displayY || this.y) + BUTTON_BORDER_WIDTH/2), Math.ceil((this.displayWidth || this.width) - BUTTON_BORDER_WIDTH), Math.ceil((this.displayHeight || this.height) - BUTTON_BORDER_WIDTH));
 	}
 }
 

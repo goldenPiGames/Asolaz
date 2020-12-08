@@ -1,8 +1,14 @@
 const ATTR_WEAPON = "weapon";
 const ATTR_CUT = "cut";
 const ATTR_PIERCE = "pierce";
-const ATTR_BLUDGEON = "bludgeon";
+const ATTR_BLUNT = "blunt";
+
+const ATTR_FEAR = "fear";
+const ATTR_WHELM = "whelm";
+
 const ATTR_FIRE = "fire";
+const ATTR_ICE = "ice";
+const ATTR_ELEC = "elec";
 const ATTR_FORCE = "force";
 
 const TARGET_ENEMY_ONLY = {
@@ -74,6 +80,7 @@ class CombatAction {
 		return this.doDamage(user, target);
 	}*/
 	doDamage(user, target) {
+		console.log("h");
 		var damage = this.calculateDamage(user, target);
 		return target.takeDamage(damage, this, user);
 	}
@@ -95,6 +102,7 @@ class CombatAction {
 		return this.category.substring(0, 3);
 	}
 	expend() {
+		//console.log("expending");
 		this.cd = this.cdMax;
 	}
 	turnEnd() {

@@ -5,6 +5,7 @@ class ActionAnimation {
 		this.hits = hits;
 		this.action = action;
 		this.user = user;
+		this.userDrawer = this.user.drawer;
 		this.target = target;
 	}
 	update() {
@@ -13,13 +14,18 @@ class ActionAnimation {
 	doneYet() {
 		return this.time > this.totalDuration;
 	}
+	toNearestHit() {
+		if (this.hits.length <= 0)
+			return NaN;
+		return this.hits[0].time - this.time;
+	}
 }
 
 class PlaceholderAttackAnimation extends ActionAnimation {
 	constructor(...a) {
 		super(...a);
-		this.hits.forEach((h, i) => h.time = 30 + 5*i);
-		this.totalDuration = 40 + 5*this.hits.length;
+		this.hits.forEach((h, i) => h.time = 20 + 5*i);
+		this.totalDuration = 30 + 5*this.hits.length;
 	}
 	update(...a) {
 		super.update(...a);

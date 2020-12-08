@@ -16,10 +16,8 @@ CAForceDart.prototype.cdMax = 2;
 
 SKILL_DATA.force_dart = {
 	name : "Force Dart",
-	flavor : "Basic magical attack.",
+	flavor : "One of the most basic and reliable magical attack.",
 	costs : [10],
-	//vnDescs : ["Know the Acquaintance and Affection of people you interact with."],
-	rpgDescs : ["Deals force damage to one enemy."],
 	category : "arcane",
 	subcategory : "energy",
 	treex : 1,
@@ -48,8 +46,6 @@ SKILL_DATA.fireball = {
 	name : "Fireball",
 	flavor : "Powerful fire attack.",
 	costs : [50],
-	//vnDescs : ["Know the Acquaintance and Affection of people you interact with."],
-	rpgDescs : ["Deals explodey fire damage."],
 	category : "arcane",
 	subcategory : "energy",
 	treex : 2,

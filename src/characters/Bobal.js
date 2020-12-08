@@ -29,8 +29,8 @@ CHARACTER_DATA.bobal = {
 	roomLocation : "dorms",
 	dialog : {
 		greeting : [
-			{text : "Hello.", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Hello, [playername].", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
+			{text : "Hello.", reqs:[{type:"affinity", compare:"max", amount:ACQUAINT_MET}]},
+			{text : "Hello, [playername].", reqs:[{type:"affinity", compare:"min", amount:ACQUAINT_MET}]},
 		],
 		introduction : [
 			{log : [
@@ -44,7 +44,7 @@ CHARACTER_DATA.bobal = {
 			]},
 		],
 		ask : [
-			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
+			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
 				{speaker:"Bobal", text:"Well, I was planning on going to the Oshton Institute to learn business..."},
 				{speaker:"Bobal", text:"But a few years ago, it turned out I had some natural affinity for magic, and so I matriculated here at Asolaz instead."},
 			], firstUps:[

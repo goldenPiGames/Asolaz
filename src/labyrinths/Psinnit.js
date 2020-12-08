@@ -1,3 +1,7 @@
-class PsinnitLabyrinth extends Labyrinth {
+class PsinnitFloor extends LabyrinthFloor {
 	
 }
+
+//LABYRINTH_
+
+//TODO

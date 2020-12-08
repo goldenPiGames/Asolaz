@@ -19,7 +19,7 @@ class SceneScreen extends Screen {
 			}
 		} else if (typeof s == "object") {
 			this.scene = s;
-		} else {
+		} else if (s) {
 			throwMaybe("No such scene as "+s);
 		}
 		this.charImg = new CharImgHandler();
@@ -27,6 +27,37 @@ class SceneScreen extends Screen {
 			this.startLog(this.scene.log);
 		//console.log(this.scene);
 		this.rightMenu = new RightMenu(this, RIGHTMENU_VN);
+	}
+	resize() {
+		this.rightMenu.resize();
+		if (this.choiceButtons) {
+			this.choiceButtons.forEach((butt, dex, ray) => butt.resize(canvas.width/4, canvas.height*(dex+1)/(ray.length+1)-40, canvas.width/2, 40));
+		}
+	}
+	update() {
+		if (this.rightMenu.update(this)) {
+			return;
+		} if (this.choiceButtons) {
+			this.choiceButtons.forEach(b=>b.update());
+		} else if (mouse.clicked) {
+			this.advanceLine();
+		} else if (!this.line && runnee == this) {
+			this.logEnded();
+		}
+	}
+	draw() {
+		this.charImg.draw();
+		this.rightMenu.draw(this);
+		if (this.text) {
+			ctx.fillStyle = palette.normal;
+			drawADV(this.text, this.line.speakerID || this.line.speaker);
+		}
+		if (this.choiceButtons) {
+			this.choiceButtons.forEach(b=>b.draw());
+		}
+		if (this.countdownName && this.index < this.countdownIndex) {
+			drawTextInRect(this.countdownName + " in: " + (this.countdownIndex-this.index), this.rightMenu.x-250, 0, 250, 40, {align:"right", stroke:palette.normal, fill:palette.background});
+		}
 	}
 	startLog(log) {
 		this.index = -1;
@@ -49,37 +80,6 @@ class SceneScreen extends Screen {
 			this.countdownIndex = count;
 		} else {
 			this.countdownName = null;
-		}
-	}
-	resize() {
-		this.rightMenu.resize();
-		if (this.choiceButtons) {
-			this.choiceButtons.forEach((butt, dex, ray) => butt.resize(canvas.width/4, canvas.height*(dex+1)/(ray.length+1)-40, canvas.width/2, 40));
-		}
-	}
-	update() {
-		if (this.rightMenu.update(this)) {
-			return;
-		} if (this.choiceButtons) {
-			this.choiceButtons.forEach(b=>b.update());
-		} else if (mouse.clicked) {
-			this.advanceLine();
-		} else if (!this.line && runnee == this) {
-			this.logEnded();
-		}
-	}
-	draw() {
-		this.charImg.draw();
-		if (this.text) {
-			ctx.fillStyle = palette.normal;
-			
-			drawADV(this.text, this.line.speaker);
-		}
-		if (this.choiceButtons) {
-			this.choiceButtons.forEach(b=>b.draw());
-		}
-		if (this.countdownName && this.index < this.countdownIndex) {
-			drawTextInRect(this.countdownName + " in: " + (this.countdownIndex-this.index), this.rightMenu.x-250, 0, 250, 40, {align:"right", stroke:palette.normal, fill:palette.background});
 		}
 	}
 	advanceLine() {
@@ -111,7 +111,7 @@ class SceneScreen extends Screen {
 			this.choiceButtons = null;
 		}
 		if (this.line.music) {
-			playMusic(this.line.music);
+			playMusicFromStart(this.line.music);
 		}
 		if (this.line.location) {
 			changeLocation(this.line.location);
@@ -150,7 +150,8 @@ class SceneScreen extends Screen {
 		} else {
 			switch (line.action) {
 				case "return" : this.returnToLocation(); return;
-				case "charParamUp" : this.spliceInLog(charParamUp(line.character || this.character || characterFocus, line)); return;
+				case "affinityUp" : this.spliceInLog(affinityUp(line.character || this.character || characterFocus, line)); break;
+				case "charParamUp" : throwMaybe("charParamUp is dead"); return;
 			}
 		}
 	}

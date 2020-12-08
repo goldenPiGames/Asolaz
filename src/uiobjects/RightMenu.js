@@ -31,6 +31,17 @@ const RIGHTMENU_VN = {
 		//{id:"settings", name:"Settings", cons:SettingsSubscreen},
 	],
 }
+
+const RIGHTMENU_LABYRINTH = {
+	last : PeopleMenu,
+	list : [
+		//{id:"people", name:"People", cons:PeopleMenu},
+		{id:"learn", name:"Learn", cons:SkillMenu},
+		{id:"settings", name:"Settings", cons:SettingsMenu},
+		{id:"load", name:"Load", cons:LoadMenu},
+		//{id:"settings", name:"Settings", cons:SettingsSubscreen},
+	],
+}
 /*
 Pass Time
 Move
@@ -57,10 +68,11 @@ class RightMenu {
 		this.returnButton = new RightMenuButton({id:"return"}, -1);
 	}
 	resize() {
-		var heightEach = Math.min(canvas.height/this.buttons.length, 128);
+		var heightEach = Math.min(canvas.height/(this.buttons.length+1), 128);
 		this.returnButton.resize(0, heightEach);
 		this.buttons.forEach((b, i) => b.resize(canvas.height - heightEach * (this.buttons.length - i), heightEach));
 		this.x = canvas.width - heightEach;
+		return (this.x);
 	}
 	update(from) {
 		this.buttons.forEach(b=>b.update());

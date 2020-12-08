@@ -82,8 +82,12 @@ class SkillLearnMenu extends UIObject {
 		if (this.actionDetailsNow)
 			this.actionDetailsNow.resize(this.x, this.y+this.height*.5, this.width/2, this.height*.3);
 		if (this.actionDetailsNext)
-			this.actionDetailsNext.resize(this.x+this.width/2, this.y+this.height*.4, this.width/2, this.height*.4);
-		this.learnButton.resize(this.x + this.width - 180, this.y + this.height - 60, 170, 50);
+			this.actionDetailsNext.resize(this.x+this.width/2, this.y+this.height*.5, this.width/2, this.height*.3);
+		this.costX = this.x+this.width*3/4;
+		this.costY = this.y+this.height*.85;
+		this.costWidth = this.width/4;
+		this.costHeight = this.height*.05;
+		this.learnButton.resize(this.costX+10, this.y + this.height*.9+10, this.costWidth-20, this.height*.1-20);
 	}
 	update() {
 		super.update();
@@ -103,6 +107,11 @@ class SkillLearnMenu extends UIObject {
 			this.actionDetailsNow.draw();
 		if (this.actionDetailsNext)
 			this.actionDetailsNext.draw();
+		if (this.cost) {
+			drawTextInRect(data.player.inspiration, this.costX, this.costY, this.costWidth/2, this.costHeight);
+			drawTextInRect("/", this.costX, this.costY, this.costWidth, this.costHeight);
+			drawTextInRect(this.cost, this.costX+this.costWidth/2, this.costY, this.costWidth/2, this.costHeight);
+		}
 		/*if (this.known < this.skillData.maxLevel) {
 			drawTextInRect("Level "+(this.known+1), this.x+this.width/2, this.y + this.height/3 - 50, this.width/2, 45);
 			drawParagraphInRect(this.skillData.vnDescs[this.known], this.x+this.width/2+5, this.y + this.height/3, this.width/2-10, this.height/6, 24);

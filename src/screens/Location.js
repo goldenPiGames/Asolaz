@@ -4,6 +4,8 @@ function returnToLocation() {
 	//	switchScreen(new NotificationsScene(tolog));
 	//else
 	refreshBG();
+	playLocationMusic();
+	autosave();
 	switchScreen(new LocationScreen());
 }
 
@@ -46,6 +48,7 @@ class LocationScreen extends Screen {
 			case "roomdoor": checkRoomDoor(thing.id); break;
 			case "sleep": sleepFromLocation(); break;
 			case "readbooks": readAtLibrary(); break;
+			case "labyrinth": enterLabyrinthFromLocation(thing.id); break;
 		}
 	}
 }

@@ -4,89 +4,82 @@ CHARACTER_DATA.cora = {
 	wegender : GENDER_MALE,
 	age : 22,
 	colors : {
-		light : "#FF4080",
-	},
-	paramsBase : {
-		morality : 70,
-		legality : 60,
-		friendliness : 80,
-		selfesteem : 50,
-		willpower : 60,
-		psiaware : 10,
-		arcaware : 70,
-		sluttiness : 50,
+		light : "#FF80B0",
 	},
 	body : {
 		penis : false,
 		vagina : true,
 	},
 	likes : {
-		smalltalk : .8,
+		smalltalk : LIKES_MUCH,
+		labyrinth : LIKES_SOME,
 	},
 	skills : {
 		healing : 1,
 	},
 	roomLocation : "dorms",
 	dialog : {
-		greeting : [
-			{text : "Oh, hey.", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Oh hey, [playername]. What's up?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-			{text : "Oh hey, [playername]. How's it going?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-		],
 		introduction : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's nice to meet you. I'm Cora, I specialize in healing arcana and I work in the clinic."},
+				{charimg:{character:"cora", outfit:"default", pose:"standing"}},
+				{speakerID:"cora", text:"Oh, it's nice to meet you. I'm Cora, I specialize in healing arcana and I work in the clinic."},
+			]},
+		],
+		greeting : [
+			{log : [
+				{speakerID:"cora", text:"Oh hey, [playername]. What's up?"},
+			]},
+			{log : [
+				{speakerID:"cora", text:"Oh hey, [playername]. How's it going?"},
 			]},
 		],
 		/*knock_drowsing_goway : [
 			{log : [
 				{text:"Cora opens the door ajar. She has a toothbrush in her mouth and a grumpy expression."},
-				{speaker:"Cora", text:"What?"},
+				{speakerID:"cora", text:"What?"},
 				{text:"She hardly waits for an answer before closing the door in your face."},
 			]},
 		],
 		knock_drowsing_in : [
 			{log : [
-				{speaker:"Cora", text:"Oh, hey, [playername]. I was just getting ready for bed."},
+				{speakerID:"cora", text:"Oh, hey, [playername]. I was just getting ready for bed."},
 			]},
 		],*/
 		smalltalk : [
 			{log : [
-				{speaker:"Cora", text:"I work in the clinic on Sunday, Monday, Wednesday, Thursday, and Friday."},
-				{speaker:"Cora", text:"It's not too hard, and the patients are always happy to see me. Oh, and I can practice my healing arcana, too."},
+				{speakerID:"cora", text:"I work in the clinic on Sunday, Monday, Wednesday, Thursday, and Friday."},
+				{speakerID:"cora", text:"It's not too hard, and the patients are always happy to see me. Oh, and I can practice my healing arcana, too."},
 			]},
 			{log : [
-				{speaker:"Cora", text:"Have you been to the library? There are plenty of interesting books there, and it's a great place to study."},
-				{speaker:"Cora", text:"I don't have the time to go there often, but I'm usually there between classes on Tuesday and Thursday."},
+				{speakerID:"cora", text:"Have you been to the library? There are plenty of interesting books there, and it's a great place to study."},
+				{speakerID:"cora", text:"I don't have the time to go there often, but I'm usually there between classes on Tuesday and Thursday."},
 			]},
 			/*{log : [
-				{speaker:"Cora", text:""},
-				{speaker:"Cora", text:"I don't have the time to go there often."},
+				{speakerID:"cora", text:""},
+				{speakerID:"cora", text:"I don't have the time to go there often."},
 			]},*/
 		],
 		ask : [
-			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
-				{speaker:"Cora", text:"I'm here to practice healing arcana."},
-			], firstUps:[
-				{action:"charParamUp", param:"acquaint", by:5, upto:50},
+			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
+				{speakerID:"cora", text:"I'm here to practice healing arcana."},
 			]},
 		],
 		knock_offersleep : [
 			{log : [
-				{speaker:"Cora", text:"Oh hey, [pname]. I was just getting ready for bed."},
-				{speaker:"Cora", text:"...Would you like to go to bed with me?"},
+				{speakerID:"cora", text:"Oh hey, [pname]. I was just getting ready for bed."},
+				{speakerID:"cora", text:"...Would you like to go to bed with me?"},
 			]},
 		],
 		room_late_leave : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's getting late. See you later, [pname]."},
+				{speakerID:"cora", text:"Oh, it's getting late. See you later, [pname]."},
 			]},
 			
 		],
 		room_late_offersleep : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's getting late. I'll be going to bed soon."},
-				{speaker:"Cora", text:"...Would you like to go to bed with me?"},
+				{speakerID:"cora", text:"Oh, it's getting late. I'll be going to bed soon."},
+				{speakerID:"cora", text:"...Would you like to go to bed with me?"},
 			]},
 		],
 	},
@@ -189,6 +182,8 @@ CHARACTER_DATA.cora = {
 		{what:"Dress", name:"Dress C", by:"amyaimei", deviantart:"amyaimei/art/Dress-C-for-Genesis-8-Female-749167075"},
 		{what:"Dress Texture", name:"Original", by:"goldenPiGames"},
 		{what:"Dress Normal", name:"Fabric Normal", by:"nomeradona", sites:[{name:"WordPress", href:"https://nomeradona.wordpress.com/resources/resources-and-download/nomeradona_fabric_normal/"}]},
+		{what:"Swimsuit", name:"Swimsuit 15", by:"Adam Thwaites", mostdigitalcreations:"g8f_swimsuit_15"},
+		{what:"Underwear", name:"Underwear", by:"amyaimei", deviantart:"amyaimei/art/Underwear-Set-for-Genesis-8-Female-758121481", adult:true},
 		{what:"Hair", name:"French Twist Hair", by:"zoro_d", renderosity:81937},
 		{what:"Shoes", name:"Loafers", by:"amyaimei", deviantart:"amyaimei/art/Loafers-for-Genesis-8-Female-713978510"},
 		{what:"Standing Pose", name:"WkD3D Casual Standing Poses", by:"tomcatoliver", renderosity:86168},

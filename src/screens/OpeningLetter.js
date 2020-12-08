@@ -116,7 +116,7 @@ const OPENING_BACKGROUNDS = [
 		inspiration : 60,
 		money : OPENING_MONEY_MEDIUM,
 		skills : {
-			power_attack : 1,
+			power_chop : 1,
 			//worker : 1,
 		},
 	},
@@ -158,7 +158,7 @@ const OPENING_BACKGROUNDS = [
 		inspiration : 30,
 		money : OPENING_MONEY_LOW,
 		skills : {
-			power_attack : 1,
+			power_chop : 1,
 			sonic_raid : 1,
 		},
 	},

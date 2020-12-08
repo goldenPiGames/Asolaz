@@ -8,19 +8,27 @@ const MUSIC_STOP = "STOP RIGHT THERE, CRIMINAL SCUM!";
 
 function initMusic() {
 	music = document.getElementById("Music");
-	setMusicShuffle(jukeboxSpecs.shuffle);
+	music.volume = settings.music;
+	setMusicShuffle(false);
+	//setMusicShuffle(jukeboxSpecs.shuffle);
 }
 
 function playMusic(sin) {
 	if (!music) {
 		//return;
 	}
-	if (sin == MUSIC_STOP || sin == null) {
+	if (sin == MUSIC_STOP || !sin) {
 		music.pause();
 		return;
 	}
 	if (typeof sin == "string") {
+		let sinname = sin;
 		sin = SONG_HASH[sin];
+		if (!sin) {
+			throwMaybe(sinname + " is not a song");
+			music.pause();
+			return;
+		}
 	}
 	//console.log(sin, song, music.src, sin.src)
 	if (sin == song && sin == songLast) {
@@ -28,14 +36,33 @@ function playMusic(sin) {
 			music.play();
 		return;
 	}
+	if (song)
+		song.leftOff = music.currentTime;
 	song = sin;
 	songLast = sin;
 	musicIsAlt = false;
 	music.src = song.src;
-	music.currentTime = 0;
 	music.volume = settings.music;
 	if (settings.music)
 		music.play();
+}
+
+function playMusicFromLeftOff(sin) {
+	let justSong = song;
+	playMusic(sin);
+	if (song != justSong) {
+		//console.log(song.leftOff)
+		music.currentTime = song.leftOff || 0;
+	}
+}
+
+function playMusicFromStart(sin) {
+	let justSong = song;
+	playMusic(sin);
+	if (song != justSong) {
+		//console.log(song.leftOff)
+		music.currentTime = 0;
+	}
 }
 
 /*function switchMusic() {
@@ -84,10 +111,12 @@ function shuffleMusic() {
 }
 
 function setMusicVolume(pingas) {
+	if (pingas == settings.music)
+		return;
+	settings.music = pingas;
 	if (!music)
 		return;
 	var sp;
-	//console.log(music.volume, pingas);
 	if (!pingas) {
 		if (music.volume) {
 			music.pause();
@@ -103,6 +132,10 @@ function setMusicVolume(pingas) {
 	}
 }
 
+function getMusicVolume() {
+	return settings.music;
+}
+
 function getMusicPosition() {
 	return !song ? 0 : music.currentTime.toFixed(2);
 }
@@ -114,7 +147,7 @@ function setMusicPosition(tim) {
 
 function musicLoopCheck() {
 	//console.log(music.currentTime);
-	if (!jukeboxSpecs.shuffle && song && song.loopEnd && music.currentTime >= song.loopEnd) {
+	if (song && song.loopEnd && music.currentTime >= song.loopEnd) {
 		var d = song.loopEnd - song.loopStart;
 		//music.pause();
 		music.currentTime -= d;

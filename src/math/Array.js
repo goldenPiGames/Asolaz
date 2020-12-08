@@ -2,6 +2,14 @@ function randomTerm(ray, determ) {
 	return ray[Math.floor((determ ? rng.get() : Math.random()) * ray.length)];
 }
 
+Object.defineProperty(Array.prototype, 'randomTerm', {
+	value: function() {
+		return this[Math.floor(this.length*Math.random())];
+	},
+	configurable: true,
+	writable: true
+});
+
 function randomTermWeighted(ray, weightgen = ()=>1) {
 	var weights = ray.map(oj=>Math.max(0, weightgen(oj)));
 	var total = 0;
@@ -29,6 +37,60 @@ function newArray2d(i, j, fill = 0) {
 function newArray2dLambda(i, j, func) {
 	return new Array(i).fill(0).map((oji, i)=>new Array(j).fill(0).map((ojj, j)=>func(i, j)));
 }
+
+Object.defineProperty(Array.prototype, 'forEach2d', {
+	value: function(func) {
+		this.forEach((col,i)=>col.forEach((thing,j)=>func(thing, i, j)));
+	},
+	configurable: true,
+	writable: true
+});
+
+Object.defineProperty(Array.prototype, 'map2d', {
+	value: function(func) {
+		return this.map((col,i)=>col.map((thing,j)=>func(thing, i, j)));
+	},
+	configurable: true,
+	writable: true
+});
+
+Object.defineProperty(Array.prototype, 'filter2d', {
+	value: function(func) {
+		var toret = [];
+		for (var i = 0; i < this.length; i++) {
+			for (var j = 0; j < this[i].length; j++) {
+				if (func(this[i][j], i, j))
+					toret.push(this[i][j]);
+			}
+		}
+		return toret;
+	},
+	configurable: true,
+	writable: true
+});
+
+/*Object.defineProperty(Array.prototype, 'find2d', {
+	value: function(func) {
+		return this.map((col,i)=>col.map((thing,j)=>func(thing, i, j)));
+	},
+	configurable: true,
+	writable: true
+});*/
+
+Object.defineProperty(Array.prototype, 'mapString2dInv', {
+	value: function(func) {
+		var str = "";
+		for (var j = 0; j < this[0].length; j++) {
+			for (var i = 0; i < this.length; i++) {
+				str += func(this[i][j]);
+			}
+			str += "\n";
+		}
+		return str;
+	},
+	configurable: true,
+	writable: true
+});
 
 function slice2d(ray) {
 	return ray.map(row=>row.slice());
@@ -120,3 +182,18 @@ function shuffleArray(orig, determ) {
 	}
 	return ray;
 }
+
+Object.defineProperty(Array.prototype, 'shuffle', {
+	value: function() {
+		ray = this.slice();
+		for (var i = ray.length-1; i > 0; i--) {
+			let r  = Math.floor(Math.random() * (i+1));
+			let temp = ray[i];
+			ray[i] = ray[r];
+			ray[r] = temp;
+		}
+		return ray;
+	},
+	configurable: true,
+	writable: true
+});

@@ -1,15 +1,24 @@
-SKILL_DATA.read_basic = {
-	name : "Read Basic",
-	flavor : "Basic reading skill. Allows you to read surface information about the target, such as their impressions of you or their basic status.",
+SKILL_DATA.read_affinity = {
+	name : "Read Affinity",
+	flavor : "Know how much affinity a person has with you.",
 	costs : [10],
-	vnDescs : ["Know the Acquaintance and Affection of people you interact with."],
-	rpgDescs : ["Know the HP and MP of enemies in combat."],
+	vnDescs : ["Know the Affinity of people you interact with."],
 	category : "psionic",
 	subcategory : "reading",
 	treex : 1,
 	treey : 1,
 }
-SKILL_DATA.read_attack = {
+SKILL_DATA.read_hp = {
+	name : "Read HP",
+	flavor : "Detect the current well-being of enemies in combat.",
+	costs : [10],
+	vnDescs : ["See enemy HP bars."],
+	category : "psionic",
+	subcategory : "reading",
+	treex : 2,
+	treey : 1,
+}
+/*SKILL_DATA.read_attack = {
 	name : "Read Attack",
 	flavor : "Something something read.",
 	costs : [10],
@@ -32,8 +41,8 @@ SKILL_DATA.read_defense = {
 	subcategory : "reading",
 	treex : 2,
 	treey : 2,
-}
-SKILL_DATA.read_change = {
+}*/
+/*SKILL_DATA.read_change = {
 	name : "Read Change",
 	flavor : "Your constant reading allows you to immediately know when your target's status changes.",
 	costs : [5],
@@ -44,11 +53,11 @@ SKILL_DATA.read_change = {
 	subcategory : "reading",
 	treex : 2,
 	treey : 1,
-}
+}*/
 SKILL_DATA.track = {
-	name : "Tracking",
+	name : "Track",
 	flavor : "Once you've met someone, you know where they are the People menu.",
-	costs : [30],
+	costs : [2],
 	vnDescs : ["Know peoples' current location from the Journal."],
 	rpgDescs : ["Know the location of enemies in the dungeon."],
 	category : "psionic",
@@ -57,7 +66,11 @@ SKILL_DATA.track = {
 	treey : 1,
 }
 
-function canPlayerReadStat(stat) {
+function canTrackCharacter(charID) {
+	return playerSkillKnown("track");
+}
+
+/*function canPlayerReadStat(stat) {
 	var skill = ""
 	switch (stat) {
 		case STAT_HP_MAX: skill = "read_basic"; break;
@@ -70,4 +83,4 @@ function canPlayerReadStat(stat) {
 		case STAT_ARCANE_DEFENSE: skill = "read_defense"; break;
 	}
 	return playerSkillKnown(skill);
-}
+}*/

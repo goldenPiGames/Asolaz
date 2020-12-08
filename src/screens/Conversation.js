@@ -1,24 +1,36 @@
 var characterFocus = null;
 
 function setCharacterFocus(car) {
-	characterFocus = car;
-	characterFocusData = CHARACTER_DATA[car];
+	if (car) {
+		characterFocus = car;
+		characterFocusData = CHARACTER_DATA[car];
+	}
 }
 
 function startConversation(character) {
-	switchScreen(new ConversationScreen(character))
+	setCharacterFocus(character);
+	if (hasPlayerMetCharacter(character)) {
+		switchScreen(new ConversationScreen(character));
+	} else {
+		var dia = randomCharDialog("introduction", character);
+		setCharacterMemory("met_player", character);
+		//if (dia.log[dia.log.length-1].action != startConversation)
+			//dia.log.push({action:startConversation});
+		startScene(dia);
+	}
 }
 
 class ConversationScreen extends SceneScreenFull {
-	constructor(character) {
+	constructor(character = characterFocus) {
 		super();
-		setCharacterFocus(character);
 		this.character = character;
 		this.charName = CHARACTER_DATA[this.character].name;
 		this.turnsStarted = getConversationTurns(this.character);
 		this.turns = this.turnsStarted;
 		this.startLog([
-			{speaker:this.charName, text:randomCharDialog("greeting", this.character).text, charimg:{character:this.character, outfit:"default", pose:"standing"}},
+		{
+			charimg:{character:this.character, outfit:data.characters[this.character].outfit, pose:"standing"}},
+			...randomCharDialog("greeting", this.character).log,
 			{choices:this.getChoices()},
 		]);
 	}
@@ -43,10 +55,9 @@ class ConversationScreen extends SceneScreenFull {
 	}
 	getChoices() {
 		return filterCharDialog([
-			{text:"Hello, I'm [playername].", action:()=>this.doIntroduction(), reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:0}]},
-			{text:"(Make small talk)", action:()=>this.doSmalltalk(), reqs:[{type:"cparam", param:"acquaint", compare:"over", amount:0}]},
-			{text:"(Ask [cgender|him|her|them] about...)", action:()=>this.doAskChoices(), reqs:[{type:"cparam", param:"acquaint", compare:"over", amount:0}]},
-			{text:"(Sexual...)", action:()=>this.doSexChoices(), reqs:[{type:"adult"}, {type:"cparam", param:"acquaint", compare:"over", amount:0}]},
+			{text:"(Make small talk)", action:()=>this.doSmalltalk(), reqs:[]},
+			{text:"(Ask [cgender|him|her|them] about...)", action:()=>this.doAskChoices(), reqs:[]},
+			{text:"(Sexual...)", action:()=>this.doSexChoices(), reqs:[{type:"adult"}, {type:"genconsent", rank:1}]},
 			{text:"Goodbye.", action:()=>this.bye()},
 		], this.character)
 	}
@@ -122,7 +133,6 @@ class ConversationScreen extends SceneScreenFull {
 		//charParamUp(this.character, {param:"acquaint", by:1, upto:1});
 		this.startLog([
 			...randomCharDialog("introduction", this.character).log,
-			{action:"charParamUp", param:"acquaint", by:1, upto:1},
 		]);
 	}
 	doSmalltalk() {
@@ -130,7 +140,7 @@ class ConversationScreen extends SceneScreenFull {
 		//charParamUp(this.character, {param:"acquaint", by:1, upto:50});
 		this.startLog([
 			...randomCharDialog("smalltalk", this.character).log,
-			{action:"charParamUp", param:"acquaint", by:1, upto:50},
+			{action:"affinityUp", smalltalk:1, by:1, upto:50},
 		]);
 	}
 	useTurn() {

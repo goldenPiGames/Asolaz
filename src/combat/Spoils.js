@@ -2,13 +2,22 @@ class CombatSpoilsScreen extends Screen {
 	constructor(battle) {
 		super();
 		var nems = battle.enemies;
-		this.combatExperience = nems.map(n=>n.getCexpYield()).reduce((a,c)=>a+c);
-		this.after = battle.onWin;
+		this.expEarned = nems.map(n=>n.getCexpYield()).reduce((a,c)=>a+c);
+		this.after = battle.afterWin;
 		this.continueButton = new Button("Continue", ()=>this.contin(), {stroke:palette.normal, fill:palette.background});
+		this.expForNext = getRequiredCexpChangeFrom(data.player.combatLevel);
+		this.expBefore = data.player.combatExperience;
+		this.expAfter = data.player.combatExperience + this.expEarned;
 		this.resize();
 	}
 	resize() {
-		this.continueButton.resize(canvas.width-200, canvas.height-50, 190, 40);
+		this.continueButton.resize(canvas.width-300, canvas.height-70, 300, 70);
+		this.expBarY = 100;
+		this.expBarHeight = 50;
+		this.expBarX = 50;
+		this.expBarWidthTotal = canvas.width-100;
+		this.expBarWidthBefore = this.expBarWidthTotal * Math.min(this.expBefore/this.expForNext, 1);
+		this.expBarWidthAfter = this.expBarWidthTotal * Math.min(this.expAfter/this.expForNext, 1);
 	}
 	update() {
 		if (!this.applied) {
@@ -17,30 +26,39 @@ class CombatSpoilsScreen extends Screen {
 		this.continueButton.update();
 	}
 	draw() {
-		drawTextInRect("Combat Exp: "+this.combatExperience, 0, 0, canvas.width, 100, {fill:palette.normal});
+		drawTextInRect("Combat Exp: "+this.expEarned, 0, 0, canvas.width, 100, {fill:palette.normal});
+		ctx.fillStyle = palette.background;
+		ctx.fillRect(this.expBarX, this.expBarY, this.expBarWidthTotal, this.expBarHeight);
+		ctx.fillStyle = palette.hover;
+		ctx.fillRect(this.expBarX, this.expBarY, this.expBarWidthAfter, this.expBarHeight);
+		ctx.fillStyle = palette.normal;
+		ctx.fillRect(this.expBarX, this.expBarY, this.expBarWidthBefore, this.expBarHeight);
+		ctx.strokeStyle = palette.normal;
+		ctx.lineWidth = 4;
+		ctx.strokeRect(this.expBarX, this.expBarY, this.expBarWidthTotal, this.expBarHeight);
 		this.continueButton.draw();
 	}
 	apply() {
-		data.player.combatExperience += this.combatExperience;
+		data.player.combatExperience += this.expEarned;
 		this.applied = true;
 	}
 	contin() {
-		this.after();
-		if (runnee == this)
-			returnToLocation();
+		checkLevelUps(this.after);
 	}
 }
 
 function checkLevelUps(after) {
 	if (data.player.combatExperience >= getRequiredCexpChangeFrom(data.player.combatLevel)) {
-		data.player.combatExperience -= getRequiredCexpChangeFrom(data.player.combatLevel)
+		data.player.combatExperience -= getRequiredCexpChangeFrom(data.player.combatLevel);
 		data.player.combatLevel ++;
 		switchScreen(new LevelUpScreen(after));
 	} else {
 		if (after)
 			after();
-		else
+		if (runnee instanceof CombatSpoilsScreen || runnee instanceof LevelUpScreen) {
+			throwMaybe("after doesn't go anywhere");
 			returnToLocation();
+		}
 	}
 }
 
@@ -73,7 +91,7 @@ class LevelUpScreen extends Screen {
 		this.continButton.draw();
 		//this.objects.forEach((oj)=>oj.draw());
 		drawTextInRect("Level "+this.level, 0, 0, canvas.width, 50, {stroke:palette.normal, fill:palette.background});
-		drawTextInRect("I'm gonna put in a thing that lets you choose your stat bonuses, but for now it's just +10 to everything", 0, 60, canvas.width, 100, 25, {stroke:palette.normal, fill:palette.background});
+		drawTextInRect("I'm gonna put in a thing that lets you choose your stat bonuses, but for now it's just +1 to everything", 0, 60, canvas.width, 100, 25, {stroke:palette.normal, fill:palette.background});
 		/*for (var i = 0; i < 8; i++) {
 			ctx.fillStyle = this.hoveredIncreases[i] ? palette.hover : palette.normal;
 			fillTextInRect(this.leveler.stats[i] + this.hoveredIncreases[i], settings.width - 5, this.yStart + this.yIncrement*i, settings.width/8, 30);
@@ -165,8 +183,3 @@ function getLevelUpIncreases(level, isCompanion) {
 	}
 	return transposeArray(ordered);
 }
-
-function forNextLevel(level) {
-	return Math.ceil(Math.pow(level, 2) * (5-difficulty));
-}
-

@@ -30,8 +30,8 @@ CHARACTER_DATA.nokolm = {
 	roomLocation : "dorms",
 	dialog : {
 		greeting : [
-			{text : "What do you want?", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Good to see you, [playername].", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
+			{text : "What do you want?", reqs:[{type:"affinity", compare:"max", amount:ACQUAINT_MET}]},
+			{text : "Good to see you, [playername].", reqs:[{type:"affinity", compare:"min", amount:ACQUAINT_MET}]},
 		],
 		introduction : [
 			{log : [
@@ -57,7 +57,7 @@ CHARACTER_DATA.nokolm = {
 			]},
 		],
 		ask : [
-			/*{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
+			/*{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
 				{speaker:"Ammette", text:"I'm here to practice healing arcana."},
 			], firstUps:[
 				{action:"charParamUp", param:"acquaint", by:5, upto:50},

@@ -14,44 +14,57 @@ function makeSound(nom) {
 	document.body.appendChild(fec);
 	return fec;
 }
-var sfx = {
+
+var sfxCyclers = {
 	
 }
+
+function requireSFX(id, count=1) {
+	if (!sfxCyclers[id])
+		sfxCyclers[id] = new SFXCycler(id, count);
+	else
+		sfxCyclers[id].requireElems(count);
+}
+
 function initSFX() {
-	lastSFXvolume = settings.sfx;
-	sfx = {
-		"blip1_0" : makeSound("blip1.wav"), //audacity: chirp: 440Hz, 0.8-0.1, .05s
-		"blip1_1" : makeSound("blip1.wav"),
-		"blip1_2" : makeSound("blip1.wav"),
-		"blip1" : new SFXCycler(["blip1_0", "blip1_1", "blip1_2"]),
-		"blipdown" : makeSound("blipdown.wav"), //audacity: chirp: 440-220Hz, 0.8-0.1, .06s
-	}
+	
+	//lastSFXvolume = settings.sfx;
 }
 
 function playSFX(name) {
 	//console.log(name)
-	if (!settings.sfx)
+	if (!settings.sfx) {
 		return;
-	sfx[name].play();
+	}
+	if (!sfxCyclers[name]) {
+		throwMaybe("SFX "+name+" has not been required.");
+		return false;
+	}
+	sfxCyclers[name].play();
 }
 
-function setSFXVolume(quant) {
+/*function setSFXVolume(quant) {
 	if (quant != lastSFXvolume) {
 		for (f in sfx) {
 			sfx[f].volume = quant;
 		}
 		lastSFXvolume = quant;
 	}
-}
+}*/
 
 class SFXCycler {
-	constructor(names) {
-		this.names = names;
+	constructor(name, numElems) {
+		this.name = name;
+		this.elems = [];
 		this.cycle = 0;
+		this.requireElems(numElems);
+	}
+	requireElems(count) {
+		while (this.elems.length < count)
+			this.elems.push(makeSound(this.name+".wav"));
 	}
 	play() {
-		this.cycle = this.cycle % this.names.length;
-		playSFX(this.names[this.cycle]);
-		this.cycle++;
+		this.elems[this.cycle].play();
+		this.cycle = (this.cycle+1) % this.elems.length;;
 	}
 }

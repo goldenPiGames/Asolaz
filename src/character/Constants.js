@@ -2,76 +2,9 @@ const CHARACTER_DATA = {
 	
 }
 
-const CHARACTER_PARAMS_START_ZERO = [
-	"acquaint",
-	"affection",
-	//"obedience",
-]
-
-const CHARACTER_PARAMS_INDIVIDUAL = [
-	//"morality",
-	//"legality",
-	//"friendliness",
-	//"selfesteem",
-	"willpower",
-	"psiaware",
-	"arcaware",
-	//"sluttiness",
-]
-
-const CHARACTER_PARAMS = [
-	...CHARACTER_PARAMS_START_ZERO,
-	...CHARACTER_PARAMS_INDIVIDUAL,
-]
-
-const PARAM_DATA = {
-	acquaint : {
-		name : "Acquaintance",
-		read : "read_basic",
-		description : "How well this person knows you.",
-		expUp : 1,
-	},
-	affection : {
-		name : "Affection",
-		read : "read_basic",
-		description : "How much this person likes you.",
-		expUp : 2,
-	},
-	obedience : {
-		name : "Obedience",
-		read : "read_basic",
-		description : "How much this character will obey you submissively.",
-		expUp : 2,
-	},
-	morality : {
-		name : "Morality",
-		//read : "read_basic",
-		description : "How much this person follows what they believe is right.",
-	},
-	legality : {
-		name : "Legality",
-		//read : "read_basic",
-		description : "How much this person follows the law.",
-	},
-	willpower : {
-		name : "Willpower",
-		read : "read_defense",
-		description : "Ability to resist all kinds of psionics.",
-	},
-	arcaware : {
-		name : "Arcane Awareness",
-		read : "read_defense",
-		description : "How likely someone is to recognize arcana being used.",
-	},
-	psiaware : {
-		name : "Psionic Awareness",
-		read : "read_defense",
-		description : "How likely someone is to recognize psionics being used.",
-	},
-	/*sluttiness : {
-		
-	}*/
-}
+const LIKES_MUCH = 2;
+const LIKES_SOME = 1;
+const LIKES_NOT = 0;
 
 const GENDER_MALE = 1;
 const GENDER_FEMALE = 2;
@@ -93,13 +26,11 @@ const SCHEDULE_LEARNING = {verbing:"learning", baseConvo:BASE_CONVO_SHORT};
 const SCHEDULE_PATROLLING = {verbing:"patrolling", baseConvo:BASE_CONVO_SHORT};
 const SCHEDULE_EXERCISING = {verbing:"exercising", baseConvo:BASE_CONVO_LONG};
 
-const ACQUAINT_MET = 1;
-
-function getCharParam(character, param) {
+/*function getCharParam(character, param) {
 	return data.characters[character].paramsCore[param];
-}
+}*/
 
-function charParamUp(character, args) {
+/*function charParamUp(character, args) {
 	if (!character)
 		character = characterFocus;
 	var already = data.characters[character].paramsCore[args.param];
@@ -124,6 +55,31 @@ function charParamUp(character, args) {
 		return line;
 	else
 		return false;
+}*/
+
+function affinityUp(character, args) {
+	if (!character)
+		character = characterFocus;
+	var already = data.characters[character].affinity;
+	var inc = 0;
+	if (args.smalltalk) {
+		var likes = CHARACTER_DATA[character].likes.smalltalk
+		inc = likes;
+	} else {
+		throwMaybe("haven't decided how to power this");
+		var upto = args.upto;
+		data.characters[character].paramsCore[args.param] = Math.min(already + args.by, args.upto);
+		var inc = data.characters[character].paramsCore[args.param] - already;
+	}
+	data.characters[character].affinity += inc;
+	earnInspiration(inc);
+	/*if (playerSkillKnown("read_change")) {
+		if (inc > 0)
+			return [{speaker:"Read Change", text:"Affinity increased by "+inc}];
+		else (inc > 0)
+			return [{speaker:"Read Change", text:"Affinity cannot be raised any higher from this interaction."}];
+	} else*/
+	return [];
 }
 
 function refreshCharStatus() {
@@ -133,5 +89,18 @@ function refreshCharStatus() {
 		//console.log(stadat);
 		card.outfit = stadat.outfit || stadat.status.outfit || "default";
 		card.location = stadat.location;
+	}
+}
+
+
+function resetCharacterData(id) {
+	var stati = CHARACTER_DATA[id];
+	data.characters[id] = {
+		id : id,
+		affinity : 0,
+		memory : {
+			
+		},
+		combatExperience : 0,
 	}
 }

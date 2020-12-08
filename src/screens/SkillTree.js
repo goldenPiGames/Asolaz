@@ -98,8 +98,9 @@ class SkillTreePanel extends UIObject {
 		}
 	}
 	draw() {
-		this.fill(this.known ? "#FFFFFF" : "#404040");
 		drawImageInRect(this.image, this.x, this.y, this.width, this.height);
+		if (!this.known)
+			this.fill("#40404080");
 		ctx.strokeStyle = this.clicked ? palette.click : this.hovered ? palette.hover : palette.normal;
 		this.stroke();
 	}

@@ -3,54 +3,49 @@ CHARACTER_DATA.alexia = {
 	gender : GENDER_FEMALE,
 	wegender : GENDER_MALE,
 	age : 21,
-	paramsBase : {
-		morality : 40,
-		legality : 70,
-		friendliness : 50,
-		selfesteem : 70,
-		willpower : 20,
-		psiaware : 0,
-		arcaware : 40,
-		sluttiness : 40,
+	colors : {
+		light : "#FFFF00",
 	},
+	music : "Lab Rats Theme",
 	body : {
 		penis : false,
 		vagina : true,
 	},
 	likes : {
-		smalltalk : .5,
+		smalltalk : LIKES_NOT,
+		labyrinth : LIKES_NOT,
 	},
 	skills : {
 		online_shopper : 1,
 	},
 	roomLocation : "dorms",
 	dialog : {
-		greeting : [
-			{text : "Hey there.", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Hey [pname]!", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-		],
 		introduction : [
 			{log : [
-				{speaker:"Alexia", text:"Hey, I'm Alexia."},
+				{charimg:{character:"alexia", outfit:"default", pose:"standing"}},
+				{speakerID:"alexia", text:"Hey, I'm Alexia."},
+			]},
+		],
+		greeting : [
+			{log : [
+				{speakerID:"alexia", text:"Hey [pname]!"},
 			]},
 		],
 		smalltalk : [
 			{log : [
-				{speaker:"Alexia", text:"All this magic is so weird and cool."},
-				{speaker:"Alexia", text:"There's nothing like it where I'm from."},
+				{speakerID:"alexia", text:"All this magic is so weird and cool."},
+				{speakerID:"alexia", text:"There's nothing like it where I'm from."},
 			]},
 			{log : [
-				{speaker:"Alexia", text:"I'm always at the beach on Saturdays."},
+				{speakerID:"alexia", text:"I go to the beach every Saturday."},
 			]},
 		],
 		ask : [
-			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
-				{speaker:"Alexia", text:"I have no idea why I got accepted here."},
-				{speaker:"Alexia", text:"I'm a biology major. I literally don't know anything about magic."},
-			], firstUps:[
-				{action:"charParamUp", param:"acquaint", by:5, upto:50},
+			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
+				{speakerID:"alexia", text:"I have no idea why I'm here."},
+				{speakerID:"alexia", text:"I'm a biology major. I literally don't know anything about magic."},
 			]},
-		]
+		],
 	},
 	weeklySchedule : [
 		//sunday

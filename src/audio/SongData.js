@@ -4,10 +4,20 @@ const MUSIC_GENRES = ["all", "chiptune"];
 
 
 const SONG_LIST_ABS = [
-	{name:"BattleField 4",
+	{name:"BattleField 2", loopStart:9, loopEnd:91.33,
+		by:"PeriTune", yt:"SWDVaQ8WAyM", siten:"PeriTune", site:"https://peritune.com/battlefield2/"},
+	{name:"BattleField 4", intensity:1,
 		by:"PeriTune", yt:"IR1aVoMOoRs", siten:"PeriTune", site:"https://peritune.com/battlefield4/"},
+	{name:"Legacy Ruins", intensity:1/4,
+		by:"PeriTune", yt:"wIdZoOKUIFI", siten:"PeriTune", site:"https://peritune.com/legacy_ruins/"},
+	{name:"Lost Place 6", intensity:1/2,
+		by:"PeriTune", yt:"SWUthfq_zaU", siten:"PeriTune", site:"https://peritune.com/lost_place6/"},
 	{name:"OverWorld 3", intensity:1/2,
 		by:"PeriTune", yt:"HGNbMDrjKgg", siten:"PeriTune", site:"https://peritune.com/overworld3/"},
+	{name:"Taisho Roman Theme 2 (Piano)", intensity:1/4,
+		by:"PeriTune", yt:"DbogJZ7POjA", siten:"PeriTune", site:"https://peritune.com/taishoroman_theme2/"},
+	{name:"World OP 2 (Music Box)", intensity:0,
+		by:"PeriTune", yt:"R4B-i9Mzf7Q", siten:"PeriTune", site:"https://peritune.com/world_op2/"},
 	{name:"Lab Rats Theme", intensity:0, adultOnly:1,
 		by:"Vren", pat:"vrengames"},
 ]
@@ -63,3 +73,6 @@ function toggleFavSong(sing) {
 	}
 }
 
+function playLocationMusic() {
+	playMusicFromLeftOff("Taisho Roman Theme 2 (Piano)");
+}

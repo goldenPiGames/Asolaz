@@ -1,5 +1,3 @@
-const BUTTON_BORDER_WIDTH = 3;
-
 class Button extends UIObject {
 	constructor(text, handler = doNothing, active = true) {
 		super();
@@ -27,7 +25,7 @@ class Button extends UIObject {
 		ctx.strokeStyle = color;
 		
 		ctx.fillStyle = palette.background;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
+		this.fill();
 		
 		this.stroke();
 		

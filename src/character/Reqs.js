@@ -10,8 +10,8 @@ function evalCharReqs(thing, character = characterFocus) {
 		return !thing.find(r=>!evalCharReqs(r, character));
 	} else if (thing.type) {
 		switch (thing.type) {
-			case "cparam":
-				var val = getCharParam(character, thing.param);
+			case "affinity":
+				var val = data.characters[character].affinity;
 				var aga = thing.amount;
 				//console.log(val, thing.compare, aga);
 				var result;
@@ -20,19 +20,26 @@ function evalCharReqs(thing, character = characterFocus) {
 					case "max": return result = val <= aga;
 					case "over": return result = val > aga;
 					case "under": return result = val < aga;
+					default: return result = val >= aga;
 				}
 			case "adult":
 				return VERSION_ADULT;
 			case "pskill":
 				return playerSkillKnown(thing.skill) >= (thing.level || 1);
 			case "genconsent"://general consent
-				return getCharParam(character, "acquaint") > 20;//TODO do this
+				return data.characters[character].affinity > 20;//TODO do this
 			case "outfit":
 				return data.characters[character].outfit == thing.outfit;
+			case "outfits":
+				return thing.outfits.find(o=>o==data.characters[character].outfit);
 			case "location":
 				return data.characters[character].location == thing.location;
 			case "pbody":
 				return data.player.body[thing.part];
+			case "memory":
+				return characterRemembers(thing.memid, character);
+			case "nomemory":
+				return !characterRemembers(thing.memid, character);
 			case "license":
 				if (thing.has == false)
 					return !data.player.licenses[thing.license]
@@ -46,6 +53,8 @@ function evalCharReqs(thing, character = characterFocus) {
 	} else
 		return true;
 }
+
+const GENCONSENT_LOW = 1;
 
 function filterCharDialog(stuff, character = characterFocus) {
 	var all = typeof stuff == "string" ? CHARACTER_DATA[character].dialog[stuff] : stuff;

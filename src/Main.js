@@ -2,6 +2,7 @@ var data = {};
 
 function begin() {
 	getUI();
+	initSFX();
 	loadSettings();
 	addEvents();
 	if (VERSION_ADULT && !settings.adultDontAsk) {
@@ -111,7 +112,15 @@ function drawParagraphInRect(text, x, y, width, height, size) {
 	return cy + size;
 }
 
-function drawADV(text, head) {
+function drawADV(text, stuff) {
+	var head;
+	var chardat = CHARACTER_DATA[stuff];
+	var colorBack = palette.background;
+	if (chardat) {
+		head = chardat.name;
+		colorBack = chardat.colors.light;
+	} else if (typeof stuff == "string")
+		head = stuff;
 	var bwidth = Math.min(canvas.width-10, Math.max(canvas.width/2, 600));
 	var bx = canvas.width/2 - bwidth/2;
 	var bheight = 200;
@@ -120,7 +129,7 @@ function drawADV(text, head) {
 	var hwidth = 240;
 	var hheight = 50;
 	var hy = by - hheight
-	ctx.fillStyle = palette.background;
+	ctx.fillStyle = colorBack;
 	ctx.strokeStyle = palette.normal;
 	ctx.fillRect(bx, by, bwidth, bheight);
 	ctx.strokeRect(bx, by, bwidth, bheight);
@@ -174,9 +183,10 @@ function makeImage(sauce) {
 
 function throwMaybe(...args) {
 	if (ERROR_THROW) {
-		throw args[0]
+		throw args[0];
 	} else {
 		console.log(...args);
+		return false;
 	}
 }
 

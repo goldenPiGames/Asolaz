@@ -26,9 +26,9 @@ CHARACTER_DATA.amvei = {
 	roomLocation : "dorms",
 	dialog : {
 		greeting : [
-			{text : "...Um, hi.", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Hi, [playername]. What's going on?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-			{text : "Hi, [playername]. How have you been?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
+			{text : "...Um, hi.", reqs:[{type:"affinity", compare:"max", amount:ACQUAINT_MET}]},
+			{text : "Hi, [playername]. What's going on?", reqs:[{type:"affinity", compare:"min", amount:ACQUAINT_MET}]},
+			{text : "Hi, [playername]. How have you been?", reqs:[{type:"affinity", compare:"min", amount:ACQUAINT_MET}]},
 		],
 		introduction : [
 			{log : [
@@ -53,7 +53,7 @@ CHARACTER_DATA.amvei = {
 			]},
 		],
 		ask : [
-			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
+			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
 				{speaker:"Amvei", text:"I've wantet to  come here as long as I've known I had the potential for magic."},
 			], firstUps:[
 				{action:"charParamUp", param:"acquaint", by:5, upto:50},

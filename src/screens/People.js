@@ -36,13 +36,11 @@ class PeopleMenu extends GameMenu {
 			this.charData = data.characters[this.charID];
 			this.paragraph = processText("[cname] <br> Gender: [cgender|Male|Female|Non-binary]", this.charID);
 			//TODO block reading
-			if (playerSkillKnown("track")) {
+			if (canTrackCharacter(this.charID)) {
 				this.paragraph += " <br> Location: " + LOCATION_DATA[data.characters[this.charID].location].name;
 			}
-			CHARACTER_PARAMS.forEach(parm => {
-				if (playerSkillKnown(PARAM_DATA[parm].read))
-					this.paragraph += " <br> " + PARAM_DATA[parm].name + ": " + getCharParam(this.charID, parm);
-			});
+			if (playerSkillKnown(PARAM_DATA[parm].read))
+				this.paragraph += " <br> " + PARAM_DATA[parm].name + ": " + getCharParam(this.charID, parm);
 		}
 	}
 }

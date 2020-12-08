@@ -33,6 +33,19 @@ function drawImageOutRect(img, x, y, width, height) {
 	}
 }
 
+function drawImageXYH(img, x, y, height) {
+	//TODO only accounts for tall images
+	try {
+		var wid = height*img.width/img.height;
+		ctx.drawImage(img, x-wid/2, y, wid, height);
+		return true;
+	} catch {
+		//ctx.fillStyle = "#FF0000";
+		//drawParagraphInRect(img.src + " isn't a valid image, apparently. I should probably fix this.", x, y, width, height, 25);
+		console.log(img.src + " isn't a valid image, apparently. I should probably fix this.");
+	}
+}
+
 class CharImgHandler {
 	constructor() {
 		this.image = new Image();

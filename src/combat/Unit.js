@@ -24,7 +24,7 @@ class CombatUnit {
 	getCexpYield() {
 		return getEnemyCexpYield(this);
 	}
-	getInitiative(action) {
+	getInitiativeFor(action) {
 		return this.getBaseInitiative() * action.initiative;
 	}
 	getAttackFor(action) {
@@ -53,20 +53,26 @@ class CombatPlayer extends CombatUnit {
 		this.actions = [new CABasicAttack(this)];
 		data.player.actionsEquipped.map(t=>this.actions.push(getPlayerSkillAction(t)));
 	}
+	combatEnd() {
+		
+	}
+	turnField() {
+		this.actions.forEach(a=>a.turnEnd());
+	}
 	getBaseInitiative(action) {
-		return 10*this.level;
+		return 1.0*this.level;
 	}
 	getBaseAttackFor(action) {
-		return 10*this.level;
+		return 1.0*this.level;
 	}
 	getBaseDefenseFor(action) {
-		return 10*this.level;
+		return 1.0*this.level;
 	}
 	getBaseAccuracyFor(action) {
-		return 10*this.level;
+		return 1.0*this.level;
 	}
 	getBaseEvasionFor(action) {
-		return 10*this.level;
+		return 1.0*this.level;
 	}
 }
 
@@ -82,7 +88,7 @@ class CombatEnemy extends CombatUnit {
 		this.ai = new (this.aiCons)(this);
 	}
 	getBaseInitiative(action) {
-		return 10*this.level;
+		return this.baseStatMults["init"]*this.level;
 	}
 	getBaseAttackFor(action) {
 		return this.baseStatMults[action.getCat()+"_atk"]*this.level;
@@ -100,35 +106,21 @@ class CombatEnemy extends CombatUnit {
 }
 CombatEnemy.prototype.aiCons = RandomAI;
 
-function doStatsMPAI(mar_atk, mar_def, psi_atk, psi_def, arc_atk, arc_def, init) {
-	return {
-		hp_end : 10,
-		mp_end : 10,
-		mar_atk : mar_atk,
-		mar_def : mar_def,
-		psi_atk : psi_atk,
-		psi_def : psi_def,
-		arc_atk : arc_atk,
-		arc_def : arc_def,
-		init : init,
-	}
-}
-
 function checkBaseStatMults(from) {
 	var to = {
-		mar_atk : 10,
-		mar_def : 10,
-		mar_acc : 10,
-		mar_eva : 10,
-		psi_atk : 10,
-		psi_def : 10,
-		psi_acc : 10,
-		psi_eva : 10,
-		arc_atk : 10,
-		arc_def : 10,
-		arc_acc : 10,
-		arc_eva : 10,
-		init : 10,
+		mar_atk : 1.0,
+		mar_def : 1.0,
+		mar_acc : 1.0,
+		mar_eva : 1.0,
+		psi_atk : 1.0,
+		psi_def : 1.0,
+		psi_acc : 1.0,
+		psi_eva : 1.0,
+		arc_atk : 1.0,
+		arc_def : 1.0,
+		arc_acc : 1.0,
+		arc_eva : 1.0,
+		init : 1.0,
 	}
 	for (var nom in from) {
 		if (!to[nom])

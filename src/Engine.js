@@ -13,8 +13,7 @@ var coreEngine = {
 		lastFrameDelay = now - this.lastRunTime;
 		this.lastRunTime = now;
 		updateTextInputsBefore();
-		globalTimer++;
-		//musicLoopCheck();
+		musicLoopCheck();
 		hovered = false;
 		runnee.update();
 		clearBack();
@@ -25,6 +24,7 @@ var coreEngine = {
 		//addRandomEmbers();
 		//particles = particles.filter((oj)=>oj.go());
 		mouse.unClick();
+		globalTimer++;
 		this.timeout = setTimeout(()=>this.run(), Math.max(0, desiredTime-Date.now()));
 	},
 	stop() {

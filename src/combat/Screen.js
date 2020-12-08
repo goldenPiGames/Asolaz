@@ -3,21 +3,25 @@ const TEAM_PLAYERS = true;
 const COMBAT_RNG_BUFFER_SIZE = 16;
 
 function enterCombatH2H(args) {
+	playSFX("encounter");
 	switchScreen(new CombatScreen(args));
+	if (args.music)
+		playMusicFromStart(args.music);
 }
 
 class CombatScreen extends Screen {
 	constructor(args) {
 		super();
+		requireSFX("hit", 3);
+		requireSFX("miss", 3);
 		this.enemies = args.enemies;
-		this.after = args.after || returnToLocation;
-		this.player = new CombatPlayer();
-		this.players = [this.player];
+		this.afterWin = args.afterWin || throwMaybe("afterWin not specified.") || returnToLocation;
+		this.afterLose = args.afterLose || throwMaybe("afterLose effect specified.") || returnToLocation;
+		this.players = args.players || [new CombatPlayer()];
 		this.enemyPanels = this.enemies.map(e=>new CombatEnemyPanel(e));
 		this.playerPanels = this.players.map(p=>new CombatPlayerPanel(p));
 		this.allUnitPanels = [...this.enemyPanels, ...this.playerPanels];
 		this.setInitialRNG();
-		this.onWin = args.onWin || returnToLocation;
 		if (typeof args.background == "string" || typeof args.bg == "string")
 			setTempBG(args.background || args.bg);
 		this.startSelecting();
@@ -32,9 +36,9 @@ class CombatScreen extends Screen {
 		this.teamGapHeight = 150;
 		this.teamGapY = canvas.height-playerHeight-this.teamGapHeight;
 		var playerWidth = Math.min(canvas.width/this.playerPanels.length, Math.max(canvas.width/3, 300));
-		this.playerPanels.forEach((p, i) => p.resize(canvas.width/2 - (i+1/2)*playerWidth, canvas.height-playerHeight, playerWidth, playerHeight));
+		this.playerPanels.forEach((p, i) => p.resize(canvas.width/2 + (i-this.playerPanels.length/2)*playerWidth, canvas.height-playerHeight, playerWidth, playerHeight));
 		var enemyWidth = Math.min(canvas.width/this.enemyPanels.length, Math.max(canvas.width/3, 300));
-		this.enemyPanels.forEach((e, i) => e.resize(canvas.width/2 - (i+1/2)*enemyWidth, 0, enemyWidth, canvas.height-playerHeight-this.teamGapHeight));
+		this.enemyPanels.forEach((e, i) => e.resize(canvas.width/2 + (i-this.enemyPanels.length/2)*enemyWidth, 0, enemyWidth, canvas.height-playerHeight-this.teamGapHeight));
 		if (this.selecting)
 			this.selecting.resize();
 	}
@@ -46,8 +50,10 @@ class CombatScreen extends Screen {
 			var tod = this.currentAnimation.hits.find(h=>!h.done);
 			if (tod && this.currentAnimation.time>=tod.time) {
 				tod.done = true;
-				if (tod.hit)
+				if (tod.hit) {
 					tod.target.getHit(tod);
+				} else
+					tod.target.getMissed(tod);
 			} else if (!tod && this.currentAnimation.doneYet()) {
 				this.currentAnimation = null;
 			}
@@ -57,7 +63,7 @@ class CombatScreen extends Screen {
 	}
 	draw() {
 		drawBG();
-		this.allUnitPanels.forEach(d=>d.draw());
+		this.allUnitPanels.forEach(d=>d.draw(this.currentAnimation));
 		for (var i = 0; i < 10 && i < this.rngSequence.length; i++) {
 			drawTextInRect(asPercent(this.rngSequence[i]), canvas.width-50, 50+20*i, 50, 50, 20, {stroke:palette.normal, fill:palette.background});
 		}
@@ -95,6 +101,7 @@ class CombatScreen extends Screen {
 		});
 		//console.log(this.currentHits);
 		this.currentAnimation = this.currentAction.getAnimation(this.currentHits, this, this.currentTaker, this.currentTaker.selectedTarget);
+		this.currentAction.expend();
 		//this.executeAction(taking.selectedAction, taking, taking.selectedTarget);
 		//this.nextAction();
 	}
@@ -111,7 +118,9 @@ class CombatScreen extends Screen {
 	endActing() {
 		this.getAllUnits().forEach(u=>u.turnEnd());
 		this.filterAlive();
-		if (this.enemyPanels.length <= 0) {
+		if (!this.players.find(p=>!p.shouldDie())) {
+			this.lose();
+		} if (this.enemyPanels.length <= 0) {
 			this.win();
 		} else {
 			this.startSelecting();
@@ -119,14 +128,6 @@ class CombatScreen extends Screen {
 	}
 	getAllUnits() {
 		return [...this.players, ...this.enemies];
-	}
-	executeAction(action, user, target) {
-		if (!action || !user || !target) {
-			throwMaybe(action, user, target);
-			return;
-		}
-		console.log(action, user.unit.name, target.unit.name);
-		action.execute(this, user.unit, target.unit);
 	}
 	getPanelFor(unit) {
 		if (unit instanceof CombatUnitPanel)
@@ -161,9 +162,14 @@ class CombatScreen extends Screen {
 		this.enemyPanels = this.enemyPanels.filter(e=>!e.unit.shouldDie());
 		if (this.enemyPanels.length < len)
 			this.resize();
+		this.allUnitPanels = [...this.enemyPanels, ...this.playerPanels];
 	}
 	win() {
+		this.players.forEach(p=>p.combatEnd());
 		switchScreen(new CombatSpoilsScreen(this));
+	}
+	lose() {
+		this.afterLose();
 	}
 }
 
@@ -172,7 +178,6 @@ class CombatScreenSelecting {
 		this.parent = parent;
 		this.actionPalette = new CombatActionPalette(this);
 		this.unitTargeters = [];
-		//console.log(this.parent.player.actions);
 		if (this.parent.players.length == 1)
 			this.taker = this.parent.playerPanels[0];
 		this.setTakerActions();
@@ -195,7 +200,6 @@ class CombatScreenSelecting {
 	}
 	actionClicked(action) {
 		if (action.isReady()) {
-			this.unitTargeters = [];
 			this.taker.selectedAction = action;
 			this.setTargets(this.taker.selectedAction);
 			return true;
@@ -304,14 +308,15 @@ class CombatActionPaletteButton extends UIObject {
 		}
 	}
 	draw() {
-		drawImageInRect(this.image, this.x, this.y, this.width, this.height);
+		drawImageInRect(this.image, this.x, this.y, this.width-1, this.height-1);
 		if (this.action.isReady()) {
 			
 		} else {
 			ctx.globalAlpha = .5;
-			this.fill(palette.disabled);
+			//this.fill(palette.disabled);
 			ctx.globalAlpha = 1;
 			if (this.action.cd) {
+				this.fill(palette.disabled+"80");
 				drawTextInRect(this.action.cd, this.x, this.y, this.width, this.height, {stroke:palette.normal, fill:palette.background});
 			}
 		}
@@ -338,10 +343,15 @@ class CombatUnitPanel extends UIObject {
 		
 	}
 	getInitiative() {
-		return this.unit.getInitiative(this.selectedAction);
+		return this.unit.getInitiativeFor(this.selectedAction);
 	}
 	getHit(hit) {
+		playSFX("hit")
+		//spawnParticleText(this.x+this.width/2, this.
 		this.unit.takeDamage(hit.damage);
+	}
+	getMissed(hit) {
+		playSFX("miss");
 	}
 }
 
@@ -361,9 +371,9 @@ class CombatEnemyPanel extends CombatUnitPanel {
 	update() {
 		
 	}
-	draw() {
-		this.drawer.draw();
-		this.hpBar.draw(canPlayerReadStat(STAT_HP_MAX));
+	draw(args) {
+		this.drawer.draw(args);
+		this.hpBar.draw(playerSkillKnown("read_hp"));
 		//this.stroke(palette.normal);
 	}
 	chooseTurn(battle) {
@@ -390,6 +400,7 @@ class CombatPlayerPanel extends CombatUnitPanel {
 		
 	}
 	draw() {
+		this.fill(palette.background);
 		this.stroke(palette.normal);
 		drawTextInRect(this.unit.name, this.x, this.y, this.width, this.height/3, {fill:palette.normal});
 		//ctx.fillRect(this.x, this.y+this.height/3, this.width*this.unit.hpPortion(), this.height/3);
@@ -451,4 +462,10 @@ class CombatUnitTargeter extends UIObject {
 		drawTextInRect(asPercent(this.predictedHitrate), this.x, this.y+this.height/2-40, this.width, 40, {fill:palette.background});
 		drawTextInRect(this.predictedDamage, this.x, this.y+this.height/2, this.width, 40, {fill:palette.background});
 	}
+}
+
+const SFX_CREDITS = {
+	"hit" : {from:"Etrian Odyssey III"},
+	"miss" : {from:"Etrian Odyssey III"},
+	"encounter" : {from:"Etrian Odyssey III"},
 }

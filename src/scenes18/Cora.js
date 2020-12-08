@@ -2,7 +2,7 @@ CHARACTER_DATA.cora.dialog.sex = [
 	{
 		id : "quickiebj",
 		name : "Quickie blowjob",
-		reqs : [{type:"outfit", outfit:"default"}, {type:"genconsent", min:.5}, {type:"pbody", part:"penis"}],
+		reqs : [{type:"outfits", outfits:["default","swimsuit","nude"]}, {type:"genconsent", rank:1}, {type:"pbody", part:"penis"}],
 		//Lab Rats: hub_scenes.rpy:528
 		log : [
 			{text:"[cname] slides to her knees.", charimg:{pose:"kneelbj"}},
@@ -22,7 +22,7 @@ CHARACTER_DATA.cora.dialog.sex = [
 			{speaker:"Cora", text:"You feel better now?"},
 		],
 	},
-	{
+	/*{
 		id : "quickiecunn",
 		name : "Quickie cunnilingus",
 		reqs : [{type:"outfit", outfit:"default"}, {type:"genconsent", min:.5}, {type:"pbody", part:"vagina"}],
@@ -44,7 +44,7 @@ CHARACTER_DATA.cora.dialog.sex = [
 			{text:"She stands up and gives you a hug.", charimg:{pose:"standing"}},
 			{speaker:"Cora", text:"You feel better now?"},
 		],
-	},
+	},*/
 	{
 		id : "sleepspoon",
 		name : "Quickie blowjob",

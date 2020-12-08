@@ -3,56 +3,48 @@ CHARACTER_DATA.praeto = {
 	gender : GENDER_MALE,
 	wegender : GENDER_NB,
 	age : 24,
-	paramsBase : {
-		morality : 70,
-		legality : 90,
-		friendliness : 70,
-		selfesteem : 60,
-		willpower : 60,
-		psiaware : 20,
-		arcaware : 60,
-		sluttiness : 40,
+	colors : {
+		light : "#FF8040",
 	},
 	body : {
 		penis : true,
 		vagina : false,
 	},
 	likes : {
-		//smalltalk : .8,
+		smalltalk : LIKES_MUCH,
+		labyrinth : LIKES_SOME,
 	},
 	skills : {
 		sleep_body : 1,
 	},
 	roomLocation : "dorms",
 	dialog : {
-		greeting : [
-			{text : "Hello.", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Hello, [playername]. Anything wrong?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-			{text : "Hello, [playername]. I hope everything's alright.", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-		],
 		introduction : [
 			{log : [
-				{speaker:"Praeto", text:"It's nice to meet you. My name is Praeto. I'm a student and guard here at Asolaz."},
+				{charimg:{character:"praeto", outfit:"default", pose:"standing"}},
+				{speakerID:"praeto", text:"It's nice to meet you. My name is Praeto. I'm a student and guard here at Asolaz."},
+			]},
+		],
+		greeting : [
+			{log : [
+				{speakerID:"cora", text:"Hello, [playername]. Anything wrong?"},
+			]},
+			{log : [
+				{speakerID:"cora", text:"Hello, [playername]. I hope everything's alright."},
 			]},
 		],
 		smalltalk : [
 			{log : [
-				{speaker:"Praeto", text:"Asolaz is a fairly peaceful and orderly place, all things considered."},
-				{speaker:"Praeto", text:"I'm doing my part to ensure it stays that way."},
-			]},
-			{log : [
-				{speaker:"Praeto", text:"I fully agree with Asolaz's strict no-weapons policy."},
+				{speakerID:"praeto", text:"Asolaz is a fairly peaceful and orderly place, all things considered."},
+				{speakerID:"praeto", text:"I'm doing my part to ensure it stays that way."},
 			]},
 			/*{log : [
-				{speaker:"Praeto", text:""},
-				{speaker:"Praeto", text:"I don't have the time to go there often."},
+				{speakerID:"praeto", text:"I fully agree with Asolaz's strict no-weapons policy."},
 			]},*/
 		],
 		ask : [
-			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
-				{speaker:"Cora", text:"I'm here to become a police officer."},
-			], firstUps:[
-				{action:"charParamUp", param:"acquaint", by:5, upto:50},
+			{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
+				{speakerID:"praeto", text:"I'm here to become a police officer."},
 			]},
 		]
 	},

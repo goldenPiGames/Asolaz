@@ -12,23 +12,23 @@ class EnemyPunchingBag extends CombatEnemy {
 			return 0;
 	}
 }
-EnemyPunchingBag.prototype.name = "Dummy";
+EnemyPunchingBag.prototype.name = "Punching Bag";
 EnemyPunchingBag.prototype.baseHP = 400;
 EnemyPunchingBag.prototype.baseMP = 5;
 EnemyPunchingBag.prototype.baseStatMults = checkBaseStatMults({
-	mar_atk : 10,
-	mar_def : 12,
-	mar_acc : 10,
-	mar_eva : 05,
-	psi_atk : 05,
-	psi_def : 10,
-	psi_acc : 05,
-	psi_eva : 10,
-	arc_atk : 05,
-	arc_def : 13,
-	arc_acc : 08,
-	arc_eva : 05,
-	init : 10,
+	mar_atk : 1.0,
+	mar_def : 1.2,
+	mar_acc : 1.0,
+	mar_eva : 0.5,
+	psi_atk : 0.5,
+	psi_def : 1.0,
+	psi_acc : 0.5,
+	psi_eva : 1.0,
+	arc_atk : 0.5,
+	arc_def : 1.3,
+	arc_acc : 0.8,
+	arc_eva : 0.5,
+	init : 1.0,
 });
 EnemyPunchingBag.prototype.actionCons = [
 	CABasicAttack,
@@ -52,15 +52,15 @@ class PunchingBagAI extends RandomAI {
 EnemyPunchingBag.prototype.aiCons = PunchingBagAI;
 
 class EnemyPunchingBagDrawer extends EnemyDrawerImage {
-	getPose() {
+	getPose(anim) {
 		//console.log(this.unit.ai.active);
-		if (this.unit.armsOut) {
-			return "flex";
-		} else {
+		if (!this.unit.armsOut) {
 			return "noarms";
+		} else {
+			return super.getPose(anim);
 		}
 	}
 }
 EnemyPunchingBagDrawer.prototype.imageFolder = "punchingbag";
-EnemyPunchingBagDrawer.prototype.imagePoses = ["noarms", "flex", "punch"];
+EnemyPunchingBagDrawer.prototype.imagePoses = ["noarms", "normal", "attackBefore", "attackAfter"];
 EnemyPunchingBag.prototype.drawerCons = EnemyPunchingBagDrawer;

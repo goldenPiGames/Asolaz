@@ -6,83 +6,74 @@ CHARACTER_DATA.tylia = {
 	colors : {
 		light : "#FF30B0",
 	},
-	paramsBase : {
-		morality : 70,
-		legality : 60,
-		friendliness : 80,
-		selfesteem : 50,
-		willpower : 60,
-		psiaware : 10,
-		arcaware : 70,
-		sluttiness : 50,
-	},
 	body : {
 		penis : true,
 		vagina : false,
 	},
 	likes : {
-		smalltalk : .5,
+		smalltalk : LIKES_SOME,
+		labyrinth : LIKES_SOME,
 	},
 	skills : {
 		//healing : 1,
 	},
 	roomLocation : "dorms",
 	dialog : {
-		greeting : [
-			{text : "Hi.", reqs:[{type:"cparam", param:"acquaint", compare:"max", amount:ACQUAINT_MET}]},
-			{text : "Hi, [playername]. What's up?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-			{text : "Hi, [playername]. How's things?", reqs:[{type:"cparam", param:"acquaint", compare:"min", amount:ACQUAINT_MET}]},
-		],
 		introduction : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's nice to meet you. I'm Cora, I specialize in healing arcana and I work in the clinic."},
+				{charimg:{character:"tylia", outfit:"default", pose:"standing"}},
+				{speakerID:"tylia", text:"Oh, it's nice to meet you. I'm Cora, I specialize in healing arcana and I work in the clinic."},
+			]},
+		],
+		greeting : [
+			{log : [
+				{speakerID:"tylia", text:"Hi, [playername]. What's up?"},
+			]},
+			{log : [
+				{speakerID:"tylia", text:"Hi, [playername]. How's things?"},
 			]},
 		],
 		/*knock_drowsing_goway : [
 			{log : [
 				{text:"Cora opens the door ajar. She has a toothbrush in her mouth and a grumpy expression."},
-				{speaker:"Cora", text:"What?"},
+				{speakerID:"tylia", text:"What?"},
 				{text:"She hardly waits for an answer before closing the door in your face."},
 			]},
 		],
 		knock_drowsing_in : [
 			{log : [
-				{speaker:"Cora", text:"Oh, hey, [playername]. I was just getting ready for bed."},
+				{speakerID:"tylia", text:"Oh, hey, [playername]. I was just getting ready for bed."},
 			]},
 		],*/
 		smalltalk : [
-			/*{log : [
-				{speaker:"Cora", text:"I work in the clinic on Sunday, Monday, Wednesday, Thursday, and Friday."},
-				{speaker:"Cora", text:"It's not too hard, and the patients are always happy to see me. Oh, and I can practice my healing arcana, too."},
-			]},
 			{log : [
-				{speaker:"Cora", text:"Have you been to the library? There are plenty of interesting books there, and it's a great place to study."},
-				{speaker:"Cora", text:"I don't have the time to go there often, but I'm usually there between classes on Tuesday and Thursday."},
-			]},*/
+				{speakerID:"tylia", text:"I'm not only good with scissors and needles in the tailory."},
+				{speakerID:"tylia", text:"I can hold my own in combat with my signature blade, too."},
+			]},
 		],
 		ask : [
-			/*{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"cparam", param:"acquaint", compare:"min", amount:10}, log:[
-				{speaker:"Cora", text:"I'm here to practice healing arcana."},
+			/*{id:"whyhere", text:"What brings you to Asolaz?", reqs:{type:"affinity", compare:"min", amount:10}, log:[
+				{speakerID:"tylia", text:"I'm here to practice healing arcana."},
 			], firstUps:[
 				{action:"charParamUp", param:"acquaint", by:5, upto:50},
 			]},*/
 		],
 		/*knock_offersleep : [
 			{log : [
-				{speaker:"Cora", text:"Oh hey, [pname]. I was just getting ready for bed."},
-				{speaker:"Cora", text:"...Would you like to go to bed with me?"},
+				{speakerID:"tylia", text:"Oh hey, [pname]. I was just getting ready for bed."},
+				{speakerID:"tylia", text:"...Would you like to go to bed with me?"},
 			]},
 		],
 		room_late_leave : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's getting late. See you later, [pname]."},
+				{speakerID:"tylia", text:"Oh, it's getting late. See you later, [pname]."},
 			]},
 			
 		],
 		room_late_offersleep : [
 			{log : [
-				{speaker:"Cora", text:"Oh, it's getting late. I'll be going to bed soon."},
-				{speaker:"Cora", text:"...Would you like to go to bed with me?"},
+				{speakerID:"tylia", text:"Oh, it's getting late. I'll be going to bed soon."},
+				{speakerID:"tylia", text:"...Would you like to go to bed with me?"},
 			]},
 		],*/
 	},
